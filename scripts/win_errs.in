@@ -1,0 +1,36 @@
+WSA_INVALID_HANDLE      /* Event object handle is invalid */
+WSA_NOT_ENOUGH_MEMORY   /* Insufficient memory available */
+WSA_INVALID_PARAMETER   /* One or more params are invalid */
+WSA_OPERATION_ABORTED   /* Overlapped operation aborted */
+WSA_IO_INCOMPLETE       /* Overlapped I/O event object not in signaled state */
+WSA_IO_PENDING          /* Overlapped operations will complete later */
+WSAEPROCLIM             /* Too many processes */
+WSASYSNOTREADY          /* Network subsystem unavailable */
+WSAVERNOTSUPPORTED      /* Winsock.dll version out of range */
+WSANOTINITIALISED       /* Successful WSAStartup not yet performed */
+WSAEDISCON              /* Graceful shutdown in progress */
+WSAENOMORE              /* No more results */
+WSAEINVALIDPROCTABLE    /* Procedure call table is invalid */
+WSAEINVALIDPROVIDER     /* Service provider is invalid */
+WSAEPROVIDERFAILEDINIT  /* Service provider failed init */
+WSASYSCALLFAILURE       /* System call failure */
+WSASERVICE_NOT_FOUND    /* Service not found */
+WSATYPE_NOT_FOUND       /* Class type not found */
+WSA_E_NO_MORE           /* No more results */
+WSA_E_CANCELLED         /* Call was canceled */
+WSAREFUSED              /* Database query was refused */
+WSAHOST_NOT_FOUND       /* Host not found */
+WSATRY_AGAIN            /* Nonauthoritative host not found */
+WSANO_RECOVERY          /* This is a nonrecoverable error */
+WSANO_DATA              /* Valid name, no data record */
+WSA_QOS_RECEIVERS       /* QOS receivers */
+WSA_QOS_SENDERS         /* QOS senders */
+WSA_QOS_NO_SENDERS      /* No QOS senders */
+WSA_QOS_NO_RECEIVERS    /* No QOS receivers */
+WSA_QOS_REQUEST_CONFIRMED /* QOS request confirmed */
+WSA_QOS_ADMISSION_FAILURE /* QOS admission error */
+WSA_QOS_POLICY_FAILURE  /* QOS policy failure */
+WSA_QOS_BAD_STYLE       /* QOS bad style */
+WSA_QOS_BAD_OBJECT      /* QOS bad object */
+WSA_QOS_TRAFFIC_CTRL_ERROR /* QOS traffic control error */
+WSA_QOS_GENERIC_ERROR   /* QOS generic error */

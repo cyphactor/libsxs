@@ -1,0 +1,34 @@
+2007-05-16 Andrew De Ponte <cyphactor@gmail.com>
+
+* Created the ChangeLog file so that there is a place to track changes
+to the lib_sxs source tree.
+
+* Created the initial COPYING file to provide the license information.
+
+* Created the initial NEWS file so there exists a place to put project
+news.
+
+* Created the initial INSTALL file to describe the standard INSTALL
+process with the build system.
+
+* Created the initial AUTHORS file to list the authors of lib_sxs.
+
+* Created the initial TODO file so there is a place to put a list of
+items which need to be taken care of. Mainly, as a quick reminder
+location for something I could forget.
+
+* Created the src/ directory as the main location for having the source
+code for lib_sxs.
+
+* Created the bootstrap.sh script to automate the generation of the
+configure script.
+
+* Created the initial configure.ac as a basic template to build off of
+for the build environment.
+
+* Created the lib_sxs root Makefile so that it would build the source in
+the src/ directory.
+
+* Created the clean_bootstrap.sh script to cleanup all the extra files
+produced by the autoconf, automake, autoreconf, and libtool
+applications.

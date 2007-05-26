@@ -1,0 +1,43 @@
+EINTR               /* Interrupted system call */
+EBADF               /* Bad file number */
+EACCES              /* Permission denied */
+EFAULT              /* Bad address */
+EINVAL              /* Invalid argument */
+EMFILE              /* Too many open files */
+EWOULDBLOCK         /* Operation would block */
+EINPROGRESS         /* Operation now in progress */
+EALREADY            /* Operation already in progress */
+ENOTSOCK            /* Socket operation on non-socket */
+EDESTADDRREQ        /* Destination address required */
+EMSGSIZE            /* Message too long */
+EPROTOTYPE          /* Protocol wrong type for socket */
+ENOPROTOOPT         /* Protocol not available */
+EPROTONOSUPPORT     /* Protocol not supported */
+ESOCKTNOSUPPORT     /* Socket type not supported */
+EOPNOTSUPP          /* Operation not supported on transport endpoint */
+EPFNOSUPPORT        /* Protocol family not supported */
+EAFNOSUPPORT        /* Address family not supported by protocol */
+EADDRINUSE          /* Address already in use */
+EADDRNOTAVAIL       /* Cannot assign requested address */
+ENETDOWN            /* Network is down */
+ENETUNREACH         /* Network is unreachable */
+ENETRESET           /* Network dropped connection because of reset */
+ECONNABORTED        /* Software caused connection abort */
+ECONNRESET          /* Connection reset by peer */
+ENOBUFS             /* No buffer space available */
+EISCONN             /* Transport endpoint is already connected */
+ENOTCONN            /* Transport endpoint is not connected */
+ESHUTDOWN           /* Cannot send after transport endpoint shutdown */
+ETOOMANYREFS        /* Too mayn references: cannot splice */
+ETIMEDOUT           /* Connection timed out */
+ECONNREFUSED        /* Connection refused */
+ELOOP               /* Too many symbolic links encountered */
+ENAMETOOLONG        /* File name too long */
+EHOSTDOWN           /* Host is down */
+EHOSTUNREACH        /* No route to host */
+ENOTEMPTY           /* Directory not empty */
+EUSERS              /* Too many users */
+EDQUOT              /* Quota exceeded */
+ESTALE              /* Stale NFS file handle */
+EREMOTE             /* Remote I/O error */
+ECANCELED           /* Operation Canceled */
