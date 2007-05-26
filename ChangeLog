@@ -1,3 +1,13 @@
+2007-05-26 Andrew De Ponte <cyphactor@gmail.com>
+
+* Implemented and Documented the sxs_connect() function.
+
+* Implemented and Documented the sxs_close() function.
+
+* Implemented and Documented the sxs_listen() function.
+
+* Implemented and Documented the sxs_shutdown() function.
+
 2007-05-16 Andrew De Ponte <cyphactor@gmail.com>
 
 * Created the ChangeLog file so that there is a place to track changes
