@@ -29,6 +29,7 @@
 typedef sxs_int32_t sxs_error_t;
 
 #define SXS_SUCCESS 0
+#define SXS_UNKNOWN_ERROR 0xffffffff
 
 /* The following are errors which are shared between both Unix varients
  * such as linux and mac as well as Windows. */

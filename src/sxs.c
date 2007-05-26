@@ -115,6 +115,7 @@ sxs_error_t sxs_connect(sxs_socket_t sd, const struct sockaddr *serv_addr,
 
 sxs_error_t sxs_close(sxs_socket_t sd) {
     int r;
+    sxs_errno_t errsv;
 
 #ifdef WIN32
     r = closesocket(sd);
@@ -122,7 +123,35 @@ sxs_error_t sxs_close(sxs_socket_t sd) {
     r = close(sd);
 #endif
     if (r == SXS_SOCKET_ERROR) {
-        return 1;
+#ifdef WIN32
+        errsv = WSAGetLastError();
+        if (errsv == WSANOTINITIALISED) {
+            return SXS_WSANOTINITIALISED;
+        } else if (errsv == WSAENETDOWN) {
+            return SXS_ENETDOWN;
+        } else if (errsv == WSAENOTSOCK) {
+            return SXS_ENOTSOCK;
+        } else if (errsv == WSAEINPROGRESS) {
+            return SXS_EINPROGRESS;
+        } else if (errsv == WSAEINTR) {
+            return SXS_EINTR;
+        } else if (errsv == WSAEWOULDBLOCK) {
+            return SXS_EWOULDBLOCK;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+#else
+        errsv = errno;
+        if (errsv == EBADF) {
+            return SXS_EBADF;
+        } else if (errsv == EINTR) {
+            return SXS_EINTR;
+        } else if (errsv == EIO) {
+            return SXS_EIO;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+#endif
     }
 
     return SXS_SUCCESS;
@@ -136,6 +165,21 @@ sxs_error_t sxs_shutdown(sxs_socket_t sd, int how) {
     if (r == SXS_SOCKET_ERROR) {
 #ifdef WIN32
         errsv = WSAGetLastError();
+        if (errsv == WSANOTINITIALISED) {
+            return SXS_WSANOTINITIALISED;
+        } else if (errsv == WSAENETDOWN) {
+            return SXS_ENETDOWN;
+        } else if (errsv == WSAEINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == WSAEINPROGRESS) {
+            return SXS_EINPROGRESS;
+        } else if (errsv == WSAENOTCONN) {
+            return SXS_ENOTCONN;
+        } else if (errsv == WSAENOTSOCK) {
+            return SXS_ENOTSOCK;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
 #else
         errsv = errno;
         if (errsv == EBADF) {
@@ -145,7 +189,7 @@ sxs_error_t sxs_shutdown(sxs_socket_t sd, int how) {
         } else if (errsv == ENOTSOCK) {
             return SXS_ENOTSOCK;
         } else {
-            return 0xffffffff;
+            return SXS_UNKNOWN_ERROR;
         }
 #endif
     }
