@@ -38,6 +38,35 @@ SXS_EXPORT sxs_error_t sxs_uninit(void);
 SXS_EXPORT sxs_error_t sxs_socket(int domain, int type, int protocol,
     sxs_socket_t *p_socket);
 
+/**
+ * Bind the specified address to the specified socket.
+ *
+ * The sxs_bind() function attempts to associate the local address
+ * 'my_addr' with the socket specified by 'sd'.
+ * \param sd Socket descriptor representing a socket.
+ * \param my_addr The address to associate with the socket 'sd'.
+ * \param addrlen The length of the address structure in bytes.
+ * \return A a value representing an error or success.
+ * \retval SXS_SUCCESS Successfully shutdown the socket.
+ * \retval SXS_EACCES Address is protected, and user is not superuser.
+ * \retval SXS_EADDRINUSE The given address is already in use.
+ * \retval SXS_EBADF 'sd' is not a valid socket descriptor.
+ * \retval SXS_EINVAL The socket is already bound to an address.
+ * \retval SXS_ENOTSOCK 'sd' is a descriptor for a file, not a socket.
+ * \retval SXS_EADDRNOTAVAIL The requested address was not local.
+ * \retval SXS_EFAULT 'my_addr' points outside user addressable space.
+ * \retval SXS_ELOOP To many symbolic links found resolving 'my_addr'.
+ * \retval SXS_ENAMETOOLONG 'my_addr' is too long.
+ * \retval SXS_ENOENT The file does not exist.
+ * \retval SXS_ENOMEM Insufficient kernel memory available.
+ * \retval SXS_ENOTDIR A component of path prefix is not a directory.
+ * \retval SXS_EROFS The socket inode is on read-only file system.
+ * \retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * \retval SXS_ENETDOWN The network subsystem has failed.
+ * \retval SXS_EINPROGRESS A blocking call is in progress.
+ * \retval SXS_ENOBUFS Not enough buffers available, too many connections.
+ * \retval SXS_UNKNOWN_ERROR An unkwon error has occured.
+ */
 SXS_EXPORT sxs_error_t sxs_bind(sxs_socket_t sd,
     const struct sockaddr *my_addr, sxs_socklen_t addrlen);
 

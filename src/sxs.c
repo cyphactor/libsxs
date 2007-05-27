@@ -125,10 +125,67 @@ sxs_error_t sxs_bind(sxs_socket_t sd, const struct sockaddr *my_addr,
     sxs_socklen_t addrlen) {
 
     int r;
+    sxs_errno_t errsv;
 
     r = bind(sd, my_addr, addrlen);
     if (r == SXS_SOCKET_ERROR) {
-        return 1;
+#ifdef WIN32
+        errsv = WSAGetLastError();
+        if (errsv == WSANOTINITIALISED) {
+            return SXS_WSANOTINITIALISED;
+        } else if (errsv == WSAENETDOWN) {
+            return SXS_ENETDOWN;
+        } else if (errsv == WSAEACCES) {
+            return SXS_EACCES;
+        } else if (errsv == WSAEADDRINUSE) {
+            return SXS_EADDRINUSE;
+        } else if (errsv == WSAEADDRNOTAVAIL) {
+            return SXS_EADDRNOTAVAIL;
+        } else if (errsv == WSAEFAULT) {
+            return SXS_EFAULT;
+        } else if (errsv == WSAEINPROGRESS) {
+            return SXS_EINPROGRESS;
+        } else if (errsv == WSAEINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == WSAENOBUFS) {
+            return SXS_ENOBUFS;
+        } else if (errsv == WSAENOTSOCK) {
+            return SXS_ENOTSOCK;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+#else
+        errsv = errno;
+        if (errsv == EACCES) {
+            return SXS_EACCES;
+        } else if (errsv == EADDRINUSE) {
+            return SXS_EADDRINUSE;
+        } else if (errsv == EBADF) {
+            return SXS_EBADF;
+        } else if (errsv == EINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == ENOTSOCK) {
+            return SXS_ENOTSOCK;
+        } else if (errsv == EADDRNOTAVAIL) {
+            return SXS_EADDRNOTAVAIL;
+        } else if (errsv == EFAULT) {
+            return SXS_EFAULT;
+        } else if (errsv == ELOOP) {
+            return SXS_ELOOP;
+        } else if (errsv == ENAMETOOLONG) {
+            return SXS_ENAMETOOLONG;
+        } else if (errsv == ENOENT) {
+            return SXS_ENOENT;
+        } else if (errsv == ENOMEM) {
+            return SXS_ENOMEM;
+        } else if (errsv == ENOTDIR) {
+            return SXS_ENOTDIR;
+        } else if (errsv == EROFS) {
+            return SXS_EROFS;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+#endif
     }
 
     return SXS_SUCCESS;
