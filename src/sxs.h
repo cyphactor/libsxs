@@ -95,6 +95,43 @@ SXS_EXPORT sxs_error_t sxs_bind(sxs_socket_t sd,
  */
 SXS_EXPORT sxs_error_t sxs_listen(sxs_socket_t sd, int backlog);
 
+/**
+ * Accept the first connection request on the conneciton queue.
+ *
+ * The sxs_accept() function attempts to accept the first connection
+ * request on the queue of pending connections, create a new connected
+ * socket, and pass the new socket descriptor via the 'p_sd' parameter.
+ * Note: The original socket 'sd' is unaffected by this call.
+ * \param sd Listening socket to accept the first queued connection from.
+ * \param addr Pointer to sockaddr structure to store peer socket addr.
+ * \param addrlen Initially contain size of sockaddr struct in bytes, on
+ * return it will contain the actual length of the address returned in
+ * bytes. When 'addr' is NULL nothing is filled in.
+ * \param p_sd Pointer to socket descriptor to store new socket in.
+ * \return A a value representing an error or success.
+ * \retval SXS_SUCCESS Successfully shutdown the socket.
+ * \retval SXS_EWOULDBLOCK The socket is non-blocking and no conns are
+ * present to be accepted.
+ * \retval SXS_EBADF The socket descriptor is invalid.
+ * \retval SXS_ECONNABORTED A connection has been aborted.
+ * \retval SXS_EINTR The system call was interrupted by a signal.
+ * \retval SXS_EINVAL Socket is not listening, or 'addrlen' is invalid.
+ * \retval SXS_EMFILE The per-process open file descriptor limit was hit.
+ * \retval SXS_ENFILE The system limit of open file descriptors was hit.
+ * \retval SXS_ENOTSOCK The descriptor references a file, not a socket.
+ * \retval SXS_EOPNOTSUPP The socket is not a connection based socket.
+ * \retval SXS_EFAULT The 'addr' is not in writable part of user address
+ * space.
+ * \retval SXS_ENOBUFS Not enough free memory.
+ * \retval SXS_ENOMEM Not enough free memory.
+ * \retval SXS_EPROTO Protocol error.
+ * \retval SXS_EPORM Firewal rules forbid connection.
+ * \retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * \retval SXS_ECONNRESET The peer reset the connection.
+ * \retval SXS_EINPROGRESS A blocking call is in progress.
+ * \retval SXS_ENETDOWN The network subsystem has failed.
+ * \retval SXS_UNKNOWN_ERROR An unkwon error has occured.
+ */
 SXS_EXPORT sxs_error_t sxs_accept(sxs_socket_t sd, struct sockaddr *addr,
     sxs_socklen_t *addrlen, sxs_socket_t *p_sd);
 

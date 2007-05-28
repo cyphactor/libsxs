@@ -253,82 +253,65 @@ sxs_error_t sxs_accept(sxs_socket_t sd, struct sockaddr *addr,
         errsv = WSAGetLastError();
         if (errsv == WSANOTINITIALISED) {
             return SXS_WSANOTINITIALISED;
-        } else if (errsv == WSAENETDOWN) {
-            return SXS_ENETDOWN;
-        } else if (errsv == WSAEADDRINUSE) {
-            return SXS_EADDRINUSE;
-        } else if (errsv == WSAEINTR) {
-            return SXS_EINTR;
-        } else if (errsv == WSAEINPROGRESS) {
-            return SXS_EINPROGRESS;
-        } else if (errsv == WSAEALREADY) {
-            return SXS_EALREADY;
-        } else if (errsv == WSAEADDRNOTAVAIL) {
-            return SXS_EADDRNOTAVAIL;
-        } else if (errsv == WSAEAFNOSUPPORT) {
-            return SXS_EAFNOSUPPORT;
-        } else if (errsv == WSAECONNREFUSED) {
-            return SXS_ECONNREFUSED;
+        } else if (errsv == WSAECONNRESET) {
+            return SXS_ECONNRESET;
         } else if (errsv == WSAEFAULT) {
             return SXS_EFAULT;
+        } else if (errsv == WSAEINTR) {
+            return SXS_EINTR;
         } else if (errsv == WSAEINVAL) {
             return SXS_EINVAL;
-        } else if (errsv == WSAEISCONN) {
-            return SXS_EISCONN;
-        } else if (errsv == WSAENETUNREACH) {
-            return SXS_ENETUNREACH;
-        } else if (errsv == WSAEHOSTUNREACH) {
-            return SXS_EHOSTUNREACH;
+        } else if (errsv == WSAEINPROGRESS) {
+            return SXS_EINPROGRESS;
+        } else if (errsv == WSAEMFILE) {
+            return SXS_EMFILE;
+        } else if (errsv == WSAENETDOWN) {
+            return SXS_ENETDOWN;
         } else if (errsv == WSAENOBUFS) {
             return SXS_ENOBUFS;
         } else if (errsv == WSAENOTSOCK) {
             return SXS_ENOTSOCK;
-        } else if (errsv == WSAETIMEDOUT) {
-            return SXS_ETIMEDOUT;
+        } else if (errsv == WSAEOPNOTSUPP) {
+            return SXS_EOPNOTSUPP;
         } else if (errsv == WSAEWOULDBLOCK) {
             return SXS_EWOULDBLOCK;
-        } else if (errsv == WSAEACCES) {
-            return SXS_EACCES;
         } else {
             return SXS_UNKNOWN_ERROR;
         }
 #else
         errsv = errno;
-        if (errsv == EACCES) {
-            return SXS_EACCES;
-        } else if (errsv == EPERM) {
-            return SXS_EPERM;
-        } else if (errsv == EADDRINUSE) {
-            return SXS_EADDRINUSE;
-        } else if (errsv == EAFNOSUPPORT) {
-            return SXS_EAFNOSUPPORT;
-        } else if (errsv == EAGAIN) {
+        if ((errsv == EAGAIN) || (errsv == EWOULDBLOCK)) {
             return SXS_EWOULDBLOCK;
-        } else if (errsv == EALREADY) {
-            return EALREADY;
         } else if (errsv == EBADF) {
             return SXS_EBADF;
-        } else if (errsv == ECONNREFUSED) {
-            return SXS_ECONNREFUSED;
-        } else if (errsv == EFAULT) {
-            return SXS_EFAULT;
-        } else if (errsv == EINPROGRESS) {
-            return SXS_EINPROGRESS;
+        } else if (errsv == ECONNABORTED) {
+            return SXS_ECONNABORTED;
         } else if (errsv == EINTR) {
             return SXS_EINTR;
-        } else if (errsv == EISCONN) {
-            return SXS_EISCONN;
-        } else if (errsv == ENETUNREACH) {
-            return SXS_ENETUNREACH;
+        } else if (errsv == EINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == EMFILE) {
+            return SXS_EMFILE;
+        } else if (errsv == ENFILE) {
+            return SXS_ENFILE;
         } else if (errsv == ENOTSOCK) {
             return SXS_ENOTSOCK;
-        } else if (errsv == ETIMEDOUT) {
-            return SXS_ETIMEDOUT;
+        } else if (errsv == EOPNOTSUPP) {
+            return SXS_EOPNOTSUPP;
+        } else if (errsv == EFAULT) {
+            return SXS_EFAULT;
+        } else if (errsv == ENOBUFS) {
+            return SXS_ENOBUFS;
+        } else if (errsv == ENOMEM) {
+            return SXS_ENOMEM;
+        } else if (errsv == EPROTO) {
+            return SXS_EPROTO;
+        } else if (errsv == EPERM) {
+            return SXS_EPERM;
         } else {
             return SXS_UNKNOWN_ERROR;
         }
 #endif
-        return 1;
     }
 
     (*p_sd) = connsd;

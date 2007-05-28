@@ -1,3 +1,7 @@
+2007-05-28 Andrew De Ponte <cyphactor@gmail.com>
+
+* Implemented and Documented the sxs_accept() function.
+
 2007-05-27 Andrew De Ponte <cyphactor@gmail.com>
 
 * Implemented and Documented the sxs_bind() function.
