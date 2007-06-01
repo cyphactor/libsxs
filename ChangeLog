@@ -1,3 +1,11 @@
+2007-05-31 Andrew De Ponte <cyphactor@gmail.com>
+
+* Implemented and Documented the sxs_socket() function.
+
+* Implemented and Documented the sxs_recv() function.
+
+* Implemented and Documented the sxs_send() function.
+
 2007-05-28 Andrew De Ponte <cyphactor@gmail.com>
 
 * Implemented and Documented the sxs_accept() function.

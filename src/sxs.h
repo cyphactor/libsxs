@@ -35,8 +35,47 @@ SXS_EXPORT sxs_error_t sxs_init(void);
 
 SXS_EXPORT sxs_error_t sxs_uninit(void);
 
+/**
+ * Create an new socket descriptor to represent a communication  endpoint.
+ *
+ * The sxs_socket() function creates a new endpoint for communication
+ * and passes back a socket descriptor representing this endopint via
+ * the 'p_socket' parameter. The 'domain' parameter specifies a
+ * communication domain which selects the protocol family (a.k.a.
+ * address family). Acceptable values for the 'domain' are the
+ * following, AF_INET,  and AF_INET6. The 'type' parameter specifies the
+ * communication semantics to use given one of the following types,
+ * SOCK_STREAM, SOCK_DGRAM, SOCK_SEQPACKET, SOCK_RAW, and SOCK_RDM. The
+ * 'protocol' parameter specifies a particular protocol to be used with
+ * the socket. Normally only a single protocol exists to support a
+ * particular socket type within a given protocol family, in which case
+ * 'protocol' can be specified as 0. Generally, 0 should almost always
+ * be used for the value of the 'protocol' parameter. The only situation
+ * in which it shouldn't is if you understand the inner workings of this
+ * library.
+ * \param domian Specifies domain containing protocol (address) family.
+ * \param type Specifies the communication semantics to use.
+ * \param protocol Specifies protocol to use in protocol family.
+ * \param p_sd Pointer to socket descriptor to store new socket in.
+ * \return A a value representing an error or success.
+ * \retval SXS_SUCCESS Successfully shutdown the socket.
+ * \retval SXS_EACCES Perm to create sock of specified type denied.
+ * \retval SXS_EAFNOSUPPORT No support for specified address family.
+ * \retval SXS_EINVAL Unknown protocol, or protocol family not available.
+ * \retval SXS_EMFILE Process file table overflow.
+ * \retval SXS_ENFILE The system limit on num of open files been reached.
+ * \retval SXS_ENOBUFS Insufficient memory is available.
+ * \retval SXS_ENOMEM Insufficient memory is available.
+ * \retval SXS_EPROTONOSUPPORT Protocol type not supported.
+ * \retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * \retval SXS_ENETDOWN The network subsystem has failed.
+ * \retval SXS_EINPROGRESS A blocking call is currently in progress.
+ * \retval SXS_EPROTOTYPE Specified protocol is wrong type for socket.
+ * \retval SXS_ESOCKTNOSUPPORT Socket type not supported in address family.
+ * \retval SXS_UNKNOWN_ERROR An unkwon error has occured.
+ */
 SXS_EXPORT sxs_error_t sxs_socket(int domain, int type, int protocol,
-    sxs_socket_t *p_socket);
+    sxs_socket_t *p_sd);
 
 /**
  * Bind the specified address to the specified socket.
@@ -178,6 +217,93 @@ SXS_EXPORT sxs_error_t sxs_accept(sxs_socket_t sd, struct sockaddr *addr,
  */
 SXS_EXPORT sxs_error_t sxs_connect(sxs_socket_t sd,
     const struct sockaddr *serv_addr, sxs_socklen_t addrlen);
+
+/**
+ * Receive bytes from the socket.
+ *
+ * The sxs_recv() function receives bytse from the specified socket
+ * descritpor 'sd' and stores the received bytes in the buffer 'buf'.
+ * \param sd The socket descriptor of the socket to receive bytes on.
+ * \param buf The pointer to the buffer to store received data in.
+ * \param len The maximum number of bytes to receive over the socket.
+ * \param flags One or more OR'd message flags controlling behavior,
+ * generally NULL.
+ * \param p_recvd Pointer to var to store resulting num of bytes recv'd.
+ * \return A a value representing an error or success.
+ * \retval SXS_SUCCESS Successfully shutdown the socket.
+ * \retval SXS_EWOULDBLOCK Socket is non-blocking but would block.
+ * \retval SXS_EBADF 'sd' is an invalid socket descriptor.
+ * \retval SXS_ECONNREFUSED Remote host refused network connection.
+ * \retval SXS_EFAULT The receive buffer points outside process's
+ * address space.
+ * \retval SXS_EINTR The receive was interrupted by a signal.
+ * \retval SXS_EINVAL Invalid argument passed.
+ * \retval SXS_ENOMEM Could not allocate memory.
+ * \retval SXS_ENOTCONN Socket is associated with connection-oriented
+ * protocol and has not been connected.
+ * \retval SXS_ENOTSOCK 'sd' does not refere to a socket.
+ * \retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * \retval SXS_ENETDOWN The network subsystem has failed.
+ * \retval SXS_EINPROGRESS A blocking call is in progress.
+ * \retval SXS_ENETRESET Connection broken due to keep-alive activity
+ * detecting a failure while operation was in progress.
+ * \retval SXS_EOPNOTSUPP flag does not match the socket type.
+ * \retval SXS_ESHUTDOWN The socket has been shutdown on recv end.
+ * \retval SXS_EMSGSIZE The message was too large to fit in 'buf'.
+ * \retval SXS_ECONNABORTED Terminated due to timout or failure.
+ * \retval SXS_ETIMEDOUT Connection dropped because of network failure.
+ * \retval SXS_ECONNRESET Connection reset by remote peer.
+ * \retval SXS_UNKNOWN_ERROR An unkwon error has occured.
+ */
+SXS_EXPORT sxs_error_t sxs_recv(sxs_socket_t sd, sxs_buf_t buf,
+    sxs_size_t len, int flags, sxs_ssize_t *p_recvd);
+
+/**
+ * Send bytes from the socket.
+ *
+ * The sxs_send() function sends bytes from 'buf' over the specified
+ * socket descritpor 'sd'.
+ * \param sd The socket descriptor of the socket to receive bytes on.
+ * \param buf The pointer to the buffer containing data to send.
+ * \param len The number of bytes to attempt to send over the socket..
+ * \param flags One or more OR'd message flags controlling behavior,
+ * generally NULL.
+ * \param p_sent Pointer to var to store resulting num of bytes sent.
+ * \return A a value representing an error or success.
+ * \retval SXS_SUCCESS Successfully shutdown the socket.
+ * \retval SXS_EACCES Write permission denied on dest socket file.
+ * \retval SXS_EWOULDBLOCK Socket is non-blocking but would block.
+ * \retval SXS_EBADF 'sd' is an invalid socket descriptor.
+ * \retval SXS_ECONNRESET Connection reset by remote peer.
+ * \retval SXS_EDESTADDRREQ Socket is not connection-mode and no peer
+ * address is set.
+ * \retval SXS_EFAULT Invalid user space address specified as parameter.
+ * \retval SXS_EINTR The receive was interrupted by a signal.
+ * \retval SXS_EINVAL Invalid argument passed.
+ * \retval SXS_EISCONN Connection-mode socket was already connected.
+ * \retval SXS_EMSGSIZE Socket type requires message to be sent
+ * atomically, and message size is too large.
+ * \retval SXS_ENOBUFS Interface output queue was full.
+ * \retval SXS_ENOMEM No memory available.
+ * \retval SXS_ENOTCONN Socket is associated with connection-oriented
+ * protocol and has not been connected.
+ * \retval SXS_ENOTSOCK 'sd' does not refere to a socket.
+ * \retval SXS_EOPNOTSUPP A bit in 'flags' is inappropriate for 'sd' type.
+ * \retval SXS_EPIPE The local end has been shut down on connection
+ * oriented socket.
+ * \retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * \retval SXS_ENETDOWN The network subsystem has failed.
+ * \retval SXS_EINPROGRESS A blocking call is in progress.
+ * \retval SXS_ENETRESET Connection broken due to keep-alive activity
+ * detecting a failure while operation was in progress.
+ * \retval SXS_ESHUTDOWN The socket has been shutdown on recv end.
+ * \retval SXS_EHOSTUNREACH Remote host cannot be reached.
+ * \retval SXS_ECONNABORTED Terminated due to timout or failure.
+ * \retval SXS_ETIMEDOUT Connection dropped because of network failure.
+ * \retval SXS_UNKNOWN_ERROR An unkwon error has occured.
+ */
+SXS_EXPORT sxs_error_t sxs_send(sxs_socket_t sd, const sxs_buf_t buf,
+    sxs_size_t len, int flags, sxs_ssize_t *p_sent);
 
 /**
  * Close the socket associated with the given socket descriptor.
