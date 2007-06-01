@@ -1,3 +1,7 @@
+2007-06-01 Andrew De Ponte <cyphactor@gmail.com>
+
+* Fixed the syntax error in the sxs_send() function.
+
 2007-05-31 Andrew De Ponte <cyphactor@gmail.com>
 
 * Implemented and Documented the sxs_socket() function.

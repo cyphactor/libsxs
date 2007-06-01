@@ -475,7 +475,7 @@ sxs_error_t sxs_send(sxs_socket_t sd, const sxs_buf_t buf, sxs_size_t len,
     
     sxs_ssize_t r;
     sxs_errno_t errsv;
-
+    
     r = send(sd, buf, len, flags);
     if (r == SXS_SOCKET_ERROR) {
 #ifdef WIN32
@@ -517,7 +517,7 @@ sxs_error_t sxs_send(sxs_socket_t sd, const sxs_buf_t buf, sxs_size_t len,
         errsv = errno;
         if (errsv == EACCES) {
             return SXS_EACCES;
-        if (errsv == EAGAIN) {
+        } else if (errsv == EAGAIN) {
             return SXS_EWOULDBLOCK;
         } else if (errsv == EWOULDBLOCK) {
             return SXS_EWOULDBLOCK;
