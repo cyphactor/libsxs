@@ -396,80 +396,6 @@ sxs_error_t sxs_connect(sxs_socket_t sd, const struct sockaddr *serv_addr,
     return SXS_SUCCESS;
 }
 
-sxs_error_t sxs_recv(sxs_socket_t sd, sxs_buf_t buf, sxs_size_t len,
-    int flags, sxs_ssize_t *p_recvd) {
-    
-    sxs_ssize_t r;
-    sxs_errno_t errsv;
-
-    r = recv(sd, buf, len, flags);
-    if (r == SXS_SOCKET_ERROR) {
-#ifdef WIN32
-        errsv = WSAGetLastError();
-        if (errsv == WSANOTINITIALISED) {
-            return SXS_WSANOTINITIALISED;
-        } else if (errsv == WSAENETDOWN) {
-            return SXS_ENETDOWN;
-        } else if (errsv == WSAEFAULT) {
-            return SXS_EFAULT;
-        } else if (errsv == WSAENOTCONN) {
-            return SXS_ENOTCONN;
-        } else if (errsv == WSAEINTR) {
-            return SXS_EINTR;
-        } else if (errsv == WSAEINPROGRESS) {
-            return SXS_EINPROGRESS;
-        } else if (errsv == WSAENETRESET) {
-            return SXS_ENETRESET;
-        } else if (errsv == WSAENOTSOCK) {
-            return SXS_ENOTSOCK;
-        } else if (errsv == WSAEOPNOTSUPP) {
-            return SXS_EOPNOTSUPP;
-        } else if (errsv == WSAESHUTDOWN) {
-            return SXS_ESHUTDOWN;
-        } else if (errsv == WSAEWOULDBLOCK) {
-            return SXS_EWOULDBLOCK;
-        } else if (errsv == WSAEMSGSIZE) {
-            return SXS_EMSGSIZE;
-        } else if (errsv == WSAEINVAL) {
-            return SXS_EINVAL;
-        } else if (errsv == WSAECONNABORTED) {
-            return SXS_ECONNABORTED;
-        } else if (errsv == WSAETIMEDOUT) {
-            return SXS_ETIMEDOUT;
-        } else {
-            return SXS_UNKNOWN_ERROR;
-        }
-#else
-        errsv = errno;
-        if (errsv == EAGAIN) {
-            return SXS_EWOULDBLOCK;
-        } else if (errsv == EBADF) {
-            return SXS_EBADF;
-        } else if (errsv == ECONNREFUSED) {
-            return SXS_ECONNREFUSED;
-        } else if (errsv == EFAULT) {
-            return SXS_EFAULT;
-        } else if (errsv == EINTR) {
-            return SXS_EINTR;
-        } else if (errsv == EINVAL) {
-            return SXS_EINVAL;
-        } else if (errsv == ENOMEM) {
-            return SXS_ENOMEM;
-        } else if (errsv == ENOTCONN) {
-            return SXS_ENOTCONN;
-        } else if (errsv == ENOTSOCK) {
-            return SXS_ENOTSOCK;
-        } else {
-            return SXS_UNKNOWN_ERROR;
-        }
-#endif
-    }
-
-    (*p_recvd) = r;
-
-    return SXS_SUCCESS;
-}
-
 sxs_error_t sxs_send(sxs_socket_t sd, const sxs_buf_t buf, sxs_size_t len,
     int flags, sxs_ssize_t *p_sent) {
     
@@ -548,6 +474,130 @@ sxs_error_t sxs_send(sxs_socket_t sd, const sxs_buf_t buf, sxs_size_t len,
     }
 
     (*p_sent) = r;
+
+    return SXS_SUCCESS;
+}
+
+sxs_error_t sxs_send_nbytes(sxs_socket_t sd, const sxs_buf_t buf,
+    sxs_size_t len) {
+
+    sxs_ssize_t tot_bytes_sent;
+    sxs_ssize_t bytes_sent;
+    sxs_error_t reterr;
+
+    tot_bytes_sent = 0;
+
+    while (tot_bytes_sent < len) {
+        reterr = sxs_send(sd, (buf + tot_bytes_sent), (len - tot_bytes_sent),
+            0, &bytes_sent);
+        if (reterr != SXS_SUCCESS) {
+            return reterr;
+        } else {
+            tot_bytes_sent = tot_bytes_sent + bytes_sent;
+        }
+    }
+
+    return SXS_SUCCESS;
+}
+
+sxs_error_t sxs_recv(sxs_socket_t sd, sxs_buf_t buf, sxs_size_t len,
+    int flags, sxs_ssize_t *p_recvd) {
+    
+    sxs_ssize_t r;
+    sxs_errno_t errsv;
+
+    r = recv(sd, buf, len, flags);
+    if (r == SXS_SOCKET_ERROR) {
+#ifdef WIN32
+        errsv = WSAGetLastError();
+        if (errsv == WSANOTINITIALISED) {
+            return SXS_WSANOTINITIALISED;
+        } else if (errsv == WSAENETDOWN) {
+            return SXS_ENETDOWN;
+        } else if (errsv == WSAEFAULT) {
+            return SXS_EFAULT;
+        } else if (errsv == WSAENOTCONN) {
+            return SXS_ENOTCONN;
+        } else if (errsv == WSAEINTR) {
+            return SXS_EINTR;
+        } else if (errsv == WSAEINPROGRESS) {
+            return SXS_EINPROGRESS;
+        } else if (errsv == WSAENETRESET) {
+            return SXS_ENETRESET;
+        } else if (errsv == WSAENOTSOCK) {
+            return SXS_ENOTSOCK;
+        } else if (errsv == WSAEOPNOTSUPP) {
+            return SXS_EOPNOTSUPP;
+        } else if (errsv == WSAESHUTDOWN) {
+            return SXS_ESHUTDOWN;
+        } else if (errsv == WSAEWOULDBLOCK) {
+            return SXS_EWOULDBLOCK;
+        } else if (errsv == WSAEMSGSIZE) {
+            return SXS_EMSGSIZE;
+        } else if (errsv == WSAEINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == WSAECONNABORTED) {
+            return SXS_ECONNABORTED;
+        } else if (errsv == WSAETIMEDOUT) {
+            return SXS_ETIMEDOUT;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+#else
+        errsv = errno;
+        if (errsv == EAGAIN) {
+            return SXS_EWOULDBLOCK;
+        } else if (errsv == EBADF) {
+            return SXS_EBADF;
+        } else if (errsv == ECONNREFUSED) {
+            return SXS_ECONNREFUSED;
+        } else if (errsv == EFAULT) {
+            return SXS_EFAULT;
+        } else if (errsv == EINTR) {
+            return SXS_EINTR;
+        } else if (errsv == EINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == ENOMEM) {
+            return SXS_ENOMEM;
+        } else if (errsv == ENOTCONN) {
+            return SXS_ENOTCONN;
+        } else if (errsv == ENOTSOCK) {
+            return SXS_ENOTSOCK;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+#endif
+    }
+
+    (*p_recvd) = r;
+
+    return SXS_SUCCESS;
+}
+
+sxs_error_t sxs_recv_nbytes(sxs_socket_t sd, sxs_buf_t buf,
+    sxs_size_t len) {
+
+    sxs_ssize_t tot_bytes_recvd;
+    sxs_ssize_t bytes_recvd;
+    sxs_error_t reterr;
+
+    tot_bytes_recvd = 0;
+
+    while (tot_bytes_recvd < len) {
+        reterr = sxs_recv(sd, (buf + tot_bytes_recvd),
+            (len - tot_bytes_recvd), 0, &bytes_recvd);
+        if (reterr != SXS_SUCCESS) { /* failed in error */
+            return reterr;
+        } else {
+            if (bytes_recvd == 0) { /* peer cleanly disconnected */
+                /* The peer cleanly closed the connection before the
+                 * total number of bytes were read into the buffer. */
+                return SXS_UNKNOWN_ERROR;
+            } else { /* recv'd some data */
+                tot_bytes_recvd = tot_bytes_recvd + bytes_recvd;
+            }
+        }
+    }
 
     return SXS_SUCCESS;
 }

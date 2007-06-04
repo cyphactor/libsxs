@@ -1,3 +1,9 @@
+2007-06-04 Andrew De Ponte <cyphactor@gmail.com>
+
+* Implemented and Documented the sxs_send_nbytes() function.
+
+* Implemented and Documented the sxs_recv_nbytes() function.
+
 2007-06-03 Andrew De Ponte <cyphactor@gmail.com>
 
 * Implemented and Documentd the sxs_inet_addr() function. This includes
