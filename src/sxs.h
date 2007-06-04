@@ -392,6 +392,62 @@ SXS_EXPORT sxs_in_addr_t sxs_inet_addr(const char *cp);
 SXS_EXPORT sxs_error_t sxs_gethostbyname(const char *name,
     struct hostent **ret);
 
+/**
+ * Convert an unsigned 32 bit int to network byte order.
+ *
+ * The sxs_htonl() function takes a 32 bit unsigned integer in host
+ * byte order and converts it to network byte order.
+ * \param hostlong unsigned 32 bit integer in host byte order.
+ * \return The converted unsigned 32 bit integer in network byte order.
+ */
+SXS_EXPORT sxs_uint32_t sxs_htonl(sxs_uint32_t hostlong);
+
+/**
+ * Convert an unsigned 16 bit int to network byte order.
+ *
+ * The sxs_htons() function takes a 16 bit unsigned integer in host
+ * byte order and converts it to network byte order.
+ * \param hostshort unsigned 16 bit integer in host byte order.
+ * \return The converted unsigned 16 bit integer in network byte order.
+ */
+SXS_EXPORT sxs_uint16_t sxs_htons(sxs_uint16_t hostshort);
+
+/**
+ * Convert an network byte order unsigned 32 bit int to host byte order.
+ *
+ * The sxs_ntohl() function takes a 32 bit unsigned integer in network
+ * byte order and converts it to host byte order.
+ * \param netlong unsigned 32 bit integer in network byte order.
+ * \return The converted unsigned 32 bit integer in host byte order.
+ */
+SXS_EXPORT sxs_uint32_t sxs_ntohl(sxs_uint32_t netlong);
+
+/**
+ * Convert an network byte order unsigned 16 bit int to host byte order.
+ *
+ * The sxs_ntohs() function takes a 16 bit unsigned integer in network
+ * byte order and converts it to host byte order.
+ * \param netshort unsigned 16 bit integer in network byte order.
+ * \return The converted unsigned 16 bit integer in host byte order.
+ */
+SXS_EXPORT sxs_uint16_t sxs_ntohs(sxs_uint16_t netshort);
+
+/**
+ * Produce a message on stderr describing the specified error.
+ *
+ * The sxs_perror() function produces a message on the standard error
+ * output, describing the error specified by the 'errnum' parameter. If
+ * the the error does not have a correlating message it will simply
+ * print the sxs error code and the operating system specific error
+ * code. Note: The operating system specific error code meanings can be
+ * looked up in the operatying system specific socket API documentation.
+ * \param s c-string containing error header, generally name of the
+ * function that failed.
+ * \param errnum The error number returned in failure by a previous call.
+ * \return This function returns no value.
+ */
+SXS_EXPORT void sxs_perror(const char *s, sxs_error_t errnum);
+
 #ifdef __cplusplus
 }
 #endif

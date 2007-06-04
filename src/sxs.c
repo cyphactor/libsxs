@@ -688,3 +688,57 @@ sxs_error_t sxs_gethostbyname(const char *name, struct hostent **ret) {
 
     return SXS_SUCCESS;
 }
+
+sxs_uint32_t sxs_htonl(sxs_uint32_t hostlong) {
+    return htonl(hostlong);
+}
+
+sxs_uint16_t sxs_htons(sxs_uint16_t hostshort) {
+    return htons(hostshort);
+}
+
+sxs_uint32_t sxs_ntohl(sxs_uint32_t netlong) {
+    return ntohl(netlong);
+}
+
+sxs_uint16_t sxs_ntohs(sxs_uint16_t netshort) {
+    return ntohs(netshort);
+}
+
+void sxs_perror(const char *s, sxs_error_t errnum) {
+    char buf[256];
+    sxs_errno_t errval;
+    sxs_uint32_t err_index;
+    
+    fprintf(stderr, "%s: sxs error num %d\n", s, errnum); 
+
+    /* Use the error code maps to get the proper operating system
+     * specific error code so that I can use the OS specific functions
+     * like strerror_r() on unix. */
+    if ((errnum >= SXS_UNIXWIN_ERR_START) &&
+        (errnum <= SXS_UNIXWIN_ERR_END)) {
+        
+        err_index = errnum - SXS_UNIXWIN_ERR_START;
+#ifdef WIN32
+        errval = sxs_winboth_errmap[err_index];
+#else
+        errval = sxs_unixboth_errmap[err_index];
+#endif
+    } else {
+#ifdef WIN32
+        err_index = errnum - SXS_WIN_ERR_START;
+        errval = sxs_win_errmap[err_index];
+#else
+        err_index = errnum - SXS_UNIX_ERR_START;
+        errval = sxs_unix_errmap[err_index];
+#endif
+    }
+
+    fprintf(stderr, "%s: os specific error value %d\n", s, errval);
+
+#ifndef WIN32
+    strerror_r(errval, buf, 255);
+    buf[255] = '\0';
+    fprintf(stderr, "%s: %s\n", s, buf);
+#endif
+}

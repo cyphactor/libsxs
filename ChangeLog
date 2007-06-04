@@ -6,6 +6,16 @@ for API consistancy.
 
 * Implemented and Documented the sxs_gethostbyname() function.
 
+* Implemented and Documented the sxs_htonl() function.
+
+* Implemented and Documented the sxs_htons() function.
+
+* Implemented and Documented the sxs_ntohl() function.
+
+* Implemented and Documented the sxs_ntohs() function.
+
+* Implemented and Documented the sxs_perror() function.
+
 2007-06-01 Andrew De Ponte <cyphactor@gmail.com>
 
 * Fixed the syntax error in the sxs_send() function.
