@@ -636,3 +636,55 @@ sxs_error_t sxs_shutdown(sxs_socket_t sd, int how) {
     return SXS_SUCCESS;
 }
 
+sxs_in_addr_t sxs_inet_addr(const char *cp) {
+    return inet_addr(cp);
+}
+
+sxs_error_t sxs_gethostbyname(const char *name, struct hostent **ret) {
+    sxs_errno_t errsv;
+    struct hostent *r;
+
+    r = gethostbyname(name);
+    if (r == NULL) {
+#ifdef WIN32
+        errsv = WSAGetLastError();
+        if (errsv == WSANOTINITIALISED) {
+            return SXS_WSANOTINITIALISED;
+        } else if (errsv == WSAENETDOWN) {
+            return SXS_ENETDOWN;
+        } else if (errsv == WSAHOST_NOT_FOUND) {
+            return SXS_WSAHOST_NOT_FOUND;
+        } else if (errsv == WSATRY_AGAIN) {
+            return SXS_WSATRY_AGAIN;
+        } else if (errsv == WSANO_RECOVERY) {
+            return SXS_WSANO_RECOVERY;
+        } else if (errsv == WSANO_DATA) {
+            return SXS_WSANO_DATA;
+        } else if (errsv == WSAEINPROGRESS) {
+            return SXS_EINPROGRESS;
+        } else if (errsv == WSAEFAULT) {
+            return SXS_EFAULT;
+        } else if (errsv == WSAEINTR) {
+            return SXS_EINTR;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+#else
+        /* Note: The following line is abnormal in that errsv is
+         * obtaining it's value from h_errno rather than the normal
+         * errno. This is due to the fact that the gethostbyname()
+         * functions in the Unix varients set the errors in h_errno.
+         * Currently in this function this just returns an
+         * SXS_UNKNOWN_ERROR value in the case of all errors because a
+         * mapping has not yet been implemented in the library to handle
+         * all the possible values of h_errno. This has already been
+         * listed as a ticket in the project's Trac environment. */
+        errsv = h_errno;
+        return SXS_UNKNOWN_ERROR;
+#endif
+    }
+
+    (*ret) = r;
+
+    return SXS_SUCCESS;
+}

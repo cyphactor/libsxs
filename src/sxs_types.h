@@ -92,6 +92,7 @@
     typedef uint32_t sxs_in_addr_t;
 #endif
     
-    typedef int sxs_errno_t;
+typedef int sxs_errno_t;
+#define SXS_INADDR_NONE INADDR_NONE
 
-#endif
+#endif /* SXS_TYPES_H */

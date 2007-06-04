@@ -349,6 +349,49 @@ SXS_EXPORT sxs_error_t sxs_close(sxs_socket_t sd);
  */
 SXS_EXPORT sxs_error_t sxs_shutdown(sxs_socket_t sd, int how);
 
+/**
+ * Convert a c-string dotted-quad IP address into binary data.
+ *
+ * The sxs_inet_addr() function converts the Internet host address 'cp'
+ * from dotted-quad into binary data in network byte order.
+ * \param cp c-string containing dotted-quad IP to convert to binary.
+ * \return The binary data in network byte order, or SXS_INADDR_NONE.
+ * \retval SXS_INADDR_NONE The address specified in 'cp' is invalid.
+ */
+SXS_EXPORT sxs_in_addr_t sxs_inet_addr(const char *cp);
+
+/**
+ * Get a host IP address given the hosts name.
+ *
+ * The sxs_gethostbyname() function takes in an IP address or hostname
+ * of a machine and returns it's associated IP address. If 'name' is an
+ * IPv4 or IPv6 address, no lookup is performed and 'name' is coppied
+ * into the 'h_name' field and it's struct in_addr equivalent into the
+ * 'h_addr_list[0]' field of the internally maintained 'hostent'
+ * structure. If 'name' is a hostname then 'name' is coppied to 'h_name'
+ * and the 'h_addr_list' field of the internally maintained 'hostent'
+ * structure is filled with all the addresses resulting from the lookup.
+ * \param name c-string containing hostname or IP to find IP for.
+ * \param ret Pointer to a pointer to a hostent structure to store the
+ * address of the internally maintained hostent structure.
+ * \return A a value representing an error or success.
+ * \retval SXS_SUCCESS Successfully shutdown the socket.
+ * \retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * \retval SXS_ENETDOWN The network subsystem has failed.
+ * \retval SXS_WSAHOST_NOT_FOUND Authoritative answer host not found.
+ * \retval SXS_WSATRY_AGAIN Nonauthoritative host not found, or server
+ * failure.
+ * \retval SXS_WSANO_RECOVERY A nonrecoverable error occured.
+ * \retval SXS_WSANO_DATA Valid name, no data record of requested type.
+ * \retval SXS_EINPROGRESS A blocking call is already in progress.
+ * \retval SXS_EFAULT The 'name' parameter is not a valid part of user
+ * address space.
+ * \retval SXS_EINTR A call was interrupted by a signal.
+ * \retval SXS_UNKNOWN_ERROR An unkwon error has occured.
+ */
+SXS_EXPORT sxs_error_t sxs_gethostbyname(const char *name,
+    struct hostent **ret);
+
 #ifdef __cplusplus
 }
 #endif

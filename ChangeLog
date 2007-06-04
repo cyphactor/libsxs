@@ -1,3 +1,11 @@
+2007-06-03 Andrew De Ponte <cyphactor@gmail.com>
+
+* Implemented and Documentd the sxs_inet_addr() function. This includes
+adding the macro definition for SXS_INADDR_NONE to the sxs_types.h file
+for API consistancy.
+
+* Implemented and Documented the sxs_gethostbyname() function.
+
 2007-06-01 Andrew De Ponte <cyphactor@gmail.com>
 
 * Fixed the syntax error in the sxs_send() function.
