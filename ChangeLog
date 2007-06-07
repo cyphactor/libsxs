@@ -1,3 +1,26 @@
+2007-06-06 Andrew De Ponte <cyphactor@gmail.com>
+
+* Modifide all the files in src/ so that the documentation used the @
+preceding keywords rather than a \. I did this for consistancy reasons
+and so that it matched the doxygen documentation styles appropriately.
+
+* Modified the scripts/build_sxs_error_files.py to output code with the
+proper doxygen documentation style in it.
+
+* Modified the clean_bootstrap.sh file so that it properly removes the
+automatically generated src/sxs_config.h and src/sxs_config.h.in files.
+
+* Created the doc/ directory so that there is a location in the project
+tree for keeping documentation.
+
+* Created the doc/dox/ directory so that there is a location to have the
+doxygen generated documenation placed when doxygen is run from the
+trunk.
+
+* Created the Doxyfile in the main trunk so that doxygen can be run from
+the trunk and the documentation will be generated and placed into the
+doc/dox/ directory.
+
 2007-06-04 Andrew De Ponte <cyphactor@gmail.com>
 
 * Implemented and Documented the sxs_send_nbytes() function.

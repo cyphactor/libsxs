@@ -13,8 +13,8 @@
  */
 
 /**
- * \file sxs_error.c
- * \brief This is an implementations file for lib_sxs error handling.
+ * @file sxs_error.c
+ * @brief This is an implementations file for lib_sxs error handling.
  *
  * The sxs_error.c file is an implementations file for lib_sxs error
  * handleing. It provides all the definitions for any of the error

@@ -13,8 +13,8 @@
  */
 
 /**
- * \file sxs_export.h
- * \brief This is a specifications file for Win32 DLL handling.
+ * @file sxs_export.h
+ * @brief This is a specifications file for Win32 DLL handling.
  *
  * The sxs_export.h file is a specifications that defines the necessary
  * macros for handling the complexities of Win32 DLL creation and

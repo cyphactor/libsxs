@@ -13,8 +13,8 @@
  */
 
 /**
- * \file sxs.c
- * \brief This is an implementation file for lib_sxs API.
+ * @file sxs.c
+ * @brief This is an implementation file for lib_sxs API.
  *
  * The sxs.c file is an implementation file which contains all the
  * definitions for the functions which compose the general API of

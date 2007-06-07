@@ -13,8 +13,8 @@
  */
 
 /**
- * \file sxs_types.h
- * \brief This is a specifications file for types to be used in lib_sxs.
+ * @file sxs_types.h
+ * @brief This is a specifications file for types to be used in lib_sxs.
  *
  * The sxs_types.h file is a specifications file that defines the
  * necessary types to handle the complexities of being cross-platform
@@ -47,8 +47,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-//#include <openssl/ssl.h>
 
 #include "sxs_config.h"
 

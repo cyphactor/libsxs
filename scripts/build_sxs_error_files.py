@@ -24,8 +24,8 @@ copyright_hdr = """/*
  */
 
 /**
- * \\file sxs_error.h
- * \\brief This is a specifications file for error hanlding in lib_sxs.
+ * @file sxs_error.h
+ * @brief This is a specifications file for error hanlding in lib_sxs.
  *
  * The sxs_error.h file is a specifications file that defines the types
  * which represent errors and all their possible values, as well as
@@ -61,8 +61,8 @@ copyright_src = """/*
  */
 
 /**
- * \\file sxs_error.c
- * \\brief This is an implementations file for lib_sxs error handling.
+ * @file sxs_error.c
+ * @brief This is an implementations file for lib_sxs error handling.
  *
  * The sxs_error.c file is an implementations file for lib_sxs error
  * handleing. It provides all the definitions for any of the error

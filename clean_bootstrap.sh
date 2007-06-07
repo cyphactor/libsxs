@@ -18,8 +18,8 @@ rm -rf autom4te.cache/
 rm -f configure
 rm -f config.log
 rm -f config.status
-rm -f src/config.h
-rm -f src/config.h.in
+rm -f src/sxs_config.h
+rm -f src/sxs_config.h.in
 rm -f aclocal.m4
 rm -f config.guess
 rm -f config.sub

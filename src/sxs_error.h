@@ -13,8 +13,8 @@
  */
 
 /**
- * \file sxs_error.h
- * \brief This is a specifications file for error hanlding in lib_sxs.
+ * @file sxs_error.h
+ * @brief This is a specifications file for error hanlding in lib_sxs.
  *
  * The sxs_error.h file is a specifications file that defines the types
  * which represent errors and all their possible values, as well as
