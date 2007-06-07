@@ -14,7 +14,7 @@
 
 /**
  * @file sxs_types.h
- * @brief This is a specifications file for types to be used in lib_sxs.
+ * @brief This is a specifications file for types to be used with lib_sxs.
  *
  * The sxs_types.h file is a specifications file that defines the
  * necessary types to handle the complexities of being cross-platform

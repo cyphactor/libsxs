@@ -31,8 +31,21 @@ extern "C" {
 #include "sxs_types.h"
 #include "sxs_error.h"
 
+/**
+ * Initialize the library.
+ *
+ * The sxs_init() function must be called before any of the other
+ * functions can be called and is used to initialize data and state kept
+ * within the library.
+ */
 SXS_EXPORT sxs_error_t sxs_init(void);
 
+/**
+ * Uninitialize the library.
+ *
+ * The sxs_uninit() function must be called once the library is no
+ * longer needed to cleanup the data and state kept within the library.
+ */
 SXS_EXPORT sxs_error_t sxs_uninit(void);
 
 /**
