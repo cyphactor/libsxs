@@ -26,8 +26,8 @@
 
 #include "sxs_types.h"
 
-#define SXS_SUCCESS 0
-#define SXS_UNKNOWN_ERROR 0xffffffff
+#define SXS_SUCCESS 0 /**< Operation completed successfully */
+#define SXS_UNKNOWN_ERROR 0xffffffff /**< An undefined error occured */
 
 /* The following are errors which are shared between both Unix varients
  * such as linux and mac as well as Windows. */

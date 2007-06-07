@@ -1,5 +1,11 @@
 2007-06-06 Andrew De Ponte <cyphactor@gmail.com>
 
+* Modified the scripts/build_sxs_error_files.py to add documentation to
+the SXS_SUCCESS and SXS_UNKOWN_ERROR values.
+
+* Modified the sxs_perror() function to properly handle errnum values of
+SXS_SUCCESS and SXS_UNKNOWN_ERROR, which I previously forgot to handle.
+
 * Added doxygen documentation to the sxs_init() and sxs_uninit()
 functions.
 

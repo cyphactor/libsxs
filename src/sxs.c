@@ -774,6 +774,10 @@ void sxs_perror(const char *s, sxs_error_t errnum) {
 #else
         errval = sxs_unixboth_errmap[err_index];
 #endif
+    } else if (errnum == SXS_UNKNOWN_ERROR) {
+        errval = SXS_UNKNOWN_ERROR;
+    } else if (errnum == SXS_SUCCESS) {
+        errval = 0;
     } else {
 #ifdef WIN32
         err_index = errnum - SXS_WIN_ERR_START;
@@ -784,11 +788,17 @@ void sxs_perror(const char *s, sxs_error_t errnum) {
 #endif
     }
 
-    fprintf(stderr, "%s: os specific error value %d\n", s, errval);
+    if (errnum == SXS_SUCCESS) {
+        fprintf(stderr, "%s: success\n", s);
+    } else if (errnum == SXS_UNKNOWN_ERROR) {
+        fprintf(stderr, "%s: unkown error\n", s);
+    } else {
+        fprintf(stderr, "%s: os specific error value %d\n", s, errval);
 
 #ifndef WIN32
-    strerror_r(errval, buf, 255);
-    buf[255] = '\0';
-    fprintf(stderr, "%s: %s\n", s, buf);
+        strerror_r(errval, buf, 255);
+        buf[255] = '\0';
+        fprintf(stderr, "%s: %s\n", s, buf);
 #endif
+    }
 }
