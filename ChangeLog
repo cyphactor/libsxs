@@ -1,5 +1,12 @@
 2007-06-06 Andrew De Ponte <cyphactor@gmail.com>
 
+* Added some doxygen comments to the src/sxs_types.h file to clarify the
+available types as well os for completeness.
+
+* Correted the @retval SXS_SUCCESS doxygen documentation lines for a
+number of functions that had improper documentation due to copy and
+paste errors.
+
 * Modified the Doxyfile to fix the destination location of the
 documents. It was originally specified as doc/doxs which was incorrect.
 It was corrected to doc/dox.

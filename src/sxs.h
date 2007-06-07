@@ -58,7 +58,7 @@ SXS_EXPORT sxs_error_t sxs_uninit(void);
  * @param protocol Specifies protocol to use in protocol family.
  * @param p_sd Pointer to socket descriptor to store new socket in.
  * @return A a value representing an error or success.
- * @retval SXS_SUCCESS Successfully shutdown the socket.
+ * @retval SXS_SUCCESS Successfully created the socket.
  * @retval SXS_EACCES Perm to create sock of specified type denied.
  * @retval SXS_EAFNOSUPPORT No support for specified address family.
  * @retval SXS_EINVAL Unknown protocol, or protocol family not available.
@@ -86,7 +86,7 @@ SXS_EXPORT sxs_error_t sxs_socket(int domain, int type, int protocol,
  * @param my_addr The address to associate with the socket 'sd'.
  * @param addrlen The length of the address structure in bytes.
  * @return A a value representing an error or success.
- * @retval SXS_SUCCESS Successfully shutdown the socket.
+ * @retval SXS_SUCCESS Successfully bound the address to the socket.
  * @retval SXS_EACCES Address is protected, and user is not superuser.
  * @retval SXS_EADDRINUSE The given address is already in use.
  * @retval SXS_EBADF 'sd' is not a valid socket descriptor.
@@ -118,7 +118,7 @@ SXS_EXPORT sxs_error_t sxs_bind(sxs_socket_t sd,
  * @param sd Socket descriptor representing a socket.
  * @param backlog Maximum length of the queue of pending connections.
  * @return A a value representing an error or success.
- * @retval SXS_SUCCESS Successfully shutdown the socket.
+ * @retval SXS_SUCCESS Successfully put the socket into listening state.
  * @retval SXS_EADDRINUSE Another socket is listening on the same port.
  * @retval SXS_EBADF The argument 'sd' is not a valid socket descriptor.
  * @retval SXS_ENOTSOCK The argument 'sd' is not a socket.
@@ -148,7 +148,7 @@ SXS_EXPORT sxs_error_t sxs_listen(sxs_socket_t sd, int backlog);
  * bytes. When 'addr' is NULL nothing is filled in.
  * @param p_sd Pointer to socket descriptor to store new socket in.
  * @return A a value representing an error or success.
- * @retval SXS_SUCCESS Successfully shutdown the socket.
+ * @retval SXS_SUCCESS Successfully accepted a connection.
  * @retval SXS_EWOULDBLOCK The socket is non-blocking and no conns are
  * present to be accepted.
  * @retval SXS_EBADF The socket descriptor is invalid.
@@ -184,7 +184,7 @@ SXS_EXPORT sxs_error_t sxs_accept(sxs_socket_t sd, struct sockaddr *addr,
  * @param serv_addr Address struct representing remote server to conn to.
  * @param addrlen The len in bytes of the address structure.
  * @return A a value representing an error or success.
- * @retval SXS_SUCCESS Successfully shutdown the socket.
+ * @retval SXS_SUCCESS Successfully connected the socket.
  * @retval SXS_EACCES Write permission denied on the Unix domain socket.
  * @retval SXS_EPERM User tried to conn to bcast addr without having the
  * socket bcast flag enabled or the connection request failed because of
@@ -233,7 +233,7 @@ SXS_EXPORT sxs_error_t sxs_connect(sxs_socket_t sd,
  * generally 0.
  * @param p_sent Pointer to var to store resulting num of bytes sent.
  * @return A a value representing an error or success.
- * @retval SXS_SUCCESS Successfully shutdown the socket.
+ * @retval SXS_SUCCESS Successfully sent the data on the socket.
  * @retval SXS_EACCES Write permission denied on dest socket file.
  * @retval SXS_EWOULDBLOCK Socket is non-blocking but would block.
  * @retval SXS_EBADF 'sd' is an invalid socket descriptor.
@@ -281,7 +281,7 @@ SXS_EXPORT sxs_error_t sxs_send(sxs_socket_t sd, const sxs_buf_t buf,
  * @param buf The pointer to the buffer containing data to send.
  * @param len The number of bytes to attempt to send over the socket..
  * @return A a value representing an error or success.
- * @retval SXS_SUCCESS Successfully shutdown the socket.
+ * @retval SXS_SUCCESS Successfully sent all the data on the socket.
  */
 SXS_EXPORT sxs_error_t sxs_send_nbytes(sxs_socket_t sd, const sxs_buf_t buf,
     sxs_size_t len);
@@ -300,7 +300,7 @@ SXS_EXPORT sxs_error_t sxs_send_nbytes(sxs_socket_t sd, const sxs_buf_t buf,
  * generally 0.
  * @param p_recvd Pointer to var to store resulting num of bytes recv'd.
  * @return A a value representing an error or success.
- * @retval SXS_SUCCESS Successfully shutdown the socket.
+ * @retval SXS_SUCCESS Successfully received data on the socket.
  * @retval SXS_EWOULDBLOCK Socket is non-blocking but would block.
  * @retval SXS_EBADF 'sd' is an invalid socket descriptor.
  * @retval SXS_ECONNREFUSED Remote host refused network connection.
@@ -341,7 +341,7 @@ SXS_EXPORT sxs_error_t sxs_recv(sxs_socket_t sd, sxs_buf_t buf,
  * @param buf The pointer to the buffer to store received data in.
  * @param len The maximum number of bytes to receive over the socket.
  * @return A a value representing an error or success.
- * @retval SXS_SUCCESS Successfully shutdown the socket.
+ * @retval SXS_SUCCESS Successfully received all the data on the socket.
  */
 SXS_EXPORT sxs_error_t sxs_recv_nbytes(sxs_socket_t sd, sxs_buf_t buf,
     sxs_size_t len);
@@ -353,7 +353,7 @@ SXS_EXPORT sxs_error_t sxs_recv_nbytes(sxs_socket_t sd, sxs_buf_t buf,
  * socket descriptor so that the socket descriptor may be reused.
  * @param sd Socket descriptor representing a socket.
  * @return A a value representing an error or success.
- * @retval SXS_SUCCESS Successfully shutdown the socket.
+ * @retval SXS_SUCCESS Successfully closed the socket.
  * @retval SXS_EBADF The socket 'sd' is not a valid open descriptor.
  * @retval SXS_EINTR The sxs_close() call was interrupted by a signal.
  * @retval SXS_EIO An I/O error occurred.
@@ -416,7 +416,7 @@ SXS_EXPORT sxs_in_addr_t sxs_inet_addr(const char *cp);
  * @param ret Pointer to a pointer to a hostent structure to store the
  * address of the internally maintained hostent structure.
  * @return A a value representing an error or success.
- * @retval SXS_SUCCESS Successfully shutdown the socket.
+ * @retval SXS_SUCCESS Successfully got IP of host.
  * @retval SXS_WSANOTINITIALIZED The library was not initialized.
  * @retval SXS_ENETDOWN The network subsystem has failed.
  * @retval SXS_WSAHOST_NOT_FOUND Authoritative answer host not found.

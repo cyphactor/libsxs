@@ -50,6 +50,62 @@
 
 #include "sxs_config.h"
 
+/**
+ * @typedef sxs_socket_t
+ * @brief A socket.
+ *
+ * The sxs_socket_t is a cross-platform type which represents a socket.
+ * Some might refer to it as a socket descriptor or a socket handle.
+ */
+
+/**
+ * @typedef sxs_uint8_t
+ * @brief An unsigned 8 bit integer.
+ *
+ * The sxs_uint8_t is a cross-platform type which represents an unsigned
+ * 8 bit integer.
+ */
+
+/**
+ * @typedef sxs_uint16_t
+ * @brief An unsigned 16 bit integer.
+ *
+ * The sxs_uint16_t is a cross-platform type which represents an
+ * unsigned 16 bit integer.
+ */
+
+/**
+ * @typedef sxs_uint32_t
+ * @brief An unsigned 32 bit integer.
+ *
+ * The sxs_uint32_t is a cross-platform type which represents an
+ * unsigned 32 bit integer.
+ */
+
+/**
+ * @typedef sxs_int8_t
+ * @brief An signed 8 bit integer.
+ *
+ * The sxs_int8_t is a cross-platform type which represents an signed
+ * 8 bit integer.
+ */
+
+/**
+ * @typedef sxs_int16_t
+ * @brief An signed 16 bit integer.
+ *
+ * The sxs_int16_t is a cross-platform type which represents an
+ * signed 16 bit integer.
+ */
+
+/**
+ * @typedef sxs_int32_t
+ * @brief An signed 32 bit integer.
+ *
+ * The sxs_int32_t is a cross-platform type which represents an
+ * signed 32 bit integer.
+ */
+
 /* Here we hanlde defining a common set of types that can be used
  * depending on the different operating systems */
 #ifndef WIN32
