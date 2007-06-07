@@ -1,5 +1,11 @@
 2007-06-06 Andrew De Ponte <cyphactor@gmail.com>
 
+* Moved the sxs_error_t declaration to the sxs_types.h file from the
+sxs_error.h file.
+
+* Added some more doxygen comments to the src/sxs_types.h file to
+clarify the available types as well for general completeness.
+
 * Added some doxygen comments to the src/sxs_types.h file to clarify the
 available types as well os for completeness.
 

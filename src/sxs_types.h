@@ -106,6 +106,14 @@
  * signed 32 bit integer.
  */
 
+/**
+ * @typedef sxs_socklen_t
+ * @brief A length of a socket address.
+ *
+ * The sxs_socklen_t is a cross-platform type which represents a length
+ * of an socket address.
+ */
+
 /* Here we hanlde defining a common set of types that can be used
  * depending on the different operating systems */
 #ifndef WIN32
@@ -145,7 +153,24 @@
     typedef int sxs_socklen_t;
     typedef uint32_t sxs_in_addr_t;
 #endif
-    
+
+/**
+ * @typedef sxs_errno_t
+ * @brief An error code.
+ * 
+ * The sxs_errno_t is a cross-platform type which represents an error
+ * code.
+ */
+
+/**
+ * @typedef sxs_error_t
+ * @brief An error code.
+ *
+ * The sxs_error_t is a cross-platform type which represents an error
+ * code.
+ */
+
+typedef sxs_int32_t sxs_error_t;
 typedef int sxs_errno_t;
 #define SXS_INADDR_NONE INADDR_NONE
 

@@ -26,8 +26,6 @@
 
 #include "sxs_types.h"
 
-typedef sxs_int32_t sxs_error_t;
-
 #define SXS_SUCCESS 0
 #define SXS_UNKNOWN_ERROR 0xffffffff
 
