@@ -5,8 +5,10 @@ Table of Contents
 
     1. What Is It? .....................................................
     2. Building ........................................................
-    3. Systems Tested On ...............................................
-    4. Directory Contents ..............................................
+    3. Producing MSVC Compatible Build .................................
+    4. Using MSVC to Link to MSVC Compatible Build .....................
+    5. Systems Tested On ...............................................
+    6. Directory Contents ..............................................
 
 1.  What Is It?
 
@@ -22,7 +24,13 @@ Table of Contents
 
     This project's build sequence is managed by the autotools. Hence,
     the following command sequence can be used to build the project in
-    any of the unix varients (include Mac OS-X).
+    any of the unix varients (include Mac OS-X). Note: On Mac OS-X
+    systems there is one thing which has to be done before the following
+    command sequence is executed. The LIBTOOLIZE environment must be set
+    to /usr/bin/glibtoolize. This can be done by using the `export
+    LIBTOOLIZE=/usr/bin/glibtoolize` assuming the use fo BASH as the
+    shell. This is due to the fact that on Mac OS-X the standard
+    libtoolize application has been renamed to glibtoolize.
     
     $ ./bootstrap.sh && ./configure && make
 
@@ -37,28 +45,110 @@ Table of Contents
     via the following:
 
     # apt-get install mingw32
+    # apt-get install mingw32-binutils
+    # apt-get install mingw32-runtime
 
     Once, the mingw32 package is installed one can trivially build
     Windows binaries of the project by using the following command
     sequence:
 
-    $ ./bootstrap.sh && ./configure --host=i586-mingw32msvc && make
+    $ ./bootstrap.sh && ./configure --target=i586-mingw32msvc \
+        --host=i586-mingw32msvc --build=i686-pc-linux-gnu && make
 
     One could also build this on a Windows computer which has cygwin
     installed on it and the necessary autotools, however this is too
-    large of a subject to cover in this README. Or, one could even build
-    it using Microsoft Visual Studio however this would require
-    configure and building a project appropriately to correctly build
-    it.
+    large of a subject to cover in this README. One could even build it
+    using Microsoft Visual Studio however this would require configuring
+    and building a project appropriately to correctly build it.
 
-3.  Systems Tested On
+    Note: The above produces a version of the library that is only
+    useable by linking to it through mingw32. To produce a version of
+    the library which can be linked to using MSVC, please refer to the
+    'Producing MSVC Compatible Build' section.
+
+3.  Producing MSVC Compatible Build
+    
+    Sadly, at this time it is not possible to produce a MSVC Compatible
+    build of the library without using some Microsoft tools. Hence, you
+    will need not only a Unix system but also Windows system with
+    Microsoft Visual C++ 2005 Express installed. Other, versions of
+    Microsoft Visual C++ may work although this has only been tested
+    with Microsoft Visual C++ 2005 Express. Note: The library could be
+    built completely using Microsoft tools, it is avoided since the
+    development environment of choice is Unix systems.
+
+    The first necesarry stage is to build the DLL and DEF file. This is
+    automatically done by performing the build command in the 'Building'
+    section that describes building the library for Windows. After,
+    running the above command successfully it will have produced a
+    number of files including the DLL and DEF. The DLL is in
+    src/.libs/libsxs.dll.a relative to the trunk and the DEF file is in
+    src/.libs/libsxs.def relative to the trunk. For convenience the DLL
+    may be renamed libsxs.dll.
+
+    Once, the DLL and DEF files have been obtained it is time to move
+    them over to a Windows machine at which point Visual Studio Command
+    Prompt should be opened and the current working directory should be
+    changed to directory which contains both the DLL and DEF files.
+    Once, in the proper directory run the following command:
+
+    lib /machine:i386 /def:libsxs.def
+
+    The above command will produce both a libsxs.lib file and a
+    libsxs.exp file. The libsxs.lib file is what is called an import
+    library in Windows. It is a fake library that maps the names of the
+    exported functions, etc to the addresses inside the actual DLL. This
+    is necessary because Windows DLLs do NOT have a mapping from the
+    exported items to the addresses already inside the DLL.
+
+    After obtaining the DLL, .LIB, and the appropriate header files one
+    has everything needed to link to the library using Microsoft Visual
+    C++ 2005 Express.
+    
+4.  Using MSVC to Link to MSVC Compatible Build
+
+    In order to link to a MSVC compatible build of the library using
+    MSVC you must compile the client application with the
+    LIBSXS_DLL_IMPORT macro defined. This macro states that we are
+    compiling the client application which wants to import functions,
+    etc which have been exported from the DLL using the DLL_EXPORT macro
+    when the DLL was built. An example of this may look as follows:
+
+    cl /DLIBSXS_DLL_IMPORT cliapp.cpp libsxs.lib /* C++ link to C/C++ lib */
+
+    or the follwing in the case of C client application:
+
+    cl /DLIBSXS_DLL_IMPORT /Tc cliapp.c libsxs.lib /* C link to C lib */
+
+    Note: In the above examples there is no specification for a location
+    of the header files. The use of the /I option to cl is suggested. It
+    adds a directory to the list of directories that are search for
+    include files. The suggested method is to copy all the header files
+    (ending in the .h extension found in the src/ directory) to a
+    directory tree similar to the following:
+
+    <project src dir>/include/sxs/
+
+    In which <project src dir> is the directory where the client apps
+    source is located and the sxs directory is where all the libsxs
+    header files are located. This would allow one to link an
+    application by using a command similar to the following from the
+    <project src dir>:
+    
+    cl /DLIBSXS_DLL_IMPORT /Iinclude/sxs/ cliapp.cpp libsxs.lib
+
+    Note: The above example assumes that the libsxs.lib and libsxs.dll
+    (or libsxs.dll.a if it has not been renamed) are in the <project src
+    dir>.
+
+5.  Systems Tested On
 
     The following systems are all the systems which lib_pmf has been
     successfully run on.
 
     - Linux Debian Etch (Testing)
 
-4. Directory Contents
+6. Directory Contents
 
     doc - Contains general project documentation
     doc/dox - Contains all the doxygen genarted documentation when one

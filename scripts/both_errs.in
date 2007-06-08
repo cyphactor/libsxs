@@ -40,4 +40,3 @@ EUSERS              /**< Too many users */
 EDQUOT              /**< Quota exceeded */
 ESTALE              /**< Stale NFS file handle */
 EREMOTE             /**< Remote I/O error */
-ECANCELED           /**< Operation Canceled */

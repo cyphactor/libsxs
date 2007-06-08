@@ -30,7 +30,7 @@ sxs_error_t sxs_init(void) {
     sxs_errno_t errsv;
 
     wVersionRequested = MAKEWORD(2,0);
-    errsv = WSAStartup(wVersionRequested, &wsData);
+    errsv = WSAStartup(wVersionRequested, &wsaData);
     if (errsv != 0) {
         if (errsv == WSASYSNOTREADY) {
             return SXS_WSASYSNOTREADY;
@@ -793,8 +793,10 @@ void sxs_perror(const char *s, sxs_error_t errnum) {
     char buf[256];
     sxs_errno_t errval;
     sxs_uint32_t err_index;
+
+    buf[0] = '\0';
     
-    fprintf(stderr, "%s: sxs error num %d\n", s, errnum); 
+    fprintf(stderr, "%s: sxs error num %d\n", s, (int)errnum); 
 
     /* Use the error code maps to get the proper operating system
      * specific error code so that I can use the OS specific functions

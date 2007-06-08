@@ -84,3 +84,4 @@ EKEYREVOKED         /**< Key has been revoked */
 EKEYREJECTED        /**< Key was rejected by service */
 EOWNERDEAD          /**< Owner died */
 ENOTRECOVERABLE     /**< State not recoverable */
+ECANCELED           /**< Operation Canceled */

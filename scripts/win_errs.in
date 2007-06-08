@@ -18,7 +18,7 @@ WSASERVICE_NOT_FOUND    /**< Service not found */
 WSATYPE_NOT_FOUND       /**< Class type not found */
 WSA_E_NO_MORE           /**< No more results */
 WSA_E_CANCELLED         /**< Call was canceled */
-WSAREFUSED              /**< Database query was refused */
+WSAEREFUSED             /**< Database query was refused */
 WSAHOST_NOT_FOUND       /**< Host not found */
 WSATRY_AGAIN            /**< Nonauthoritative host not found */
 WSANO_RECOVERY          /**< This is a nonrecoverable error */
@@ -34,3 +34,4 @@ WSA_QOS_BAD_STYLE       /**< QOS bad style */
 WSA_QOS_BAD_OBJECT      /**< QOS bad object */
 WSA_QOS_TRAFFIC_CTRL_ERROR /**< QOS traffic control error */
 WSA_QOS_GENERIC_ERROR   /**< QOS generic error */
+WSAECANCELLED           /**< Operation Canceled */

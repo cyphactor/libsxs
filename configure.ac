@@ -23,6 +23,7 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/sxs.c])
 AM_CONFIG_HEADER([src/sxs_config.h])
 
+
 # checks for programs
 AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
@@ -30,7 +31,7 @@ AC_PROG_CC
 
 # checks for libraries
 
-#case $host in
+case $host in
     # Handle the mingw32 (Windows 32-bit Cross-Compiler options,
     # necessary to be able to build the Windows DLL and link to the
     # proper mingw32 libraries. The '-Wl,--output-def,.libspmf.def'
@@ -40,7 +41,7 @@ AC_PROG_CC
     # stripts all symbol information from the output file. This reduces
     # the size of the DLL since the mingw32 linker includes all symbols
     # by default.
-#    *mingw32*) PMF_SYSTEM='-Wl,--output-def,.libs/libsxs.def,-s -L../lib -lssl -lcrypto -lgdi32 -lws2_32 -lpthreadGC2' ;;
+    *mingw32*) SXS_SYSTEM='-Wl,--output-def,.libs/libsxs.def,-s -lws2_32' ;;
 
     # Handle the Mac OS X specific build options such as the
     # '-Wl,-prebind,-seg1addr,0xC0000000' followed by the normal
@@ -52,7 +53,7 @@ AC_PROG_CC
     # specifies to the linker (ld) that the starting address at which it
     # should start binding is 0xC0000000. This is done to avoid overlap
     # of address space mapping.
-#    *-apple-darwin*) PMF_SYSTEM='-Wl,-prebind,-seg1addr,0xC0000000 -lssl -lpthread' ;;
+    *-apple-darwin*) SXS_SYSTEM='-Wl,-prebind,-seg1addr,0xC0000000' ;;
 
     #
     # FIX-ME:
@@ -70,8 +71,8 @@ AC_PROG_CC
     #*-apple-darwin*) PMF_SYSTEM='-install_name @executable_path/../Frameworks/libbz2.1.02.2.dylib-Wl,-prebind,-seg1addr,0xC0000000 -lssl -lpthread' ;;
 
     # Handle linking to the proper libraries for all other machines.
-#    *)          PMF_SYSTEM='-lssl -lpthread' ;;
-#esac
+    *)          SXS_SYSTEM='' ;;
+esac
 
 #case $host in
     # Handle setting the propper CFLAGS for the mingw32 build,
@@ -91,7 +92,7 @@ AC_PROG_CC
 #CFLAGS='-O2'
 
 #AC_SUBST([CFLAGS])
-#AC_SUBST([PMF_SYSTEM])
+AC_SUBST([SXS_SYSTEM])
 #AC_SUBST([PMF_CFLAGS])
 
 # checks for header files
