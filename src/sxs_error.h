@@ -76,10 +76,11 @@
 #define SXS_ESTALE 41 /**< Stale NFS file handle */
 #define SXS_EREMOTE 42 /**< Remote I/O error */
 #define SXS_ECANCELED 43 /**< Operation Canceled */
+#define SXS_UNIXBOTH_ERRMAP_SIZE 43
 #ifdef WIN32
-extern sxs_int32_t sxs_winboth_errmap[43];
+extern sxs_int32_t sxs_winboth_errmap[SXS_UNIXBOTH_ERRMAP_SIZE];
 #else
-extern sxs_int32_t sxs_unixboth_errmap[43];
+extern sxs_int32_t sxs_unixboth_errmap[SXS_UNIXBOTH_ERRMAP_SIZE];
 #endif
 
 
@@ -121,8 +122,9 @@ extern sxs_int32_t sxs_unixboth_errmap[43];
 #define SXS_WSA_QOS_BAD_OBJECT 367 /**< QOS bad object */
 #define SXS_WSA_QOS_TRAFFIC_CTRL_ERROR 368 /**< QOS traffic control error */
 #define SXS_WSA_QOS_GENERIC_ERROR 369 /**< QOS generic error */
+#define SXS_WIN_ERRMAP_SIZE 36
 #ifdef WIN32
-extern sxs_int32_t sxs_win_errmap[36];
+extern sxs_int32_t sxs_win_errmap[SXS_WIN_ERRMAP_SIZE];
 #endif
 
 #define SXS_UNIX_ERR_START 668
@@ -213,9 +215,25 @@ extern sxs_int32_t sxs_win_errmap[36];
 #define SXS_EKEYREJECTED 751 /**< Key was rejected by service */
 #define SXS_EOWNERDEAD 752 /**< Owner died */
 #define SXS_ENOTRECOVERABLE 753 /**< State not recoverable */
+#define SXS_UNIX_ERRMAP_SIZE 86
 #ifndef WIN32
-extern sxs_int32_t sxs_unix_errmap[86];
+extern sxs_int32_t sxs_unix_errmap[SXS_UNIX_ERRMAP_SIZE];
 #endif
 
+#define SXS_UNIX_HERR_START 1001
+#define SXS_UNIX_HERR_END 1332
+#define SXS_NETDB_INTERNAL 1001 /**< See errno. */
+#define SXS_NETDB_SUCCESS 1002 /**< No problem. */
+#define SXS_HOST_NOT_FOUND 1003 /**< Authoritative Answer Host not found. */
+#define SXS_TRY_AGAIN 1004 /**< Non-Authoritative Host not found, or SERVERFAIL. */
+#define SXS_NO_RECOVERY 1005 /**< Non recoverable errors, FORMERR, REFUSED, NOTIMP. */
+#define SXS_NO_DATA 1006 /**< Valid name, no data record of requested type. */
+#define SXS_UNIX_HERRMAP_SIZE 6
+#ifndef WIN32
+extern sxs_int32_t sxs_unix_herrmap[SXS_UNIX_HERRMAP_SIZE];
+#endif
 
+#define SXS_ERR_START 6001
+#define SXS_ERR_END 6332
+#define SXS_ERRCONNCLOSED 6001 /**< Connection closed by peer */
 #endif

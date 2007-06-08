@@ -1,3 +1,46 @@
+2007-06-07 Andrew De Ponte <cyphactor@gmail.com>
+
+* Added the scripts/unix_herrs.in file and the scripts/sxs_errs.in files
+so that there are inputs for two new grouping types of error messages.
+
+* Modified the scripts/build_sxs_error_files.py script so that it also
+generated a mapping between the unix h_errno values and unique SXS_
+prepended values so that errors reported via h_errno could be reported
+properly within functions that use h_errno rather than errno.
+
+* Modified the scripts/build_sxs_error_files.py script so that it
+defines all the errors from the scripts/sxs_errs.in file so that the sxs
+library can have a mechanism for defining it's own unqique erros which
+do not map to any of the standard ones. This is mainly done so that
+extension functions added to the library can returne appropriate values.
+
+* Modified the scripts/build_sxs_error_files.py script so that it
+creates a macro for each mapping that defines the size of the mapping
+array and uses it both in the header decleration and in the source files
+assignment. It may also become useful in implementing the library as
+doing such things as bounds checking in the sxs_perror() function and
+similar functions that access the mapping.
+
+* Modified the sxs_init() function to do proper error checking for the
+WSAStartup() call and return the appropriate mapped error values. I also
+updated the doxygen documentation for sxs_init() to list all the
+possible error values and their associated meanings.
+
+* Modified the sxs_uninit() function to do proper error checking for the
+WSACleanup() call and return the appropriate mapped error values. I also
+updated the doxygen documentation for sxs_uninit() to list all the
+possible error values and their associated meanings.
+
+* Modified the sxs_gethostbyname() function to do proper error checking
+for the gethostbyname() function on the Unix side and return the
+appropriate mapped error values. I also updated the doxygen
+documentation for the sxs_gethostbyname() function to list all the
+possible error values and their associated meanings.
+
+* Modified the sxs_perror() function to take advantage of the new
+unix_herr mapping as well as handle all the error type classes in a
+better fashion and check for sxs error code range breaking.
+
 2007-06-06 Andrew De Ponte <cyphactor@gmail.com>
 
 * Modified the scripts/build_sxs_error_files.py to add documentation to

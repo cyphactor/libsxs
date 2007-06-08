@@ -8,6 +8,10 @@ win_err_start = 334
 win_err_end = 667
 unix_err_start = 668
 unix_err_end = 1000
+unix_herr_start = 1001
+unix_herr_end = 1332
+sxs_err_start = 6001
+sxs_err_end = 6332
 
 copyright_hdr = """/*
  * Copyright 2007 Andrew De Ponte
@@ -100,15 +104,18 @@ for line in both_errs:
 
 unixwin_err_last = (count - 1)
 
+out_hdr_file.write('#define SXS_UNIXBOTH_ERRMAP_SIZE ' + \
+    str(unixwin_err_last) + '\n')
+
 # Write the extern statement for the winboth_array to the header file so
 # that anyone that includes the header file will have access to the
 # array.
 out_hdr_file.write('#ifdef WIN32\nextern sxs_int32_t sxs_winboth_errmap[' + \
-    str(unixwin_err_last) + '];\n#else\n')
+    'SXS_UNIXBOTH_ERRMAP_SIZE];\n#else\n')
 
 # Write the winboth_array declaration and assignment to the source file.
 out_src_file.write('#ifdef WIN32\nsxs_int32_t sxs_winboth_errmap[' + \
-    str(unixwin_err_last) + '] = { ')
+    'SXS_UNIXBOTH_ERRMAP_SIZE] = { ')
 
 count = 0
 for line in both_errs:
@@ -124,12 +131,12 @@ out_src_file.write('#else\n')
 # so that anyone that includes the header file will have access to the
 # array.
 out_hdr_file.write('extern sxs_int32_t sxs_unixboth_errmap[' + \
-    str(unixwin_err_last) + '];\n#endif\n')
+    'SXS_UNIXBOTH_ERRMAP_SIZE];\n#endif\n')
 
 # Write the unixboth_array declaration and assignment to the source
 # file.
 out_src_file.write('sxs_int32_t sxs_unixboth_errmap[' + \
-    str(unixwin_err_last) + '] = { ')
+    'SXS_UNIXBOTH_ERRMAP_SIZE] = { ')
 
 count = 0
 for line in both_errs:
@@ -165,15 +172,18 @@ for line in win_errs:
 
 win_err_last = (count - win_err_start)
 
+out_hdr_file.write('#define SXS_WIN_ERRMAP_SIZE ' + \
+    str(win_err_last) + '\n')
+
 # Write the extern statement for the win_array to the header file so
 # that anyone that includes the header file will have access to the
 # array.
 out_hdr_file.write('#ifdef WIN32\nextern sxs_int32_t sxs_win_errmap[' + \
-    str(win_err_last) + '];\n#endif')
+    'SXS_WIN_ERRMAP_SIZE];\n#endif')
 
 # Write the win_array declaration and assignment to the source file.
 out_src_file.write('#ifdef WIN32\nsxs_int32_t sxs_win_errmap[' + \
-    str(win_err_last) + '] = { ')
+    'SXS_WIN_ERRMAP_SIZE] = { ')
 
 count = 0
 for line in win_errs:
@@ -209,15 +219,18 @@ for line in unix_errs:
 
 unix_err_last = (count - unix_err_start)
 
+out_hdr_file.write('#define SXS_UNIX_ERRMAP_SIZE ' + \
+    str(unix_err_last) + '\n')
+
 # Write the extern statement for the unix_array to the header file so
 # that anyone that includes the header file will have access to the
 # array.
 out_hdr_file.write('#ifndef WIN32\nextern sxs_int32_t sxs_unix_errmap[' + \
-    str(unix_err_last) + '];\n#endif\n')
+    'SXS_UNIX_ERRMAP_SIZE];\n#endif\n\n')
 
 # Write the unix_array declaration and assignment to the source file.
 out_src_file.write('sxs_int32_t sxs_unix_errmap[' + \
-    str(unix_err_last) + '] = { ')
+    'SXS_UNIX_ERRMAP_SIZE] = { ')
 
 count = 0
 for line in unix_errs:
@@ -229,7 +242,66 @@ for line in unix_errs:
     count = count + 1
 out_src_file.write('#endif\n\n')
 
-out_hdr_file.write("\n\n#endif\n")
+# Open and read in the errors that are found in netdb.h specifically for
+# the h_errno variable in Unix systems.
+unix_herrs_file = open('unix_herrs.in', 'r')
+unix_herrs = unix_herrs_file.readlines()
+unix_herrs_file.close()
+
+out_str = "#define SXS_UNIX_HERR_START " + str(unix_herr_start) + "\n"
+out_hdr_file.write(out_str)
+out_str = "#define SXS_UNIX_HERR_END " + str(unix_herr_end) + "\n"
+out_hdr_file.write(out_str)
+
+# Loop through all the errors that are found in netdb.h specifically for
+# the h_errno variable in Unix systems.
+count = unix_herr_start
+for line in unix_herrs:
+    line_split = string.split(line)
+    out_str = '#define SXS_' + line_split[0] + ' ' + str(count) + ' ' + \
+        string.join(line_split[1:])
+    out_hdr_file.write(out_str + '\n')
+    count = count + 1;
+
+unix_herr_last = (count - unix_herr_start)
+
+out_hdr_file.write('#define SXS_UNIX_HERRMAP_SIZE ' + \
+    str(unix_herr_last) + '\n')
+
+out_hdr_file.write('#ifndef WIN32\nextern sxs_int32_t sxs_unix_herrmap[' + \
+    'SXS_UNIX_HERRMAP_SIZE];\n#endif\n\n')
+
+out_src_file.write('#ifndef WIN32\nsxs_int32_t sxs_unix_herrmap[' + \
+    'SXS_UNIX_HERRMAP_SIZE] = { ')
+
+count = 0
+for line in unix_herrs:
+    line_split = string.split(line)
+    if (count == (unix_herr_last - 1)):
+        out_src_file.write(str(line_split[0]) + ' };\n')
+    else:
+        out_src_file.write(str(line_split[0]) + ', ')
+    count = count + 1
+out_src_file.write('#endif\n\n')
+
+sxs_errs_file = open('sxs_errs.in', 'r')
+sxs_errs = sxs_errs_file.readlines()
+sxs_errs_file.close()
+
+out_str = "#define SXS_ERR_START " + str(sxs_err_start) + "\n"
+out_hdr_file.write(out_str)
+out_str = "#define SXS_ERR_END " + str(sxs_err_end) + "\n"
+out_hdr_file.write(out_str)
+
+count = sxs_err_start
+for line in sxs_errs:
+    line_split = string.split(line)
+    out_str = '#define SXS_' + line_split[0] + ' ' + str(count) + ' ' + \
+        string.join(line_split[1:])
+    out_hdr_file.write(out_str + '\n')
+    count = count + 1;
+
+out_hdr_file.write("#endif\n")
 
 out_hdr_file.close()
 out_src_file.close()

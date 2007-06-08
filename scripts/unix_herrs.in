@@ -1,0 +1,6 @@
+NETDB_INTERNAL  /**< See errno. */
+NETDB_SUCCESS   /**< No problem. */
+HOST_NOT_FOUND  /**< Authoritative Answer Host not found. */
+TRY_AGAIN       /**< Non-Authoritative Host not found, or SERVERFAIL. */
+NO_RECOVERY     /**< Non recoverable errors, FORMERR, REFUSED, NOTIMP. */
+NO_DATA         /**< Valid name, no data record of requested type. */

@@ -37,6 +37,15 @@ extern "C" {
  * The sxs_init() function must be called before any of the other
  * functions can be called and is used to initialize data and state kept
  * within the library.
+ * @return A a value representing an error or success.
+ * @retval SXS_SUCCESS Successfully initialized the library.
+ * @retval SXS_WSASYSNOTREADY Network subsystem is not ready for comm.
+ * @retval SXS_WSAVERNOTSUPPORTED Version of Winsock is not supported.
+ * @retval SXS_EINPROGRESS A blocking call is in progress.
+ * @retval SXS_WSAEPROCLIM Max number of processes has been hit.
+ * @retval SXS_EFAULT One of the internal parameters was not a valid
+ * pointer.
+ * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
 SXS_EXPORT sxs_error_t sxs_init(void);
 
@@ -45,6 +54,12 @@ SXS_EXPORT sxs_error_t sxs_init(void);
  *
  * The sxs_uninit() function must be called once the library is no
  * longer needed to cleanup the data and state kept within the library.
+ * @return A a value representing an error or success.
+ * @retval SXS_SUCCESS Successfully initialized the library.
+ * @retval SXS_WSANOTINITIALISED The library was not initialised.
+ * @rteval SXS_ENETDOWN The network subsystem has failed.
+ * @retval SXS_EINPROGRESS A blocking call is in progress.
+ * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
 SXS_EXPORT sxs_error_t sxs_uninit(void);
 
@@ -441,6 +456,10 @@ SXS_EXPORT sxs_in_addr_t sxs_inet_addr(const char *cp);
  * @retval SXS_EFAULT The 'name' parameter is not a valid part of user
  * address space.
  * @retval SXS_EINTR A call was interrupted by a signal.
+ * @retval SXS_HOST_NOT_FOUND The specified host is unknown.
+ * @retval SXS_NO_DATA The name is valid but has no IP address.
+ * @retval SXS_NO_RECOVERY A non-recoverable name server error occured.
+ * @retval SXS_TRY_AGAIN A temporary error occured on a name server.
  * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
 SXS_EXPORT sxs_error_t sxs_gethostbyname(const char *name,

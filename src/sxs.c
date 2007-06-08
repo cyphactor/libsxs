@@ -27,10 +27,24 @@ sxs_error_t sxs_init(void) {
 #ifdef WIN32
     WORD wVersionRequested;
     WSADATA wsaData;
+    sxs_errno_t errsv;
 
     wVersionRequested = MAKEWORD(2,0);
-    if (WSAStartup(wVersionRequested, &wsData) != 0) {
-        return 1;
+    errsv = WSAStartup(wVersionRequested, &wsData);
+    if (errsv != 0) {
+        if (errsv == WSASYSNOTREADY) {
+            return SXS_WSASYSNOTREADY;
+        } else if (errsv == WSAVERNOTSUPPORTED) {
+            return SXS_WSAVERNOTSUPPORTED;
+        } else if (errsv == WSAEINPROGRESS) {
+            return SXS_EINPROGRESS;
+        } else if (errsv == WSAEPROCLIM) {
+            return SXS_WSAEPROCLIM;
+        } else if (errsv == WSAEFAULT) {
+            return SXS_EFAULT;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
     }
 #endif
 
@@ -39,8 +53,19 @@ sxs_error_t sxs_init(void) {
 
 sxs_error_t sxs_uninit(void) {
 #ifdef WIN32
+    sxs_errno_t errsv;
+
     if (WSACleanup() == SXS_SOCKET_ERROR) {
-        return 1;
+        errsv = WSAGetLastError();
+        if (errsv == WSANOTINITIALISED) {
+            return SXS_WSANOTINITIALISED;
+        } else if (errsv == WSAENETDOWN) {
+            return SXS_ENETDOWN;
+        } else if (errsv == WSAEINPROGRESS) {
+            return SXS_EINPROGRESS;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
     }
 #endif
 
@@ -723,14 +748,19 @@ sxs_error_t sxs_gethostbyname(const char *name, struct hostent **ret) {
         /* Note: The following line is abnormal in that errsv is
          * obtaining it's value from h_errno rather than the normal
          * errno. This is due to the fact that the gethostbyname()
-         * functions in the Unix varients set the errors in h_errno.
-         * Currently in this function this just returns an
-         * SXS_UNKNOWN_ERROR value in the case of all errors because a
-         * mapping has not yet been implemented in the library to handle
-         * all the possible values of h_errno. This has already been
-         * listed as a ticket in the project's Trac environment. */
+         * functions in the Unix varients set the errors in h_errno. */
         errsv = h_errno;
-        return SXS_UNKNOWN_ERROR;
+        if (errsv == HOST_NOT_FOUND) {
+            return SXS_HOST_NOT_FOUND;
+        } else if ((errsv == NO_DATA) || (errsv == NO_ADDRESS)) {
+            return SXS_NO_DATA;
+        } else if (errsv == NO_RECOVERY) {
+            return SXS_NO_RECOVERY;
+        } else if (errsv == TRY_AGAIN) {
+            return SXS_TRY_AGAIN;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
 #endif
     }
 
@@ -775,30 +805,40 @@ void sxs_perror(const char *s, sxs_error_t errnum) {
         errval = sxs_unixboth_errmap[err_index];
 #endif
     } else if (errnum == SXS_UNKNOWN_ERROR) {
-        errval = SXS_UNKNOWN_ERROR;
+        fprintf(stderr, "%s: success\n", s);
+        return;
     } else if (errnum == SXS_SUCCESS) {
-        errval = 0;
+        fprintf(stderr, "%s: unkown error\n", s);
+        return;
+    } else if ((errnum >= SXS_ERR_START) && (errnum <= SXS_UNIX_HERR_END)) {
+        return;
     } else {
 #ifdef WIN32
         err_index = errnum - SXS_WIN_ERR_START;
         errval = sxs_win_errmap[err_index];
 #else
-        err_index = errnum - SXS_UNIX_ERR_START;
-        errval = sxs_unix_errmap[err_index];
+        if ((errnum >= SXS_UNIX_ERR_START) && (errnum <= SXS_UNIX_ERR_END)) {
+            err_index = errnum - SXS_UNIX_ERR_START;
+            errval = sxs_unix_errmap[err_index];
+        } else if ((errnum >= SXS_UNIX_HERR_START) &&
+            (errnum <= SXS_UNIX_HERR_END)) {
+
+            err_index = errnum - SXS_UNIX_HERR_START;
+            errval = sxs_unix_herrmap[err_index];
+        } else {
+            fprintf(stderr, "%s: sxs error code out of valid ranges.\n", s);
+            return;
+        }
 #endif
     }
 
-    if (errnum == SXS_SUCCESS) {
-        fprintf(stderr, "%s: success\n", s);
-    } else if (errnum == SXS_UNKNOWN_ERROR) {
-        fprintf(stderr, "%s: unkown error\n", s);
-    } else {
-        fprintf(stderr, "%s: os specific error value %d\n", s, errval);
+    fprintf(stderr, "%s: os specific error value %d\n", s, errval);
 
 #ifndef WIN32
-        strerror_r(errval, buf, 255);
-        buf[255] = '\0';
-        fprintf(stderr, "%s: %s\n", s, buf);
+    strerror_r(errval, buf, 255);
+    buf[255] = '\0';
+    fprintf(stderr, "%s: %s\n", s, buf);
 #endif
-    }
+
+    return;
 }
