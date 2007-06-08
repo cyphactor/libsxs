@@ -4,11 +4,9 @@ Author(s): Andrew De Ponte <cyphactor@gmail.com>
 Table of Contents
 
     1. What Is It? .....................................................
-    2. Building Win32 Pre-Reqs .........................................
-    3. Building MacOS X Pre-Reqs .......................................
-    4. Building ........................................................
-    5. Systems Tested On ...............................................
-    6. Directory Contents ..............................................
+    2. Building ........................................................
+    3. Systems Tested On ...............................................
+    4. Directory Contents ..............................................
 
 1.  What Is It?
 
@@ -20,169 +18,7 @@ Table of Contents
     providing a number of useful utility functions that are extremely
     beneficial in implementing network protocols.
     
-2. Building Win32 Pre-Reqs
-    
-    lib_pmf uses the OpenSSL library to implement secure communications
-    between the server and client. Hence, to build lib_pmf for Windows
-    you must first have a static version of the OpenSSL library for
-    Windows and the appropriate header files, so that lib_pmf may be
-    properly linked to it. The steps for building and setting this up
-    are presented below.
-
-    a.  Install mingw32, on Debian systems do the following:
-        
-        # apt-get install mingw32
-        # apt-get install mingw32-binutils
-        # apt-get install mingw32-runtime
-
-    b.  Install perl, you should know how to do this on your system.
-
-    c.  Download and unpack the openssl-0.9.8d.tar.gz file. Once, inside
-        the newly created openssl-0.9.8d directory edit the Configure
-        perl script and comment out the follwing line:
-
-        $IsMK1MF=1 if ($target eq "mingw" && $^O ne "cygwin" && !is_msys());
-
-        After commenting out the above line save the file and exit the
-        editor.
-
-    d.  Build openssl static libraries using the following commands:
-
-        $ ./Configure mingw no-idea no-mdc2 no-rc5
-        $ make CC=i586-mingw32msvc-gcc RANLIB=i586-mingw32msvc-ranlib
-
-        After running the above commands you should now have libssl.a
-        and libcrypto.a in the openssl directory. These are the static
-        libraries for openssl, which are needed to write third party
-        applications/libraries like lib_pmf. You will also note that
-        there is a directory called "include" which contains symlinks to
-        all the necessary header files for building third party
-        applications/libraries like lib_pmf. Note: The no-idea, no-mdc2,
-        and no-rc5 options are used to disable algorithms which have
-        patents owned by various people/corporations.
-
-    e.  Installing the static openssl libraries and headers so that
-        lib_pmf and use them. First, you must create a directory called
-        "lib" in the root lib_pmf directory if one does not exist. Then
-        you have to copy the static openssl libraries from the openssl
-        bulid directory to the lib_pmf/lib/ directory.
-
-        After copying the openssl static libraries into place you must
-        copy the necessary header files over into the lib_pmf root
-        directory. This is best done with the following command:
-
-        $ cp -rL openssl-0.9.8d/include lib_pmf/
-
-        Note: The above command is recursivly copying the include
-        directory within the openssl build directory to the root
-        directory of the lib_pmf project while following all symlinks.
-        Hence, the resulting include directory in the lib_pmf root
-        directory will contain actual coppies of the files, NOT coppies
-        of the symlinks.
-
-    f.  The openssl library depends on a number of other libraries.
-        Hence, in order to link an application/library such as lib_pmf
-        to it you must pass the following compiler options in the
-        following order:
-
-        -L../lib -lssl -lcrypto -lgdi32 -lws2_32
-
-    lib_pmf also uses the pthreads-w32 library to implement a posix
-    threads interface to multi-threading in windows. Hence, to build
-    lib_pmf for Windows you must first have a static version of the
-    pthreads-w32 library and the appropriate header files, so that
-    lib_pmf may be properly linked to it. The steps for building and
-    setting this up are presented below.
-    
-    a.  Install mingw32, on Debian systems do the following:
-        
-        # apt-get install mingw32
-        # apt-get install mingw32-binutils
-        # apt-get install mingw32-runtime
-
-    b.  Download and unpack the pthreads-w32-2-8-0-release.tar.gz file.
-
-    c.  Build pthreads-w32 static library using the following commands:
-
-        $ make CROSS=i586-mingw32msvc- clean GC-static
-
-        After running the above commands you should now have
-        libpthreadGC2.a in the pthreads-ws32 directory. This is the
-        static library, which is needed to write third party
-        applications/libraries like lib_pmf. You will also note that
-        there are three files pthread.h, sched.h, and semaphore.h, the
-        necessary header files for building third party
-        applications/libraries like lib_pmf.
-
-    d.  Installing the static pthreads-w32 library and headers so that
-        lib_pmf and use them. First, you must create a directory called
-        "lib" in the root lib_pmf directory if one does not exist. Then
-        you have to copy the static pthreads-w32 library from the
-        pthreads-w32 bulid directory to the lib_pmf/lib/ directory.
-
-        After copying the pthreads-w32 static library into place you
-        must copy the necessary header files (pthread.h, sched.h,
-        config.h and semaphore.h) over into the lib_pmf root directory.
-        This is best done with the following commands:
-
-        $ cp pthread.h lib_pmf/include/
-        $ cp sched.h lib_pmf/include/
-        $ cp semaphore.h lib_pmf/include/
-        $ cp config.h lib_pmf/include/
-
-    e.  The pthreads-w32 library depends on one other library. Hence, in
-        order to link an application/library such as lib_pmf to it you
-        must pass the following compiler options in the following order:
-
-        -L../lib -lpthreadGC2 -lws2_32
-
-        Also, note that when using the static version of the
-        pthreads-w32 library in order for linking to work properly there
-        are a few other things that must be done. First and formost the
-        client application/library must define PTW32_STATIC_LIB when
-        building. It is recommended that this be done with the following
-        compiler option:
-
-        -DPTW32_STATIC_LIB
-
-        Secondly, the client application/library must call two
-        non-portible routines to initialise the state on startup and
-        cleanup before exiting. Beyond that, one other routine needs to
-        be called to cleanup after any Win32 threads have called POSIX
-        API routines. The following routines are the routines which must
-        be used in the client application/library.
-        
-        BOOL pthread_win32_process_attach_np (void);
-        BOOL pthread_win32_process_detach_np (void);
-        BOOL pthread_win32_thread_attach_np (void); // Currently a no-op
-        BOOL pthread_win32_thread_detach_np (void);
-
-        Refer, to the README.NONPORTABLE in the pthreads-ws32 project
-        directory on the html reference manual pages for details on the 
-    
-3. Building MacOS X Pre-Reqs
-
-    Building libpmf on MacOS X requires only one  minor change. Because
-    MacOS X is a BSD Unix derivative, building libpmf from the 
-    command line with the GNU autotools is straightforward. However,
-    there is one issue to be aware of before proceeding. When we
-    run bootstrap.sh, at some point it invokes (either directly or
-    indirectly - see bootstrap.sh) automake. Automake in turn
-    invokes libtoolize. libtoolize adds some files to the distribution
-    which are required for creating a custom libtool script on
-    the hosts machine. Ofcourse this is very important because libtool
-    takes care of generating the correct types of libraries
-    on MacOS X. However, for some reason, on MacOS X the libtoolize
-    program is not called 'libtoolize', but instead called
-    'glibtoolize'. Because autoreconf (and automake - see bootstrap.sh)
-    honor the environment variable LIBTOOLIZE, we can solve
-    this problem in the following way. On the command line:
-
-    $ export LIBTOOLIZE=/usr/bin/glibtoolize
-
-    Thats it! Now follow the build procedures outlined in step 4.
-
-4.  Building
+2.  Building
 
     This project's build sequence is managed by the autotools. Hence,
     the following command sequence can be used to build the project in
@@ -215,32 +51,18 @@ Table of Contents
     configure and building a project appropriately to correctly build
     it.
 
-    To build the non-SSL version of the pmf library to test
-    modifications to the protocol you should build the project with the
-    following command sequence:
-
-    $ ./bootstrap.sh && ./configure CFLAGS=-DPMF_DONT_USE_SSL && make
-
-    Note: The above applies to both Unix and Windows in the case of unix
-    it would simply be the following:
-    
-    $ ./bootstrap.sh
-    $ ./configure --host=i586-mingw32msvc CFLAGS=-DPMF_DONT_USE_SSL
-    $ make
-
-5.  Systems Tested On
+3.  Systems Tested On
 
     The following systems are all the systems which lib_pmf has been
     successfully run on.
 
     - Linux Debian Etch (Testing)
 
-6. Directory Contents
+4. Directory Contents
 
-    include - Contains all the includes for static Windows OpenSSL and
-              pthreads
-    lib - Contains all the static Windows OpenSSL and pthreads libraries
-    req_libs - Contains the required libraries original src tar.gz's
-               used to create the files in pmf_lib/lib and
-               pmf_lib/include
-    src - Constains all lib_pmf source files.
+    doc - Contains general project documentation
+    doc/dox - Contains all the doxygen genarted documentation when one
+              runs the doxygen command from the trunk of the project.
+    src - Contains all lib_sxs source files.
+    scripts - Contains utility scripts used to assist with code
+              source code generation.

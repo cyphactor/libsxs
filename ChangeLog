@@ -1,4 +1,13 @@
+-- 0.1.0
+
 2007-06-07 Andrew De Ponte <cyphactor@gmail.com>
+
+* Updated the README from it's original template form so that it was all
+applicable to this project.
+
+* Implemented and Documented the sxs_inet_ntoa() function so there
+exists a function to convert addresses in network byte order to
+c-strings in dotted-quad format.
 
 * Modified the sxs_recv_nbytes() function so that instead of return
 SXS_UNKNOWN_ERROR when a peer cleanly closes the connection before

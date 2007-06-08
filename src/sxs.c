@@ -715,6 +715,10 @@ sxs_in_addr_t sxs_inet_addr(const char *cp) {
     return inet_addr(cp);
 }
 
+sxs_buf_t sxs_inet_ntoa(struct in_addr in) {
+    return inet_ntoa(in);
+}
+
 sxs_error_t sxs_gethostbyname(const char *name, struct hostent **ret) {
     sxs_errno_t errsv;
     struct hostent *r;

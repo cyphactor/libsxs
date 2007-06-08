@@ -431,6 +431,18 @@ SXS_EXPORT sxs_error_t sxs_shutdown(sxs_socket_t sd, int how);
 SXS_EXPORT sxs_in_addr_t sxs_inet_addr(const char *cp);
 
 /**
+ * Convert a Internet address to a string in dotted-quad format.
+ *
+ * The sxs_inet_ntoa() function converts an Internet host address in
+ * network byte ordere, 'in', int a string in stardard dotted-quad
+ * notation. The string is returned in a statically allocated buffer,
+ * which subsequent calls will overwrite.
+ * @return Pointer to buffer containing dotted-quad of address.
+ * @retval NULL Failed to convert IP to string.
+ */
+SXS_EXPORT sxs_buf_t sxs_inet_ntoa(struct in_addr in);
+
+/**
  * Get a host IP address given the hosts name.
  *
  * The sxs_gethostbyname() function takes in an IP address or hostname
