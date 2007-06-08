@@ -370,6 +370,7 @@ SXS_EXPORT sxs_error_t sxs_recv(sxs_socket_t sd, sxs_buf_t buf,
  * @param len The maximum number of bytes to receive over the socket.
  * @return A a value representing an error or success.
  * @retval SXS_SUCCESS Successfully received all the data on the socket.
+ * @retval SXS_ERRCONNCLOSED Peer closed connection before finished.
  */
 SXS_EXPORT sxs_error_t sxs_recv_nbytes(sxs_socket_t sd, sxs_buf_t buf,
     sxs_size_t len);

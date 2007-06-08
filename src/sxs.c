@@ -617,7 +617,7 @@ sxs_error_t sxs_recv_nbytes(sxs_socket_t sd, sxs_buf_t buf,
             if (bytes_recvd == 0) { /* peer cleanly disconnected */
                 /* The peer cleanly closed the connection before the
                  * total number of bytes were read into the buffer. */
-                return SXS_UNKNOWN_ERROR;
+                return SXS_ERRCONNCLOSED;
             } else { /* recv'd some data */
                 tot_bytes_recvd = tot_bytes_recvd + bytes_recvd;
             }

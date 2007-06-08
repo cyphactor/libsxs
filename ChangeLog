@@ -1,5 +1,12 @@
 2007-06-07 Andrew De Ponte <cyphactor@gmail.com>
 
+* Modified the sxs_recv_nbytes() function so that instead of return
+SXS_UNKNOWN_ERROR when a peer cleanly closes the connection before
+finished reading the requested number of bytes it now returns
+SXS_ERRCONNCLOSED. I also modified the associated doxygen documentation
+to list SXS_ERRCONNCLOSED as a possible error value and give a
+description of it's meaning.
+
 * Added the scripts/unix_herrs.in file and the scripts/sxs_errs.in files
 so that there are inputs for two new grouping types of error messages.
 
