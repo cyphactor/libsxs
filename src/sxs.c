@@ -789,6 +789,55 @@ sxs_uint16_t sxs_ntohs(sxs_uint16_t netshort) {
     return ntohs(netshort);
 }
 
+sxs_error_t sxs_select(int nfds, fd_set *readfds, fd_set *writefds,
+    fd_set *exceptfds, struct timeval *timeout, int *num_ready) {
+
+    int retval;
+    sxs_errno_t errsv;
+
+    retval = select(nfds, readfds, writefds, exceptfds, timeout);
+    if (retval == SXS_SOCKET_ERROR) {
+#ifdef WIN32
+        errsv = WSAGetLastError();
+        if (errsv == WSANOTINITIALISED) {
+            return SXS_WSANOTINITIALISED;
+        } else if (errsv == WSAEFAULT) {
+            return SXS_EFAULT;
+        } else if (errsv == WSAENETDOWN) {
+            return SXS_ENETDOWN;
+        } else if (errsv == WSAEINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == WSAEINTR) {
+            return SXS_EINTR;
+        } else if (errsv == WSAEINPROGRESS) {
+            return SXS_EINPROGRESS;
+        } else if (errsv == WSAENOTSOCK) {
+            return SXS_ENOTSOCK;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+#else
+        errsv = errno;
+        if (errsv == EBADF) {
+            return SXS_EBADF;
+        } else if (errsv == EINTR) {
+            return SXS_EINTR;
+        } else if (errsv == EINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == ENOMEM) {
+            return SXS_ENOMEM;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+#endif
+
+    }
+    
+    *num_ready = retval;
+
+    return SXS_SUCCESS;
+}
+
 void sxs_perror(const char *s, sxs_error_t errnum) {
     char buf[256];
     sxs_errno_t errval;

@@ -519,6 +519,53 @@ SXS_EXPORT sxs_uint32_t sxs_ntohl(sxs_uint32_t netlong);
 SXS_EXPORT sxs_uint16_t sxs_ntohs(sxs_uint16_t netshort);
 
 /**
+ * Monitor multiple socket descriptors.
+ *
+ * The sxs_select() function can be used to monitor mulitple socket
+ * descriptors by waiting until one ore more of the socket descriptors
+ * becomes 'ready' for an I/O operation. A socket is considered ready if
+ * it is possible to perform the corresponding I/O operation without
+ * blocking. To manage the fd_set structures one should use the void
+ * FD_CLR(sxs_socket_t sd, fd_set *set), int FD_ISSET(sxs_socket_t sd,
+ * fd_set *set), void FD_SET(sxs_socket_t sd, fd_set *set), void
+ * FD_ZERO(fd_set *set) macros. FD_CLR() removes the specified
+ * descriptor from the given set. FD_ISSET() returns a non-zero value if
+ * the specified socket descriptor is part of the given set, otherwise
+ * zero is returned. FD_SET() adds the specified descriptor to the given
+ * set.  FD_ZERO() initializes a set to a NULL or empty set.
+ * @param nfds The highest-numbered socket descriptor in any of the
+ * three sets plus 1.
+ * @param readfds Pointer to set of sockets to be checked for
+ * readability.
+ * @param writefds Pointer to set of sockets to be checked for
+ * writability.
+ * @param exceptfds Pointer to set of sockets to be checked for
+ * errors.
+ * @param timout An upper bound on the amount of time to wait for a
+ * socket to become 'ready' before returning.
+ * @param p_num_ready A return-value parameter used to pass back the
+ * total number of sockets in the three sets that are 'ready'.
+ * @return A a value representing an error or success.
+ * @retval SXS_SUCCESS Successfully monitored the socket descriptors.
+ * @retval SXS_EBADF An invalid socket descriptor given in one of the
+ * socket descriptor sets.
+ * @retval SXS_EINTR A signal was caught.
+ * @retval SXS_EINVAL The value in 'timeout' is invalid.
+ * @retval SXS_ENOMEM Unable to allocate memory for internal tables.
+ * @retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * @retval SXS_ENETDOWN The network subsystem has failed.
+ * @retval SXS_EFAULT Unable to allocate needed resources for internal
+ * operations.
+ * @retval SXS_EINPROGRESS A blocking call is already in progress.
+ * @retval SXS_ENOTSOCK One of the sets contains a descriptor which is
+ * not a valid socket.
+ * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
+ */
+SXS_EXPORT sxs_error_t sxs_select(int nfds, fd_set *readfds,
+    fd_set *writefds, fd_set *exceptfds, struct timeval *timeout,
+    int *p_num_ready);
+
+/**
  * Produce a message on stderr describing the specified error.
  *
  * The sxs_perror() function produces a message on the standard error

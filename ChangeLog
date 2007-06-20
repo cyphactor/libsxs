@@ -1,3 +1,8 @@
+2007-06-20 Andrew De Ponte <cyphactor@gmail.com>
+
+* Implemented and Documented the sxs_select() function in the sxs.h and
+sxs.c files respectively.
+
 -- 0.1.0 -- tagged as lib_sxs_0_1_0.
 
 2007-06-08 Andrew De Ponte <cyphactor@gmail.com>
