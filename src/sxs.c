@@ -22,6 +22,7 @@
  */
 
 #include "sxs.h"
+#include "sxs_config.h"
 
 sxs_error_t sxs_init(void) {
 #ifdef WIN32

@@ -48,8 +48,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "sxs_config.h"
-
 /**
  * @typedef sxs_socket_t
  * @brief A socket.
