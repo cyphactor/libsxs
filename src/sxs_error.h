@@ -134,96 +134,55 @@ extern sxs_int32_t sxs_win_errmap[SXS_WIN_ERRMAP_SIZE];
 
 #define SXS_UNIX_ERR_START 668
 #define SXS_UNIX_ERR_END 1000
-#define SXS_EPERM 668 /**< Operation not permitted */
-#define SXS_ENOENT 669 /**< No such file or directory */
-#define SXS_ESRCH 670 /**< No such process */
-#define SXS_EIO 671 /**< I/O error */
-#define SXS_ENXIO 672 /**< No such device or address */
-#define SXS_E2BIG 673 /**< Argument list too long */
-#define SXS_ENOEXEC 674 /**< Exec format error */
-#define SXS_ECHILD 675 /**< No child processes */
-#define SXS_ENOMEM 676 /**< Out of memory */
-#define SXS_ENOTBLK 677 /**< Block device required */
-#define SXS_EBUSY 678 /**< Device or resource busy */
-#define SXS_EEXIST 679 /**< File exists */
-#define SXS_EXDEV 680 /**< Cross-device link */
-#define SXS_ENODEV 681 /**< No such device */
-#define SXS_ENOTDIR 682 /**< Not a directory */
-#define SXS_EISDIR 683 /**< Is a directory */
-#define SXS_ENFILE 684 /**< File table overflow */
-#define SXS_ENOTTY 685 /**< Not a typewriter */
-#define SXS_ETXTBSY 686 /**< Text file busy */
-#define SXS_EFBIG 687 /**< File too large */
-#define SXS_ENOSPC 688 /**< No space left on device */
-#define SXS_ESPIPE 689 /**< Illegal seek */
-#define SXS_EROFS 690 /**< Read-only file system */
-#define SXS_EMLINK 691 /**< Too many links */
-#define SXS_EPIPE 692 /**< Broken pipe */
-#define SXS_EDOM 693 /**< Math argument out of domain of func */
-#define SXS_ERANGE 694 /**< Math result not representable */
-#define SXS_EDEADLK 695 /**< Resource deadlock would occur */
-#define SXS_ENOLCK 696 /**< No record locks available */
-#define SXS_ENOSYS 697 /**< Function not implemented */
-#define SXS_ENOMSG 698 /**< No message of desired type */
-#define SXS_EIDRM 699 /**< Identifier removed */
-#define SXS_ECHRNG 700 /**< Channel number out of range */
-#define SXS_EL2NSYNC 701 /**< Level 2 not synchronized */
-#define SXS_EL3HLT 702 /**< Level 3 halted */
-#define SXS_EL3RST 703 /**< Level 3 reset */
-#define SXS_ELNRNG 704 /**< Link number out of range */
-#define SXS_EUNATCH 705 /**< Protocol driver not attached */
-#define SXS_ENOCSI 706 /**< No CSI structure available */
-#define SXS_EL2HLT 707 /**< Level 2 halted */
-#define SXS_EBADE 708 /**< Invalid exchange */
-#define SXS_EBADR 709 /**< Invalid request descriptor */
-#define SXS_EXFULL 710 /**< Exchange full */
-#define SXS_ENOANO 711 /**< No anode */
-#define SXS_EBADRQC 712 /**< Invalid request code */
-#define SXS_EBADSLT 713 /**< Invalid slot */
-#define SXS_EBFONT 714 /**< Bad font file format */
-#define SXS_ENOSTR 715 /**< Device not a stream */
-#define SXS_ENODATA 716 /**< No data available */
-#define SXS_ETIME 717 /**< Timer expired */
-#define SXS_ENOSR 718 /**< Out of streams resources */
-#define SXS_ENONET 719 /**< Machine is not on the network */
-#define SXS_ENOPKG 720 /**< Package not installed */
-#define SXS_ENOLINK 721 /**< Link has been severed */
-#define SXS_EADV 722 /**< Advertise error */
-#define SXS_ESRMNT 723 /**< Srmount error */
-#define SXS_ECOMM 724 /**< Communication error on send */
-#define SXS_EPROTO 725 /**< Protocol error */
-#define SXS_EMULTIHOP 726 /**< Multiphop attempted */
-#define SXS_EDOTDOT 727 /**< RFS specific error */
-#define SXS_EBADMSG 728 /**< Not a data message */
-#define SXS_EOVERFLOW 729 /**< Value too large for defined data type */
-#define SXS_ENOTUNIQ 730 /**< Name not unique on network */
-#define SXS_EBADFD 731 /**< File descriptor in bad state */
-#define SXS_EREMCHG 732 /**< Remote address changed */
-#define SXS_ELIBACC 733 /**< Can not access a needed shared library */
-#define SXS_ELIBBAD 734 /**< Accessing a corrupted shared library */
-#define SXS_ELIBSCN 735 /**< .lib section in a.out corrupted */
-#define SXS_ELIBMAX 736 /**< Attempting to link to too many shared libraries */
-#define SXS_ELIBEXEC 737 /**< Cannot exec a shared library directly */
-#define SXS_EILSEQ 738 /**< Illegal byte sequence */
-#define SXS_ERESTART 739 /**< Interrupted system call should be restarted */
-#define SXS_ESTRPIPE 740 /**< Streams pipe error */
-#define SXS_EUCLEAN 741 /**< Structure needs cleaning */
-#define SXS_ENOTNAM 742 /**< Not a XENIX named type file */
-#define SXS_ENAVAIL 743 /**< No XENIX semaphores available */
-#define SXS_EISNAM 744 /**< Is a named type file */
-#define SXS_EREMOTEIO 745 /**< Remote I/O error */
-#define SXS_ENOMEDIUM 746 /**< No medium found */
-#define SXS_EMEDIUMTYPE 747 /**< Wrong medium type */
-#define SXS_ENOKEY 748 /**< Required key not available */
-#define SXS_EKEYEXPIRED 749 /**< Key has expired */
-#define SXS_EKEYREVOKED 750 /**< Key has been revoked */
-#define SXS_EKEYREJECTED 751 /**< Key was rejected by service */
-#define SXS_EOWNERDEAD 752 /**< Owner died */
-#define SXS_ENOTRECOVERABLE 753 /**< State not recoverable */
-#define SXS_ECANCELED 754 /**< Operation Canceled */
-#define SXS_UNIX_ERRMAP_SIZE 87
+#define SXS_ECHRNG 668 /**< Channel number out of range */
+#define SXS_EL2NSYNC 669 /**< Level 2 not synchronized */
+#define SXS_EL3HLT 670 /**< Level 3 halted */
+#define SXS_EL3RST 671 /**< Level 3 reset */
+#define SXS_ELNRNG 672 /**< Link number out of range */
+#define SXS_EUNATCH 673 /**< Protocol driver not attached */
+#define SXS_ENOCSI 674 /**< No CSI structure available */
+#define SXS_EL2HLT 675 /**< Level 2 halted */
+#define SXS_EBADE 676 /**< Invalid exchange */
+#define SXS_EBADR 677 /**< Invalid request descriptor */
+#define SXS_EXFULL 678 /**< Exchange full */
+#define SXS_ENOANO 679 /**< No anode */
+#define SXS_EBADRQC 680 /**< Invalid request code */
+#define SXS_EBADSLT 681 /**< Invalid slot */
+#define SXS_EBFONT 682 /**< Bad font file format */
+#define SXS_ENONET 683 /**< Machine is not on the network */
+#define SXS_ENOPKG 684 /**< Package not installed */
+#define SXS_EADV 685 /**< Advertise error */
+#define SXS_ESRMNT 686 /**< Srmount error */
+#define SXS_ECOMM 687 /**< Communication error on send */
+#define SXS_EDOTDOT 688 /**< RFS specific error */
+#define SXS_ENOTUNIQ 689 /**< Name not unique on network */
+#define SXS_EBADFD 690 /**< File descriptor in bad state */
+#define SXS_EREMCHG 691 /**< Remote address changed */
+#define SXS_ELIBACC 692 /**< Can not access a needed shared library */
+#define SXS_ELIBBAD 693 /**< Accessing a corrupted shared library */
+#define SXS_ELIBSCN 694 /**< .lib section in a.out corrupted */
+#define SXS_ELIBMAX 695 /**< Attempting to link to too many shared libraries */
+#define SXS_ELIBEXEC 696 /**< Cannot exec a shared library directly */
+#define SXS_ERESTART 697 /**< Interrupted system call should be restarted */
+#define SXS_ESTRPIPE 698 /**< Streams pipe error */
+#define SXS_EUCLEAN 699 /**< Structure needs cleaning */
+#define SXS_ENOTNAM 700 /**< Not a XENIX named type file */
+#define SXS_ENAVAIL 701 /**< No XENIX semaphores available */
+#define SXS_EISNAM 702 /**< Is a named type file */
+#define SXS_EREMOTEIO 703 /**< Remote I/O error */
+#define SXS_ENOMEDIUM 704 /**< No medium found */
+#define SXS_EMEDIUMTYPE 705 /**< Wrong medium type */
+#define SXS_ENOKEY 706 /**< Required key not available */
+#define SXS_EKEYEXPIRED 707 /**< Key has expired */
+#define SXS_EKEYREVOKED 708 /**< Key has been revoked */
+#define SXS_EKEYREJECTED 709 /**< Key was rejected by service */
+#define SXS_EOWNERDEAD 710 /**< Owner died */
+#define SXS_ENOTRECOVERABLE 711 /**< State not recoverable */
+#define SXS_UNIX_ERRMAP_SIZE 44
 #ifndef WIN32
+#ifndef __APPLE__
 extern sxs_int32_t sxs_unix_errmap[SXS_UNIX_ERRMAP_SIZE];
+#endif
 #endif
 
 #define SXS_UNIX_HERR_START 1001
@@ -242,4 +201,81 @@ extern sxs_int32_t sxs_unix_herrmap[SXS_UNIX_HERRMAP_SIZE];
 #define SXS_ERR_START 6001
 #define SXS_ERR_END 6332
 #define SXS_ERRCONNCLOSED 6001 /**< Connection closed by peer */
+
+
+#define SXS_UNIXMAC_ERR_START 6333
+#define SXS_UNIXMAC_ERR_END 6665
+#define SXS_EPERM 6333 /**< Operation not permitted */
+#define SXS_ENOENT 6334 /**< No such file or directory */
+#define SXS_ESRCH 6335 /**< No such process */
+#define SXS_EIO 6336 /**< I/O error */
+#define SXS_ENXIO 6337 /**< No such device or address */
+#define SXS_E2BIG 6338 /**< Argument list too long */
+#define SXS_ENOEXEC 6339 /**< Exec format error */
+#define SXS_ECHILD 6340 /**< No child processes */
+#define SXS_ENOMEM 6341 /**< Out of memory */
+#define SXS_ENOTBLK 6342 /**< Block device required */
+#define SXS_EBUSY 6343 /**< Device or resource busy */
+#define SXS_EEXIST 6344 /**< File exists */
+#define SXS_EXDEV 6345 /**< Cross-device link */
+#define SXS_ENODEV 6346 /**< No such device */
+#define SXS_ENOTDIR 6347 /**< Not a directory */
+#define SXS_EISDIR 6348 /**< Is a directory */
+#define SXS_ENFILE 6349 /**< File table overflow */
+#define SXS_ENOTTY 6350 /**< Not a typewriter */
+#define SXS_ETXTBSY 6351 /**< Text file busy */
+#define SXS_EFBIG 6352 /**< File too large */
+#define SXS_ENOSPC 6353 /**< No space left on device */
+#define SXS_ESPIPE 6354 /**< Illegal seek */
+#define SXS_EROFS 6355 /**< Read-only file system */
+#define SXS_EMLINK 6356 /**< Too many links */
+#define SXS_EPIPE 6357 /**< Broken pipe */
+#define SXS_EDOM 6358 /**< Math argument out of domain of func */
+#define SXS_ERANGE 6359 /**< Math result not representable */
+#define SXS_EDEADLK 6360 /**< Resource deadlock would occur */
+#define SXS_ENOLCK 6361 /**< No record locks available */
+#define SXS_ENOSYS 6362 /**< Function not implemented */
+#define SXS_ENOMSG 6363 /**< No message of desired type */
+#define SXS_EIDRM 6364 /**< Identifier removed */
+#define SXS_ENOSTR 6365 /**< Device not a stream */
+#define SXS_ENODATA 6366 /**< No data available */
+#define SXS_ETIME 6367 /**< Timer expired */
+#define SXS_ENOSR 6368 /**< Out of streams resources */
+#define SXS_ENOLINK 6369 /**< Link has been severed */
+#define SXS_EPROTO 6370 /**< Protocol error */
+#define SXS_EMULTIHOP 6371 /**< Multiphop attempted */
+#define SXS_EBADMSG 6372 /**< Not a data message */
+#define SXS_EOVERFLOW 6373 /**< Value too large for defined data type */
+#define SXS_EILSEQ 6374 /**< Illegal byte sequence */
+#define SXS_ECANCELED 6375 /**< Operation Canceled */
+#define SXS_UNIXMAC_ERRMAP_SIZE 43
+#ifndef WIN32
+extern sxs_int32_t sxs_unixmac_errmap[SXS_UNIXMAC_ERRMAP_SIZE];
+#endif
+
+
+
+#define SXS_MAC_ERR_START 6666
+#define SXS_MAC_ERR_END 6998
+#define SXS_EBADRPC 6666 /** RPC struct is bad */
+#define SXS_ERPCMISMATCH 6667 /** RPC version wrong */
+#define SXS_EPROGUNAVAIL 6668 /** RPC prog not avail */
+#define SXS_EPROGMISMATCH 6669 /** Program version wrong */
+#define SXS_EPROCUNAVAIL 6670 /** Bad procedure for program */
+#define SXS_EFTYPE 6671 /** Inaappropriate file type or format */
+#define SXS_EAUTH 6672 /** Authentication error */
+#define SXS_ENEEDAUTH 6673 /** Need authenticator */
+#define SXS_EPWROFF 6674 /** Device power is off */
+#define SXS_EDEVERR 6675 /** Device error, e.g. paper out */
+#define SXS_EBADEXEC 6676 /** Bad executable */
+#define SXS_EBADARCH 6677 /** Bad CPU type in executable */
+#define SXS_ESHLIBVERS 6678 /** Shared library version mismatch */
+#define SXS_EBADMACHO 6679 /** Malformed Macho file */
+#define SXS_ENOATTR 6680 /** Attribute not found */
+#define SXS_ELAST 6681 /** Must be equal largest errno */
+#define SXS_MAC_ERRMAP_SIZE 16
+#ifdef __APPLE__
+extern sxs_int32_t sxs_mac_errmap[SXS_MAC_ERRMAP_SIZE];
+#endif
+
 #endif

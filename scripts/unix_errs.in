@@ -1,35 +1,3 @@
-EPERM               /**< Operation not permitted */
-ENOENT              /**< No such file or directory */
-ESRCH               /**< No such process */
-EIO                 /**< I/O error */
-ENXIO               /**< No such device or address */
-E2BIG               /**< Argument list too long */
-ENOEXEC             /**< Exec format error */
-ECHILD              /**< No child processes */
-ENOMEM              /**< Out of memory */
-ENOTBLK             /**< Block device required */
-EBUSY               /**< Device or resource busy */
-EEXIST              /**< File exists */
-EXDEV               /**< Cross-device link */
-ENODEV              /**< No such device */
-ENOTDIR             /**< Not a directory */
-EISDIR              /**< Is a directory */
-ENFILE              /**< File table overflow */
-ENOTTY              /**< Not a typewriter */
-ETXTBSY             /**< Text file busy */
-EFBIG               /**< File too large */
-ENOSPC              /**< No space left on device */
-ESPIPE              /**< Illegal seek */
-EROFS               /**< Read-only file system */
-EMLINK              /**< Too many links */
-EPIPE               /**< Broken pipe */
-EDOM                /**< Math argument out of domain of func */
-ERANGE              /**< Math result not representable */
-EDEADLK             /**< Resource deadlock would occur */
-ENOLCK              /**< No record locks available */
-ENOSYS              /**< Function not implemented */
-ENOMSG              /**< No message of desired type */
-EIDRM               /**< Identifier removed */
 ECHRNG              /**< Channel number out of range */
 EL2NSYNC            /**< Level 2 not synchronized */
 EL3HLT              /**< Level 3 halted */
@@ -45,21 +13,12 @@ ENOANO              /**< No anode */
 EBADRQC             /**< Invalid request code */
 EBADSLT             /**< Invalid slot */
 EBFONT              /**< Bad font file format */
-ENOSTR              /**< Device not a stream */
-ENODATA             /**< No data available */
-ETIME               /**< Timer expired */
-ENOSR               /**< Out of streams resources */
 ENONET              /**< Machine is not on the network */
 ENOPKG              /**< Package not installed */
-ENOLINK             /**< Link has been severed */
 EADV                /**< Advertise error */
 ESRMNT              /**< Srmount error */
 ECOMM               /**< Communication error on send */
-EPROTO              /**< Protocol error */
-EMULTIHOP           /**< Multiphop attempted */
 EDOTDOT             /**< RFS specific error */
-EBADMSG             /**< Not a data message */
-EOVERFLOW           /**< Value too large for defined data type */
 ENOTUNIQ            /**< Name not unique on network */
 EBADFD              /**< File descriptor in bad state */
 EREMCHG             /**< Remote address changed */
@@ -68,7 +27,6 @@ ELIBBAD             /**< Accessing a corrupted shared library */
 ELIBSCN             /**< .lib section in a.out corrupted */
 ELIBMAX             /**< Attempting to link to too many shared libraries */
 ELIBEXEC            /**< Cannot exec a shared library directly */
-EILSEQ              /**< Illegal byte sequence */
 ERESTART            /**< Interrupted system call should be restarted */
 ESTRPIPE            /**< Streams pipe error */
 EUCLEAN             /**< Structure needs cleaning */
@@ -84,4 +42,3 @@ EKEYREVOKED         /**< Key has been revoked */
 EKEYREJECTED        /**< Key was rejected by service */
 EOWNERDEAD          /**< Owner died */
 ENOTRECOVERABLE     /**< State not recoverable */
-ECANCELED           /**< Operation Canceled */

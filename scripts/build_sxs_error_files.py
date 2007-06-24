@@ -12,6 +12,10 @@ unix_herr_start = 1001
 unix_herr_end = 1332
 sxs_err_start = 6001
 sxs_err_end = 6332
+unixmac_err_start = 6333
+unixmac_err_end = 6665
+mac_err_start = 6666
+mac_err_end = 6998
 
 copyright_hdr = """/*
  * Copyright 2007 Andrew De Ponte
@@ -203,7 +207,7 @@ for line in win_errs:
     else:
         out_src_file.write(str(line_split[0]) + ', ')
     count = count + 1
-out_src_file.write('#else\n')
+out_src_file.write('#elif __APPLE__\n\n#else\n')
 
 out_hdr_file.write('\n\n')
 
@@ -235,8 +239,8 @@ out_hdr_file.write('#define SXS_UNIX_ERRMAP_SIZE ' + \
 # Write the extern statement for the unix_array to the header file so
 # that anyone that includes the header file will have access to the
 # array.
-out_hdr_file.write('#ifndef WIN32\nextern sxs_int32_t sxs_unix_errmap[' + \
-    'SXS_UNIX_ERRMAP_SIZE];\n#endif\n\n')
+out_hdr_file.write('#ifndef WIN32\n#ifndef __APPLE__\nextern sxs_int32_t sxs_unix_errmap[' + \
+    'SXS_UNIX_ERRMAP_SIZE];\n#endif\n#endif\n\n')
 
 # Write the unix_array declaration and assignment to the source file.
 out_src_file.write('sxs_int32_t sxs_unix_errmap[' + \
@@ -310,6 +314,86 @@ for line in sxs_errs:
         string.join(line_split[1:])
     out_hdr_file.write(out_str + '\n')
     count = count + 1;
+
+out_hdr_file.write("\n\n")
+
+unixmac_errs_file = open('unixmac_errs.in', 'r')
+unixmac_errs = unixmac_errs_file.readlines()
+unixmac_errs_file.close()
+
+out_str = "#define SXS_UNIXMAC_ERR_START " + str(unixmac_err_start) + "\n"
+out_hdr_file.write(out_str)
+out_str = "#define SXS_UNIXMAC_ERR_END " + str(unixmac_err_end) + "\n"
+out_hdr_file.write(out_str)
+
+count = unixmac_err_start
+for line in unixmac_errs:
+    line_split = string.split(line)
+    out_str = '#define SXS_' + line_split[0] + ' ' + str(count) + ' ' + \
+        string.join(line_split[1:])
+    out_hdr_file.write(out_str + '\n')
+    count = count + 1;
+
+unixmac_err_last = (count - unixmac_err_start);
+
+out_hdr_file.write('#define SXS_UNIXMAC_ERRMAP_SIZE ' + \
+    str(unixmac_err_last) + '\n')
+
+out_hdr_file.write('#ifndef WIN32\nextern sxs_int32_t sxs_unixmac_errmap[SXS_UNIXMAC_ERRMAP_SIZE];\n#endif\n\n')
+
+# Write the unixmac_array declaration and assignment to the source file.
+out_src_file.write('#ifndef WIN32\nsxs_int32_t sxs_unixmac_errmap[' + \
+    'SXS_UNIXMAC_ERRMAP_SIZE] = { ')
+
+count = 0
+for line in unixmac_errs:
+    line_split = string.split(line)
+    if (count == (unixmac_err_last - 1)):
+        out_src_file.write(str(line_split[0]) + ' };\n')
+    else:
+        out_src_file.write(str(line_split[0]) + ', ')
+    count = count + 1
+out_src_file.write('#endif\n\n')
+
+out_hdr_file.write("\n\n")
+
+mac_errs_file = open('mac_errs.in', 'r')
+mac_errs = mac_errs_file.readlines()
+mac_errs_file.close()
+
+out_str = "#define SXS_MAC_ERR_START " + str(mac_err_start) + "\n"
+out_hdr_file.write(out_str)
+out_str = "#define SXS_MAC_ERR_END " + str(mac_err_end) + "\n"
+out_hdr_file.write(out_str)
+
+count = mac_err_start
+for line in mac_errs:
+    line_split = string.split(line)
+    out_str = '#define SXS_' + line_split[0] + ' ' + str(count) + ' ' + \
+        string.join(line_split[1:])
+    out_hdr_file.write(out_str + '\n')
+    count = count + 1;
+
+mac_err_last = (count - mac_err_start);
+
+out_hdr_file.write('#define SXS_MAC_ERRMAP_SIZE ' + \
+    str(mac_err_last) + '\n')
+
+out_hdr_file.write('#ifdef __APPLE__\nextern sxs_int32_t sxs_mac_errmap[SXS_MAC_ERRMAP_SIZE];\n#endif\n\n')
+
+# Write the mac_array declaration and assignment to the source file.
+out_src_file.write('#ifdef __APPLE__\nsxs_int32_t sxs_mac_errmap[' + \
+    'SXS_MAC_ERRMAP_SIZE] = { ')
+
+count = 0
+for line in mac_errs:
+    line_split = string.split(line)
+    if (count == (mac_err_last - 1)):
+        out_src_file.write(str(line_split[0]) + ' };\n')
+    else:
+        out_src_file.write(str(line_split[0]) + ', ')
+    count = count + 1
+out_src_file.write('#endif\n\n')
 
 out_hdr_file.write("#endif\n")
 

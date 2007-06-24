@@ -1,3 +1,14 @@
+2007-06-24 Andrew De Ponte <cyphactor@gmail.com>
+
+* Created the unixmac_errs.in file to hold errors that are only shared
+between Windows and Mac. I also created the mac_errs.in file to hold
+errors which are unique to Mac. I also modified the unix_errs.in file to
+move errors which belonged in the unixmac_errs.in file.
+
+* Modified the build_sxs_error_files.py script to use the
+unixmac_errs.in file, the mac_errs.in file, and to hopefully properly
+use the unix_errs.in file.
+
 2007-06-20 Andrew De Ponte <cyphactor@gmail.com>
 
 * Moved the #include "sxs_config.h" from the sxs_types.h file to it's
