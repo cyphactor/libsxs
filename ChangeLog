@@ -1,5 +1,7 @@
 2007-06-24 Andrew De Ponte <cyphactor@gmail.com>
 
+* Fixed the macro logic statements in sxs_perror().
+
 * Created the unixmac_errs.in file to hold errors that are only shared
 between Windows and Mac. I also created the mac_errs.in file to hold
 errors which are unique to Mac. I also modified the unix_errs.in file to

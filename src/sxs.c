@@ -861,10 +861,10 @@ void sxs_perror(const char *s, sxs_error_t errnum) {
         errval = sxs_unixboth_errmap[err_index];
 #endif
     } else if (errnum == SXS_UNKNOWN_ERROR) {
-        fprintf(stderr, "%s: success\n", s);
+        fprintf(stderr, "%s: unkown error\n", s);
         return;
     } else if (errnum == SXS_SUCCESS) {
-        fprintf(stderr, "%s: unkown error\n", s);
+        fprintf(stderr, "%s: success\n", s);
         return;
     } else if ((errnum >= SXS_ERR_START) && (errnum <= SXS_UNIX_HERR_END)) {
         return;
@@ -872,6 +872,24 @@ void sxs_perror(const char *s, sxs_error_t errnum) {
 #ifdef WIN32
         err_index = errnum - SXS_WIN_ERR_START;
         errval = sxs_win_errmap[err_index];
+#elif __APPLE__
+        if ((errnum >= SXS_MAC_ERR_START) && (errnum <= SXS_MAC_ERR_END)) {
+            err_index = errnum - SXS_MAC_ERR_START;
+            errval = sxs_mac_errmap[err_index];
+        } else if ((errnum >= SXS_UNIX_HERR_START) &&
+            (errnum <= SXS_UNIX_HERR_END)) {
+
+            err_index = errnum - SXS_UNIX_HERR_START;
+            errval = sxs_unix_herrmap[err_index];
+        } else if ((errnum >= SXS_UNIXMAC_ERR_START) &&
+            (errnum <= SXS_UNIXMAC_ERR_END)) {
+
+            err_index = errnum - SXS_UNIXMAC_ERR_START;
+            errval = sxs_unixmac_errmap[err_index];
+        } else {
+            fprintf(stderr, "%s: sxs error code out of valid ranges.\n", s);
+            return;
+        }
 #else
         if ((errnum >= SXS_UNIX_ERR_START) && (errnum <= SXS_UNIX_ERR_END)) {
             err_index = errnum - SXS_UNIX_ERR_START;
@@ -881,6 +899,11 @@ void sxs_perror(const char *s, sxs_error_t errnum) {
 
             err_index = errnum - SXS_UNIX_HERR_START;
             errval = sxs_unix_herrmap[err_index];
+        } else if ((errnum >= SXS_UNIXMAC_ERR_START) &&
+            (errnum <= SXS_UNIXMAC_ERR_END)) {
+
+            err_index = errnum - SXS_UNIXMAC_ERR_START;
+            errval = sxs_unixmac_errmap[err_index];
         } else {
             fprintf(stderr, "%s: sxs error code out of valid ranges.\n", s);
             return;
