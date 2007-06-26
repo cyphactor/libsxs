@@ -566,6 +566,46 @@ SXS_EXPORT sxs_error_t sxs_select(int nfds, fd_set *readfds,
     int *p_num_ready);
 
 /**
+ * Set a sockets I/O mode (blocking/non-blocking) state.
+ *
+ * The sxs_set_nonblocking() function allows one to control the I/O mode
+ * of a socket. Specifically, allowing one to enable or disable
+ * non-blocking mode, given that blocking is the default state of the
+ * sockets I/O mode.
+ * @param sd The socket descriptor of the socket to change the I/O mode
+ * for.
+ * @param flag The flag used to specify enable non-blocking (non-zero)
+ * or disable non-blocking (zero) .
+ * @return A a value representing an error or success.
+ * @retval SXS_SUCCESS Successfully monitored the socket descriptors.
+ * @retval SXS_ERRALREADYNONBLOCK The socket is already in non-blocking
+ * mode.
+ * @retval SXS_ERRALREADYBLOCK The socket is already in blocking mode.
+ * @retval SXS_EACCES Operation is prohibited by locks held by other
+ * processes.
+ * @retval SXS_EWOULDBLOCK The operation is prohibited because the file
+ * has been memory-mapped by another process.
+ * @retval SXS_EBADF 'sd' is not an open socket descriptor.
+ * @retval SXS_EDEADLK It was tected that the specified command would
+ * cause a deadlock.
+ * @retval SXS_EFAULT 'lock' is outside your accessible address space.
+ * @retval SXS_EINTR The command was interrupted by a signal.
+ * @retval SXS_EINVAL 'arg' is not an allowable signal number.
+ * @retval SXS_EMFILE Process already has maximum number of open file
+ * descriptors.
+ * @retval SXS_ENOLCK Too many segment locks open, lock table is full.
+ * @retval SXS_EPERM Attempted to clear the O_APPEND flag on the file
+ * that has append-only attribute set.
+ * @retval SXS_ESRCH Process ID given as 'arg' is not in use.
+ * @retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * @retval SXS_ENETDOWN The network subsystem has failed.
+ * @retval SXS_EINPROGRESS A blocking call is already in progress.
+ * @retval SXS_ENOTSOCK 'sd' is not a valid socket descriptor.
+ * @retval SXS_UNKNOWN_ERROR An knknown error has occured.
+ */
+SXS_EXPORT sxs_error_t sxs_set_nonblock(sxs_socket_t sd, int flag);
+
+/**
  * Produce a message on stderr describing the specified error.
  *
  * The sxs_perror() function produces a message on the standard error

@@ -1,3 +1,23 @@
+2007-06-26 Andrew De Ponte <cyphactor@gmail.com>
+
+* Implemented and Documented the sxs_set_nonblock() function in
+src/sxs.h and src/sxs.c respectively.
+
+* Modified sxs_types.h to #include <fcntl.h> so that the fcntl()
+function could be used and all it's associated macros.
+
+* Rebuilt the sxs_error.h and sxs_error.c files using the
+scripts/build_sxs_error_files.py script. I also replaced the
+src/sxs_error.c and src/sxs_error.h files with the newly created ones.
+
+* Modified the scripts/mac_errs.in file so that it contained doxygen
+comments for all the different types of errors that would get included
+into the produced sxs_error.h and sxs_error.c files.
+
+* Added the SXS errors, ERRALREADYBLOCK and ERRALREADYNONBLOCK to the
+scripts/sxs_errs.in file so that I could use them in the
+sxs_set_nonblock() function.
+
 2007-06-24 Andrew De Ponte <cyphactor@gmail.com>
 
 * Fixed the macro logic statements in sxs_perror().

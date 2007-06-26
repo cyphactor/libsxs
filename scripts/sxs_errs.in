@@ -1,1 +1,3 @@
 ERRCONNCLOSED /**< Connection closed by peer */
+ERRALREADYBLOCK     /**< The socket is already blocking */
+ERRALREADYNONBLOCK  /**< The socket is already non-blocking */

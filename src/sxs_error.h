@@ -201,6 +201,8 @@ extern sxs_int32_t sxs_unix_herrmap[SXS_UNIX_HERRMAP_SIZE];
 #define SXS_ERR_START 6001
 #define SXS_ERR_END 6332
 #define SXS_ERRCONNCLOSED 6001 /**< Connection closed by peer */
+#define SXS_ERRALREADYBLOCK 6002 /**< The socket is already blocking */
+#define SXS_ERRALREADYNONBLOCK 6003 /**< The socket is already non-blocking */
 
 
 #define SXS_UNIXMAC_ERR_START 6333
@@ -257,22 +259,22 @@ extern sxs_int32_t sxs_unixmac_errmap[SXS_UNIXMAC_ERRMAP_SIZE];
 
 #define SXS_MAC_ERR_START 6666
 #define SXS_MAC_ERR_END 6998
-#define SXS_EBADRPC 6666 /** RPC struct is bad */
-#define SXS_ERPCMISMATCH 6667 /** RPC version wrong */
-#define SXS_EPROGUNAVAIL 6668 /** RPC prog not avail */
-#define SXS_EPROGMISMATCH 6669 /** Program version wrong */
-#define SXS_EPROCUNAVAIL 6670 /** Bad procedure for program */
-#define SXS_EFTYPE 6671 /** Inaappropriate file type or format */
-#define SXS_EAUTH 6672 /** Authentication error */
-#define SXS_ENEEDAUTH 6673 /** Need authenticator */
-#define SXS_EPWROFF 6674 /** Device power is off */
-#define SXS_EDEVERR 6675 /** Device error, e.g. paper out */
-#define SXS_EBADEXEC 6676 /** Bad executable */
-#define SXS_EBADARCH 6677 /** Bad CPU type in executable */
-#define SXS_ESHLIBVERS 6678 /** Shared library version mismatch */
-#define SXS_EBADMACHO 6679 /** Malformed Macho file */
-#define SXS_ENOATTR 6680 /** Attribute not found */
-#define SXS_ELAST 6681 /** Must be equal largest errno */
+#define SXS_EBADRPC 6666 /**< RPC struct is bad */
+#define SXS_ERPCMISMATCH 6667 /**< RPC version wrong */
+#define SXS_EPROGUNAVAIL 6668 /**< RPC prog not avail */
+#define SXS_EPROGMISMATCH 6669 /**< Program version wrong */
+#define SXS_EPROCUNAVAIL 6670 /**< Bad procedure for program */
+#define SXS_EFTYPE 6671 /**< Inaappropriate file type or format */
+#define SXS_EAUTH 6672 /**< Authentication error */
+#define SXS_ENEEDAUTH 6673 /**< Need authenticator */
+#define SXS_EPWROFF 6674 /**< Device power is off */
+#define SXS_EDEVERR 6675 /**< Device error, e.g. paper out */
+#define SXS_EBADEXEC 6676 /**< Bad executable */
+#define SXS_EBADARCH 6677 /**< Bad CPU type in executable */
+#define SXS_ESHLIBVERS 6678 /**< Shared library version mismatch */
+#define SXS_EBADMACHO 6679 /**< Malformed Macho file */
+#define SXS_ENOATTR 6680 /**< Attribute not found */
+#define SXS_ELAST 6681 /**< Must be equal largest errno */
 #define SXS_MAC_ERRMAP_SIZE 16
 #ifdef __APPLE__
 extern sxs_int32_t sxs_mac_errmap[SXS_MAC_ERRMAP_SIZE];

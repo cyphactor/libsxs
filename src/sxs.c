@@ -839,6 +839,119 @@ sxs_error_t sxs_select(int nfds, fd_set *readfds, fd_set *writefds,
     return SXS_SUCCESS;
 }
 
+sxs_error_t sxs_set_nonblock(sxs_socket_t sd, int flag) {
+    sxs_errno_t errsv;
+    int retval;
+#ifdef WIN32
+    u_long mode;
+
+    if (flag != 0)
+        mode = 1;
+    else
+        mode = 0;
+
+    retval = ioctlsocket(sd, FIONBIO, &mode);
+    if (retval == SXS_SOCKET_ERROR) {
+        errsv = WSAGetLastError();
+        if (errsv == WSANOTINITALIZED) {
+            return SXS_WSANOTINITIALIZED;
+        } else if (errsv == WSAENETDOWN) {
+            return SXS_ENETDOWN;
+        } else if (errsv == WSAEINPROGRESS) {
+            return SXS_EINPROGRESS;
+        } else if (errsv == WSAENOTSOCK) {
+            return SXS_ENOTSOCK;
+        } else if (errsv == WSAEFAULT) {
+            return SXS_EFAULT;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+    }
+#else
+    int sockflags;
+    sockflags = fcntl(sd, F_GETFL, 0);
+    if (sockflags == SXS_SOCKET_ERROR) { /* error occurred */
+        errsv = errno;
+        if (errsv == EACCES) {
+            return SXS_EACCES;
+        } else if (errsv == EBADF) {
+            return SXS_EBADF;
+        } else if (errsv == EDEADLK) {
+            return SXS_EDEADLK;
+        } else if (errsv == EINTR) {
+            return SXS_EINTR;
+        } else if (errsv == EINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == EMFILE) {
+            return SXS_EMFILE;
+        } else if (errsv == ENOLCK) {
+            return SXS_ENOLCK;
+    #ifdef __APPLE__
+        } else if (errsv == ESRCH) {
+            return SXS_ESRCH;
+    #else
+        } else if (errsv == EAGAIN) {
+            return SXS_EWOULDBLOCK;
+        } else if (errsv == EFAULT) {
+            return SXS_EFAULT;
+        } else if (errsv == EPERM) {
+            return SXS_EPERM;
+    #endif
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+    }
+
+    if ((sockflags & O_NONBLOCK) == O_NONBLOCK) { /* currently enabled */
+        if (flag != 0) { /* return in error, already non-blocking */
+            return SXS_ERRALREADYNONBLOCK;
+        } else {
+            retval = fcntl(sd, F_SETFL, sockflags & (~O_NONBLOCK));
+        }
+    } else { /* currently disabled */
+        if (flag != 0) {
+            retval = fcntl(sd, F_SETFL, sockflags | O_NONBLOCK);
+        } else { /* return in error, already blocking */
+            return SXS_ERRALREADYBLOCK;
+        }
+    }
+
+    if (retval == SXS_SOCKET_ERROR) {
+        errsv = errno;
+        if (errsv == EACCES) {
+            return SXS_EACCES;
+        } else if (errsv == EBADF) {
+            return SXS_EBADF;
+        } else if (errsv == EDEADLK) {
+            return SXS_EDEADLK;
+        } else if (errsv == EINTR) {
+            return SXS_EINTR;
+        } else if (errsv == EINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == EMFILE) {
+            return SXS_EMFILE;
+        } else if (errsv == ENOLCK) {
+            return SXS_ENOLCK;
+    #ifdef __APPLE__
+        } else if (errsv == ESRCH) {
+            return SXS_ESRCH;
+    #else
+        } else if (errsv == EAGAIN) {
+            return SXS_EWOULDBLOCK;
+        } else if (errsv == EFAULT) {
+            return SXS_EFAULT;
+        } else if (errsv == EPERM) {
+            return SXS_EPERM;
+    #endif
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+    }
+#endif
+
+    return SXS_SUCCESS;
+}
+
 void sxs_perror(const char *s, sxs_error_t errnum) {
     char buf[256];
     sxs_errno_t errval;

@@ -1,16 +1,16 @@
-EBADRPC                     /** RPC struct is bad */
-ERPCMISMATCH                /** RPC version wrong */
-EPROGUNAVAIL                /** RPC prog not avail */
-EPROGMISMATCH               /** Program version wrong */
-EPROCUNAVAIL                /** Bad procedure for program */
-EFTYPE                      /** Inaappropriate file type or format */
-EAUTH                       /** Authentication error */
-ENEEDAUTH                   /** Need authenticator */
-EPWROFF                     /** Device power is off */
-EDEVERR                     /** Device error, e.g. paper out */
-EBADEXEC                    /** Bad executable */
-EBADARCH                    /** Bad CPU type in executable */
-ESHLIBVERS                  /** Shared library version mismatch */
-EBADMACHO                   /** Malformed Macho file */
-ENOATTR                     /** Attribute not found */
-ELAST                       /** Must be equal largest errno */
+EBADRPC                     /**< RPC struct is bad */
+ERPCMISMATCH                /**< RPC version wrong */
+EPROGUNAVAIL                /**< RPC prog not avail */
+EPROGMISMATCH               /**< Program version wrong */
+EPROCUNAVAIL                /**< Bad procedure for program */
+EFTYPE                      /**< Inaappropriate file type or format */
+EAUTH                       /**< Authentication error */
+ENEEDAUTH                   /**< Need authenticator */
+EPWROFF                     /**< Device power is off */
+EDEVERR                     /**< Device error, e.g. paper out */
+EBADEXEC                    /**< Bad executable */
+EBADARCH                    /**< Bad CPU type in executable */
+ESHLIBVERS                  /**< Shared library version mismatch */
+EBADMACHO                   /**< Malformed Macho file */
+ENOATTR                     /**< Attribute not found */
+ELAST                       /**< Must be equal largest errno */
