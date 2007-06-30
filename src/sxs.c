@@ -853,8 +853,8 @@ sxs_error_t sxs_set_nonblock(sxs_socket_t sd, int flag) {
     retval = ioctlsocket(sd, FIONBIO, &mode);
     if (retval == SXS_SOCKET_ERROR) {
         errsv = WSAGetLastError();
-        if (errsv == WSANOTINITALIZED) {
-            return SXS_WSANOTINITIALIZED;
+        if (errsv == WSANOTINITIALISED) {
+            return SXS_WSANOTINITIALISED;
         } else if (errsv == WSAENETDOWN) {
             return SXS_ENETDOWN;
         } else if (errsv == WSAEINPROGRESS) {

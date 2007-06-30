@@ -1,3 +1,8 @@
+2007-06-30 Andrew De Ponte <cyphactor@gmail.com>
+
+* Fixed a typo in the error handling in the new set_nonblock() function
+with windows specific error values.
+
 2007-06-26 Andrew De Ponte <cyphactor@gmail.com>
 
 * Implemented and Documented the sxs_set_nonblock() function in
