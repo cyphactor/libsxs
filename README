@@ -82,9 +82,9 @@ Table of Contents
     section that describes building the library for Windows. After,
     running the above command successfully it will have produced a
     number of files including the DLL and DEF. The DLL is in
-    src/.libs/libsxs.dll.a relative to the trunk and the DEF file is in
-    src/.libs/libsxs.def relative to the trunk. For convenience the DLL
-    may be renamed libsxs.dll.
+    src/.libs/libsxs-0.dll relative to the trunk and the DEF file is in
+    src/.libs/libsxs.def relative to the trunk. The DLL should be
+    renamed libsxs.dll.
 
     Once, the DLL and DEF files have been obtained it is time to move
     them over to a Windows machine at which point Visual Studio Command
@@ -138,8 +138,7 @@ Table of Contents
     cl /DLIBSXS_DLL_IMPORT /Iinclude/sxs/ cliapp.cpp libsxs.lib
 
     Note: The above example assumes that the libsxs.lib and libsxs.dll
-    (or libsxs.dll.a if it has not been renamed) are in the <project src
-    dir>.
+    are in the <project src dir>.
 
 5.  Systems Tested On
 
