@@ -40,5 +40,3 @@ ENOKEY              /**< Required key not available */
 EKEYEXPIRED         /**< Key has expired */
 EKEYREVOKED         /**< Key has been revoked */
 EKEYREJECTED        /**< Key was rejected by service */
-EOWNERDEAD          /**< Owner died */
-ENOTRECOVERABLE     /**< State not recoverable */

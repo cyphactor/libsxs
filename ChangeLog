@@ -1,3 +1,13 @@
+2007-07-01 Andrew De Ponte <cyphactor@gmail.com>
+
+* Removed the EOWNERDEAD and EENOTRECOVERABLE errors from the
+scripts/unix_err.in file since they are NOT errors that are supported by
+all Unix distributions. The reason I have deamed a simple removal as an
+acceptable solution is mainly because I have not seen them used by any
+of the socket library functions. This fixes ticket #59. I used the
+modified version of scripts/unix_err.in to produce a new version of
+src/sxs_error.h and src/sxs_error.c.
+
 2007-06-30 Andrew De Ponte <cyphactor@gmail.com>
 
 * Fixed a typo in the error handling in the new set_nonblock() function

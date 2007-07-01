@@ -176,9 +176,7 @@ extern sxs_int32_t sxs_win_errmap[SXS_WIN_ERRMAP_SIZE];
 #define SXS_EKEYEXPIRED 707 /**< Key has expired */
 #define SXS_EKEYREVOKED 708 /**< Key has been revoked */
 #define SXS_EKEYREJECTED 709 /**< Key was rejected by service */
-#define SXS_EOWNERDEAD 710 /**< Owner died */
-#define SXS_ENOTRECOVERABLE 711 /**< State not recoverable */
-#define SXS_UNIX_ERRMAP_SIZE 44
+#define SXS_UNIX_ERRMAP_SIZE 42
 #ifndef WIN32
 #ifndef __APPLE__
 extern sxs_int32_t sxs_unix_errmap[SXS_UNIX_ERRMAP_SIZE];
