@@ -1,5 +1,25 @@
 2007-07-01 Andrew De Ponte <cyphactor@gmail.com>
 
+* Implemented and Documented the sxs_recv_nbytes_nb() function to
+provide a mechanism to receive data using non-blocking sockets which
+would allow for nice handeling of receive based timeouts. This completes
+ticket #26.
+
+* Added the ERRRECVFAIL error and the ERRRECVTIMEDOUT error to the
+scripts/sxs_err.in file and produced a new src/sxs_error.h and
+src/sxs_error.c.
+
+* Added the ERRSELECTFAIL error to the scripts/sxs_err.in file so that I
+could use it in the sxs_recv_nbytes_nb() function. I also produced new
+version of src/sxs_error.h and src/sxs_error.c with the new
+ERRSELECTFAIL addition.
+
+* Added the ERRSETNONBLOCK error to the scripts/sxs_err.in so that I
+could use it as a return value in sxs_recv_nbytes_nb() to represent a
+failure to set the non-blocking/blocking state of the socket. I also
+replaced src/sxs_error.h and src/sxs_error.c with the newly produced
+versions.
+
 * Removed the EOWNERDEAD and EENOTRECOVERABLE errors from the
 scripts/unix_err.in file since they are NOT errors that are supported by
 all Unix distributions. The reason I have deamed a simple removal as an

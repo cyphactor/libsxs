@@ -368,12 +368,47 @@ SXS_EXPORT sxs_error_t sxs_recv(sxs_socket_t sd, sxs_buf_t buf,
  * @param sd The socket descriptor of the socket to receive bytes on.
  * @param buf The pointer to the buffer to store received data in.
  * @param len The maximum number of bytes to receive over the socket.
- * @return A a value representing an error or success.
+ * @return A value representing an error or success.
  * @retval SXS_SUCCESS Successfully received all the data on the socket.
  * @retval SXS_ERRCONNCLOSED Peer closed connection before finished.
  */
 SXS_EXPORT sxs_error_t sxs_recv_nbytes(sxs_socket_t sd, sxs_buf_t buf,
     sxs_size_t len);
+
+/**
+ * Receive a specified number of bytes from the socket in non-blocking.
+ *
+ * The sxs_recv_nbytes_nb() function attempts to set a socket to
+ * non-blocking I/O mode and receive exactly the specified number of
+ * bytes 'len'  from the specified socket descriptor 'sd'. The the
+ * 'timeout' parameter is used to specified an upper bound on how long
+ * sxs_recv_nbytes_nb() should wait for data to become available between
+ * each chunk of data to receive. If 'timeout' is set to zero,
+ * sxs_recv_nbytes_nb() will read as much data as it can until it hits
+ * the upper bound 'timeout' at which point it will return an error of
+ * SXS_ERRRECVTIMEDOUT. If 'timeout' is set to NULL there will be no
+ * upper bound set and sxs_recv_nbytes_nb() will block indefinitely
+ * until all the data is obtained from the socket descriptor or an error
+ * occurs.
+ * @param sd The socket descripto of the socket to recevie bytes on.
+ * @param buf The pointer to the buffer to store received data in.
+ * @param len The number of bytes to receive over the socket.
+ * @param p_timeout Pointer to timeval struct containing the upper bound
+ * to use for waiting for data to be available on the socket.
+ * @return A value representing an error or success.
+ * @retval SXS_SUCCESS Successfully received all the data on the socket.
+ * @retval SXS_ERRSETNONBLOCK Failed to set the sockets
+ * non-blocking/blocking state.
+ * @retval SXS_ERRSELECTFAIL Failed to monitor socket descriptor for
+ * available data.
+ * @retval SXS_ERRRECVTIMEDOUT Timedout out waiting for data to become
+ * available on the socket descriptor.
+ * @retval SXS_ERRRECVFAIL Failed to receive data from the socket.
+ * @retval SXS_ERRCONNCLOSED Peer closed socket before finished
+ * receiving all the data.
+ */
+SXS_EXPORT sxs_error_t sxs_recv_nbytes_nb(sxs_socket_t sd, sxs_buf_t buf,
+    sxs_size_t len, const struct timeval *p_timeout);
 
 /**
  * Close the socket associated with the given socket descriptor.

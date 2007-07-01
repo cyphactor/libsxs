@@ -1,3 +1,7 @@
 ERRCONNCLOSED /**< Connection closed by peer */
 ERRALREADYBLOCK     /**< The socket is already blocking */
 ERRALREADYNONBLOCK  /**< The socket is already non-blocking */
+ERRSETNONBLOCK  /**< Failed to set socket non-blocking/blocking state */
+ERRSELECTFAIL   /**< Failed to monitor a socket descriptor */
+ERRRECVFAIL     /**< Failed to recv data from socket descriptor */
+ERRRECVTIMEDOUT /**< Non-blocking recv timed out */

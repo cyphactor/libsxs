@@ -628,6 +628,87 @@ sxs_error_t sxs_recv_nbytes(sxs_socket_t sd, sxs_buf_t buf,
     return SXS_SUCCESS;
 }
 
+sxs_error_t sxs_recv_nbytes_nb(sxs_socket_t sd, sxs_buf_t buf,
+    sxs_size_t len, const struct timeval *p_timeout) {
+
+    sxs_ssize_t tot_bytes_recvd;
+    sxs_ssize_t bytes_recvd;
+    sxs_error_t reterr;
+    fd_set recvfds;
+    struct timeval timeout;
+    int num_ready;
+
+    tot_bytes_recvd = 0;
+
+    reterr = sxs_set_nonblock(sd, 1);
+    if (reterr != SXS_SUCCESS) {
+        sxs_perror("sxs_recv_nbytes_nb: sxs_set_nonblock:", reterr);
+        return SXS_ERRSETNONBLOCK;
+    }
+
+    while (tot_bytes_recvd < len) {
+        FD_ZERO(&recvfds);
+        FD_SET(sd, &recvfds);
+        timeout.tv_sec = p_timeout->tv_sec;
+        timeout.tv_usec = p_timeout->tv_usec;
+        reterr = sxs_select((sd + 1), &recvfds, NULL, NULL, &timeout,
+            &num_ready);
+        if (reterr != SXS_SUCCESS) {
+            sxs_perror("sxs_recv_nbytes_nb: sxs_select:", reterr);
+            reterr = sxs_set_nonblock(sd, 0);
+            if (reterr != SXS_SUCCESS) {
+                sxs_perror("sxs_recv_nbytes_nb: sxs_set_nonblock:", reterr);
+                return SXS_ERRSETNONBLOCK;
+            }
+            return SXS_ERRSELECTFAIL;
+        }
+
+        if (num_ready == 0) {   /* reach the specified timeout */
+            reterr = sxs_set_nonblock(sd, 0);
+            if (reterr != SXS_SUCCESS) {
+                sxs_perror("sxs_recv_nbytes_nb: sxs_set_nonblock:", reterr);
+                return SXS_ERRSETNONBLOCK;
+            }
+            return SXS_ERRRECVTIMEDOUT;
+        } else {    /* socket has data and is ready for recving */
+            reterr = sxs_recv(sd, (buf + tot_bytes_recvd),
+                (len - tot_bytes_recvd), 0, &bytes_recvd);
+            if (reterr != SXS_SUCCESS) {
+                sxs_perror("sxs_recv_nbytes_nb: sxs_recv:", reterr);
+                reterr = sxs_set_nonblock(sd, 0);
+                if (reterr != SXS_SUCCESS) {
+                    sxs_perror("sxs_recv_nbytes_nb: sxs_set_nonblock:",
+                        reterr);
+                    return SXS_ERRSETNONBLOCK;
+                }
+                return SXS_ERRRECVFAIL;
+            } else {
+                if (bytes_recvd == 0) { /* peer cleanly disconnected */
+                    /* The peer cleanly closed the connection before the
+                     * tot number of bytes were read nito the buffer. */
+                    reterr = sxs_set_nonblock(sd, 0);
+                    if (reterr != SXS_SUCCESS) {
+                        sxs_perror("sxs_recv_nbytes_nb: sxs_set_nonblock:",
+                            reterr);
+                        return SXS_ERRSETNONBLOCK;
+                    }
+                    return SXS_ERRCONNCLOSED;
+                } else {
+                    tot_bytes_recvd = tot_bytes_recvd + bytes_recvd;
+                }
+            }
+        }
+    }
+
+    reterr = sxs_set_nonblock(sd, 0);
+    if (reterr != SXS_SUCCESS) {
+        sxs_perror("sxs_recv_nbytes_nb: sxs_set_nonblock:", reterr);
+        return SXS_ERRSETNONBLOCK;
+    }
+
+    return SXS_SUCCESS;
+}
+
 sxs_error_t sxs_close(sxs_socket_t sd) {
     int r;
     sxs_errno_t errsv;

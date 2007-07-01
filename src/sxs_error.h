@@ -201,6 +201,10 @@ extern sxs_int32_t sxs_unix_herrmap[SXS_UNIX_HERRMAP_SIZE];
 #define SXS_ERRCONNCLOSED 6001 /**< Connection closed by peer */
 #define SXS_ERRALREADYBLOCK 6002 /**< The socket is already blocking */
 #define SXS_ERRALREADYNONBLOCK 6003 /**< The socket is already non-blocking */
+#define SXS_ERRSETNONBLOCK 6004 /**< Failed to set socket non-blocking/blocking state */
+#define SXS_ERRSELECTFAIL 6005 /**< Failed to monitor a socket descriptor */
+#define SXS_ERRRECVFAIL 6006 /**< Failed to recv data from socket descriptor */
+#define SXS_ERRRECVTIMEDOUT 6007 /**< Non-blocking recv timed out */
 
 
 #define SXS_UNIXMAC_ERR_START 6333
