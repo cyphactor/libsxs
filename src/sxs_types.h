@@ -150,7 +150,7 @@
     typedef __int16 sxs_int16_t;
     typedef __int32 sxs_int32_t;
     typedef int sxs_socklen_t;
-    typedef uint32_t sxs_in_addr_t;
+    typedef sxs_uint32_t sxs_in_addr_t;
 #endif
 
 /**
