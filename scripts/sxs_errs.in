@@ -4,4 +4,6 @@ ERRALREADYNONBLOCK  /**< The socket is already non-blocking */
 ERRSETNONBLOCK  /**< Failed to set socket non-blocking/blocking state */
 ERRSELECTFAIL   /**< Failed to monitor a socket descriptor */
 ERRRECVFAIL     /**< Failed to recv data from socket descriptor */
+ERRSENDFAIL     /**< Failed to send data from socket descriptor */
 ERRRECVTIMEDOUT /**< Non-blocking recv timed out */
+ERRSENDTIMEDOUT /**< Non-blocking send timed out */

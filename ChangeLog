@@ -1,5 +1,23 @@
 2007-07-01 Andrew De Ponte <cyphactor@gmail.com>
 
+* Implemented and Documented the sxs_send_nbytes_nb() function. This
+completes ticket #25.
+
+* Implemented and Documented the sxs_send_nb() function. This completes
+ticket #23.
+
+* Added the ERRSENDTIMEDOUT and ERRSENDFAIL errors to the
+scripts/sxs_err.in file and produced new src/sxs_error.h and
+src/sxs_error.c files to use in the sxs_send_nb() function.
+
+* Fixed a problem in sxs_recv_nb() where p_recvd was not getting updated
+properly.
+
+* Implemented and Documented the sxs_recv_nb() function to provide a
+mechanims to receive data using non-blocking sockets which would allow
+for nice handling of received based timeouts without the requirement of
+reading an exact number of bytes. This completes ticket #24.
+
 * Implemented and Documented the sxs_recv_nbytes_nb() function to
 provide a mechanism to receive data using non-blocking sockets which
 would allow for nice handeling of receive based timeouts. This completes

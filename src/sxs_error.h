@@ -204,7 +204,9 @@ extern sxs_int32_t sxs_unix_herrmap[SXS_UNIX_HERRMAP_SIZE];
 #define SXS_ERRSETNONBLOCK 6004 /**< Failed to set socket non-blocking/blocking state */
 #define SXS_ERRSELECTFAIL 6005 /**< Failed to monitor a socket descriptor */
 #define SXS_ERRRECVFAIL 6006 /**< Failed to recv data from socket descriptor */
-#define SXS_ERRRECVTIMEDOUT 6007 /**< Non-blocking recv timed out */
+#define SXS_ERRSENDFAIL 6007 /**< Failed to send data from socket descriptor */
+#define SXS_ERRRECVTIMEDOUT 6008 /**< Non-blocking recv timed out */
+#define SXS_ERRSENDTIMEDOUT 6009 /**< Non-blocking send timed out */
 
 
 #define SXS_UNIXMAC_ERR_START 6333

@@ -297,6 +297,44 @@ SXS_EXPORT sxs_error_t sxs_send(sxs_socket_t sd, const sxs_buf_t buf,
     sxs_size_t len, int flags, sxs_ssize_t *p_sent);
 
 /**
+ * Send up to the specified num of bytes from non-blocking socket.
+ *
+ * The sxs_send_nb() function first attempts to set the sockets I/O mode
+ * to non-blocking and then sends bytes from 'buf' over the specified
+ * socket descriptor 'sd'. When the 'flags' parameter is 0 sxs_send_nb()
+ * behaves equivalent to a normal write() call. Note: sxs_send_nb()
+ * attempts to send the specified number of bytes but there is no
+ * gaurantee that the specified number of bytes will actually be sent.
+ * sxs_send_nb() also takes a pointer to a timeval struct which
+ * specifies how long to wait for the socket to be ready to write to it
+ * before returning in error. If 'p_timeout' is NULL it will block
+ * indefinitley waiting for the socket to be ready for writing. If
+ * 'p_timeval' points to a timeval structure containing all 0's then
+ * sxs_send_nb() have no timeout, hence, it will basically act as
+ * polling mechanism.
+ * @param sd The socket descriptor of the socket to receive bytes on.
+ * @param buf The pointer to the buffer containing data to send.
+ * @param len The number of bytes to attempt to send over the socket..
+ * @param flags One or more OR'd message flags controlling behavior,
+ * generally 0.
+ * @param p_timeout Pointer to timeval struct containing the upper bound
+ * to use for waiting for the socket to be ready to send data on.
+ * @param p_sent Pointer to var to store resulting num of bytes sent.
+ * @return A a value representing an error or success.
+ * @retval SXS_SUCCESS Successfully sent the data on the socket.
+ * @retval SXS_ERRSETNONBLOCK Failed to set the sockets
+ * non-blocking/blocking state.
+ * @retval SXS_ERRSELECTFAIL Failed to monitor socket descriptor for
+ * available data.
+ * @retval SXS_ERRSENDTIMEDOUT Timedout out waiting for data to become
+ * available on the socket descriptor.
+ * @retval SXS_ERRSENDFAIL Failed to receive data from the socket.
+ */
+SXS_EXPORT sxs_error_t sxs_send_nb(sxs_socket_t sd, const sxs_buf_t buf,
+    sxs_size_t len, int flags, const struct timeval *p_timeout,
+    sxs_ssize_t *p_sent);
+
+/**
  * Send a specified number of bytes.
  *
  * The sxs_send_nbytes() function atemmpts to send exactly the specified
@@ -313,6 +351,40 @@ SXS_EXPORT sxs_error_t sxs_send(sxs_socket_t sd, const sxs_buf_t buf,
  */
 SXS_EXPORT sxs_error_t sxs_send_nbytes(sxs_socket_t sd, const sxs_buf_t buf,
     sxs_size_t len);
+
+/**
+ * Send a specified number of bytes from non-blocking socket.
+ *
+ * The sxs_send_nbytes_nb() function first attempts to set the sockets
+ * I/O mode to non-blocking and then sends exactly 'len' bytes from
+ * 'buf' over the specified socket descriptor 'sd'. The 'timeout'
+ * parameter is used to specify an upper bound on how long
+ * sxs_send_nbytes_nb() should wait for the socket to be ready for
+ * sending data. If the 'timeout' is set to zero, sxs_send_nbytes_nb()
+ * will read as much data as it can until the socket is no longer ready
+ * for sending at which point sxs_send_nbytes_nb() will return with the
+ * SXS_ERRSENDTIMEDOUT error. If 'timeout' is set to NULL there will be
+ * no upper bound on how long to wait before sending. Hence, it will
+ * block until the socket is ready for sending. Before returning the
+ * function returns it attempts to set the sockets I/O mode back to the
+ * default state of blocking.
+ * @param sd The socket descripto of the socket to send bytes on.
+ * @param buf The pointer to the buffer containing the data to send.
+ * @param len The number of bytes to receive over the socket.
+ * @param p_timeout Pointer to timeval struct containing the upper bound
+ * to use for waiting for socket to be ready for sending.
+ * @return A value representing an error or success.
+ * @retval SXS_SUCCESS Successfully received all the data on the socket.
+ * @retval SXS_ERRSETNONBLOCK Failed to set the sockets
+ * non-blocking/blocking state.
+ * @retval SXS_ERRSELECTFAIL Failed to monitor socket descriptor for
+ * available data.
+ * @retval SXS_ERRSENDIMEDOUT Timedout out waiting for data to become
+ * available on the socket descriptor.
+ * @retval SXS_ERRSENDVFAIL Failed to receive data from the socket.
+ */
+SXS_EXPORT sxs_error_t sxs_send_nbytes_nb(sxs_socket_t sd,
+    const sxs_buf_t buf, sxs_size_t len, const struct timeval *p_timeout);
 
 /**
  * Receive up to the specified number of bytes from the socket.
@@ -357,6 +429,38 @@ SXS_EXPORT sxs_error_t sxs_recv(sxs_socket_t sd, sxs_buf_t buf,
     sxs_size_t len, int flags, sxs_ssize_t *p_recvd);
 
 /**
+ * Receive up to the specified num of bytes from non-blocking socket.
+ *
+ * The sxs_recv_nb() function attempts to set a socket to non-blocking
+ * I/O mode and receive up to 'len' bytes from the socket 'sd' within
+ * the given timeout 'p_timeout'. Before the function returns it
+ * attempts to set the sockets I/O mode back to a default state of
+ * blocking.
+ * @param sd The socket descriptor of the socket to receive bytes on.
+ * @param buf The pointer to the buffer to store received data in.
+ * @param len The maximum number of bytes to receive over the socket.
+ * @param flags One or more OR'd message flags controlling behavior,
+ * generally 0.
+ * @param p_timeout Pointer to timeval struct containing the upper bound
+ * to use for waiting for data to be available on the socket.
+ * @param p_recvd Pointer to var to store resulting num of bytes recv'd.
+ * @return A a value representing an error or success.
+ * @retval SXS_SUCCESS Successfully received data on the socket.
+ * @retval SXS_ERRSETNONBLOCK Failed to set the sockets
+ * non-blocking/blocking state.
+ * @retval SXS_ERRSELECTFAIL Failed to monitor socket descriptor for
+ * available data.
+ * @retval SXS_ERRRECVTIMEDOUT Timedout out waiting for data to become
+ * available on the socket descriptor.
+ * @retval SXS_ERRRECVFAIL Failed to receive data from the socket.
+ * @retval SXS_ERRCONNCLOSED Peer closed socket before finished
+ * receiving all the data.
+ */
+SXS_EXPORT sxs_error_t sxs_recv_nb(sxs_socket_t sd, sxs_buf_t buf,
+    sxs_size_t len, int flags, const struct timeval *p_timeout,
+    sxs_ssize_t *p_recvd);
+
+/**
  * Receive a specified number of bytes from the socket.
  *
  * The sxs_recv_nbytes() function attempts to receive exactly the
@@ -380,16 +484,17 @@ SXS_EXPORT sxs_error_t sxs_recv_nbytes(sxs_socket_t sd, sxs_buf_t buf,
  *
  * The sxs_recv_nbytes_nb() function attempts to set a socket to
  * non-blocking I/O mode and receive exactly the specified number of
- * bytes 'len'  from the specified socket descriptor 'sd'. The the
- * 'timeout' parameter is used to specified an upper bound on how long
+ * bytes 'len' from the specified socket descriptor 'sd'. The the
+ * 'timeout' parameter is used to specify an upper bound on how long
  * sxs_recv_nbytes_nb() should wait for data to become available between
- * each chunk of data to receive. If 'timeout' is set to zero,
+ * each chunk of data to receive. If 'p_timeout' is set to zero,
  * sxs_recv_nbytes_nb() will read as much data as it can until it hits
- * the upper bound 'timeout' at which point it will return an error of
- * SXS_ERRRECVTIMEDOUT. If 'timeout' is set to NULL there will be no
- * upper bound set and sxs_recv_nbytes_nb() will block indefinitely
+ * the upper bound, 'p_timeout', at which point it will return an error
+ * of SXS_ERRRECVTIMEDOUT. If 'p_timeout' is set to NULL there will be
+ * no upper bound set and sxs_recv_nbytes_nb() will block indefinitely
  * until all the data is obtained from the socket descriptor or an error
- * occurs.
+ * occurs. Before returning the function returns it attempts to set the
+ * sockets I/O mode back to a default state of blocking.
  * @param sd The socket descripto of the socket to recevie bytes on.
  * @param buf The pointer to the buffer to store received data in.
  * @param len The number of bytes to receive over the socket.
