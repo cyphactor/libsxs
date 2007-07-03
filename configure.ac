@@ -18,7 +18,7 @@
 #
 
 AC_PREREQ(2.59)
-AC_INIT(Spartan Cross-Platform Sockets Library, 0.1.0, cyphactor@gmail.com, lib_sxs)
+AC_INIT(Spartan Cross-Platform Sockets Library, 0.2.0, cyphactor@gmail.com, lib_sxs)
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/sxs.c])
 AM_CONFIG_HEADER([src/sxs_config.h])

@@ -1,3 +1,60 @@
+-- 0.2.0 -- tagged as lib_sxs_0_2_0.
+
+2007-07-02 Andrew De Ponte <cyphactor@gmail.com>
+
+* Updated the version to 0.2.0 in both Doxyfile and configure.ac since
+all tasks defined for version 0.2.0 have now been completed.
+
+* Implemented and Documented the sxs_active_close() function. I also
+updated the sxs_close() documentation to explane the difference between
+sxs_close() and sxs_active_close() to eliminate confusion as well as
+provided a reference to the sxs_active_close() function. This completes
+ticket #27.
+
+* Added the ERRSETSOCKOPTFAIL error to the scripts/sxs_err.in file so
+that I had an appropriate error to return from the sxs_active_close()
+function when it failed to set the SO_LINGER socket option. I also
+produced new src/sxs_error.h and sxs/sxs_error.c files now containing
+the ERRSETSOCKOPTFAIL error.
+
+* Implemented and Documented the sxs_connect_nb() function to provide a
+timeout based non-blocking method for attempting to connect. This
+completes ticket #60.
+
+* Added the ERRUNEXPECTED error to the scripts/sxs_err.in file so that I
+had an appropriate error to return from the sxs_connect_nb() function
+when an unexpected path was taken. I also produced new src/sxs_error.h
+and src/sxs_error.c files now containing the ERRUNEXPECTED error.
+
+* Added the ERRCLOSEFAIL error to the scripts/sxs_err.in file so that I
+had an appropriate error to return from the sxs_connect_nb() function
+when it failed in a call to sxs_close(). I also produced new
+src/sxs_error.h and src/sxs_error.c files now containing the
+ERRCLOSEFAIL error.
+
+* Added the ERRGETSOCKOPTFAIL error to the scripts/sxs_err.in file so
+that I had an appropriate error to return from the sxs_connect_nb()
+function when it failed in a call to sxs_getsockopt(). I also produced
+new src/sxs_error.h and src/sxs_error.c files now containing the
+ERRGETSOCKOPTFAIL error.
+
+* Added the ERRCONNTIMEDOUT error to the scripts/sxs_err.in file so that
+I had an appropriate error to return from the sxs_connect_nb() function
+when it timedout. I also produced new src/sxs_error.h and
+src/sxs_error.c files containing the ERRCONNTIMEDOUT error.
+
+* Implemented and Documented the sxs_setsockopt() function. This
+completes ticket #39.
+
+* Correlated the available socket options on Windows, Mac OS-X, and
+Linux to create a list of commonly shared socket options. I documented
+these options in the sxs_getsockopt() function's documentation. This
+completes ticket #38.
+
+* Implemented the sxs_getsockopt() function and documented it,
+neglecting any documentation of valid socket options and their
+associated levels.
+
 2007-07-01 Andrew De Ponte <cyphactor@gmail.com>
 
 * Implemented and Documented the sxs_send_nbytes_nb() function. This

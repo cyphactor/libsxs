@@ -247,6 +247,58 @@ SXS_EXPORT sxs_error_t sxs_connect(sxs_socket_t sd,
     const struct sockaddr *serv_addr, sxs_socklen_t addrlen);
 
 /**
+ * Connect the socket to the specified address in a non-blocking fashion.
+ *
+ * The sxs_connect_nb() function attepmts to connect the specified
+ * socket to the specified address within the given timeout. The format
+ * of the specified address depends on the type of socket 'sd' is.
+ * @param sd Socket descriptor representing a socket.
+ * @param serv_addr Address struct representing remote server to conn to.
+ * @param addrlen The len in bytes of the address structure.
+ * @param p_timeout Pointer to timeval struct containing timeout values.
+ * @return A a value representing an error or success.
+ * @retval SXS_SUCCESS Successfully connected the socket.
+ * @retval SXS_ERRSETNONBLOCK Failed to set socket to non-blocking mode.
+ * @retval SXS_ERRCLOSEFAIL Failed to close the socket in cleanup.
+ * @retval SXS_ERRSELECTFAIL Failed to monitor socket for write ability.
+ * @retval SXS_ERRCONNTIMEDOUT Connect attempt timed out.
+ * @retval SXS_ERRGETSOCKOPTFAIL Failed to get socket optionn.
+ * @retval SXS_ERRUNEXPECTED Took an unexpected path.
+ * @retval SXS_EACCES Write permission denied on the Unix domain socket.
+ * @retval SXS_EPERM User tried to conn to bcast addr without having the
+ * socket bcast flag enabled or the connection request failed because of
+ * a local firewall rule.
+ * @retval SXS_EADDRINUSE Local address is already in use.
+ * @retval SXS_EAFNOSUPPORT The passed address didn't have a correct
+ * address family.
+ * @retval SXS_EALREADY Socket is non-blocking and a previous connect
+ * accempt has not completed.
+ * @retval SXS_EBADF Socket descriptor is invalid.
+ * @retval SXS_ECONNREFUSED No one listening on the remote address.
+ * @retval SXS_EFAULT The socket structure address is outside the user's
+ * address space.
+ * @retval SXS_EINPROGRESS The socket is non-blocking and the connection
+ * cannot be completed immediately.
+ * @retval SXS_EINTR Call was interrupted by a signal that was caught.
+ * @retval SXS_EISCONN The socket is already connected.
+ * @retval SXS_ENETUNREACH The network is unreachable.
+ * @retval SXS_ENOTSOCK The socket descriptor is not a socket.
+ * @retval SXS_ETIMEDOUT Timedout while attempting to connect.
+ * @retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * @retval SXS_ENETDOWN The network subsystem has failed.
+ * @retval SXS_EADDRNOTAVAIL Remote address is not a valid address.
+ * @retval SXS_EINVAL Parameter 'sd' is in listening state.
+ * @retval SXS_EHOSTUNREACH Remote host is unreachable.
+ * @retval SXS_ENOBUFS No buffer space available, sock cannot connect.
+ * @retval SXS_EWOULDBLOCK Socket is non-blocking and cannot be
+ * completed immediately.
+ * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
+ */
+SXS_EXPORT sxs_error_t sxs_connect_nb(sxs_socket_t sd,
+    const struct sockaddr *serv_addr, sxs_socklen_t addrlen,
+    const struct timeval *p_timeout);
+
+/**
  * Send up to the specified number of bytes.
  *
  * The sxs_send() function sends bytes from 'buf' over the specified
@@ -519,7 +571,13 @@ SXS_EXPORT sxs_error_t sxs_recv_nbytes_nb(sxs_socket_t sd, sxs_buf_t buf,
  * Close the socket associated with the given socket descriptor.
  *
  * The sxs_close() function closes the socket associated with the given
- * socket descriptor so that the socket descriptor may be reused.
+ * socket descriptor so that the socket descriptor may be reused. This
+ * is often thought of as a passive close due to that fact that it is
+ * necessary to call this on a socket after a peer has initiated a close
+ * to get the socket out of CLOSE_WAIT state. Despite the previously
+ * stated this function is also used to initate the closure of a socket.
+ * Note: If bypassing the standard TIME_WAIT state is necessary please
+ * use the sxs_active_close() to initiate the closure of the socket.
  * @param sd Socket descriptor representing a socket.
  * @return A a value representing an error or success.
  * @retval SXS_SUCCESS Successfully closed the socket.
@@ -534,6 +592,31 @@ SXS_EXPORT sxs_error_t sxs_recv_nbytes_nb(sxs_socket_t sd, sxs_buf_t buf,
  * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
 SXS_EXPORT sxs_error_t sxs_close(sxs_socket_t sd);
+
+/**
+ * Close the socket associated with the given socket descriptor.
+ *
+ * The sxs_active_close() function closes the socket associated with the
+ * given socket descriptor so that the socket descriptor may be reused
+ * similar to the sxs_close() function. The difference is that the
+ * sxs_active_close() function is designed to eliminate the standard
+ * TIME_WAIT state after closing a socket. Note: This must only be used
+ * on connection based sockets.
+ * @param sd Socket descriptor representing a socket.
+ * @return A a value representing an error or success.
+ * @retval SXS_SUCCESS Successfully closed the socket.
+ * @retval SXS_ERRSETSOCKOPTFAIL Failed to set the SO_LINGER socket option.
+ * @retval SXS_EBADF The socket 'sd' is not a valid open descriptor.
+ * @retval SXS_EINTR The sxs_close() call was interrupted by a signal.
+ * @retval SXS_EIO An I/O error occurred.
+ * @retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * @retval SXS_ENETDOWN The network subsystem has failed.
+ * @retval SXS_ENOTSOCK The socket 'sd' is a file, not a socket.
+ * @retval SXS_EINPROGRESS A blocking call is in progress.
+ * @retval SXS_EWOULDBLOCK Normally would block but it is non-blocking.
+ * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
+ */
+SXS_EXPORT sxs_error_t sxs_active_close(sxs_socket_t sd);
 
 /**
  * Shutdown all or part of a full-duplex socket based connection.
@@ -704,6 +787,100 @@ SXS_EXPORT sxs_uint16_t sxs_ntohs(sxs_uint16_t netshort);
 SXS_EXPORT sxs_error_t sxs_select(int nfds, fd_set *readfds,
     fd_set *writefds, fd_set *exceptfds, struct timeval *timeout,
     int *p_num_ready);
+
+/**
+ * Obtain the options associated with a given socket.
+ *
+ * The sxs_getsockopt() function obtains the options associated with a
+ * given socket. Options may exist at multiple protocol levels but are
+ * always present at the uppermost "socket" level. To obtain an option
+ * both the 'level' at which the option resides and the name of the
+ * option 'optname' must be specified. To obtain options at the "socket"
+ * level, 'level' is specified as SOL_SOCKET. To obtain options at any
+ * other level the protocol number of the appropriate protocol
+ * controlling the option is supplied. The following options are
+ * recognized at socket level (SOL_SOCKET).
+ *
+ * SO_DEBUG enables recording of debugging information\n
+ * SO_REUSEADDR enables local address reuse\n
+ * SO_KEEPALIVE enables keep connections alive\n
+ * SO_DONTROUTE enables routing bypass for outgoing messages\n
+ * SO_LINGER linger on close if data present\n
+ * SO_BROADCAST enables permission to transmit broadcast messages\n
+ * SO_OOBINLINE enables reception of out-of-band data in band\n
+ * SO_SNDBUF set buffer size for output\n
+ * SO_RCVBUF set buffer size for input\n
+ * SO_SNDLOWAT set minimum count for output\n
+ * SO_RCVLOWAT set minimum count for output\n
+ * SO_SNDTIMEO set timeout value for output\n
+ * SO_RCVTIMEO set timeout value for input\n
+ * SO_TYPE get the type of socket (sxs_getsockopt() only)\n
+ * SO_ERROR get and clear error on the socket (sxs_getsockopt() only)\n
+ *
+ * @param sd The socket to obtain an associated socket option from.
+ * @param level The level at which the option resides.
+ * @param optname The name of the option to obtain.
+ * @param optval Pointer to buffer to store options value in.
+ * @param optlen A value-result parameter, initially containing the size
+ * of the buffer pointed to by 'optval', and modified on return to
+ * indicate the actual size of the value returned.
+ * @return A a value representing an error or success.
+ * @retval SXS_SUCCESS Successfully obtained the socket option.
+ * @retval SXS_EBADF Argument 'sd' is not a valid descriptor.
+ * @retval SXS_EFAULT The 'optlen' parameter points to an address which
+ * is not in a valid part of the process address space.
+ * @retval SXS_ENOPROTOOPT The option is unknown at the level indicated.
+ * @retval SXS_ENOTSOCK The argument 'sd' is a file, not a socket.
+ * @retval SXS_EINVAL The 'optlen' parameter is invalid.
+ * @retval SXS_EDOM The argument value is out of bounds.
+ * @retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * @retval SXS_ENETDOWN The network subsystem has failed.
+ * @retval SXS_EINPROGRESS A blocking call is already in progress.
+ * @retval SXS_UKNOWN_ERROR An unknown error has occurred.
+ */
+SXS_EXPORT sxs_error_t sxs_getsockopt(sxs_socket_t sd, int level,
+    int optname, sxs_buf_t optval, sxs_socklen_t *optlen);
+
+/**
+ * Set the options associated with a given socket.
+ *
+ * The sxs_setsockopt() function sets the options associated with a
+ * given socket. Options may exist at multiple protocol levels but are
+ * always present at the uppermost "socket" level. To set an option both
+ * the 'level' at which the option resides and the name of the option
+ * 'optname' must be specified. To set options at the "socket" level,
+ * 'level' is specified as SOL_SOCKET. To obtain options at any other
+ * level the protocol numebr of the appropriate protocol controlling the
+ * option is supplied. For a listing of acceptable options at the socket
+ * level (SOL_SOCKET) please refer to the documentation for the
+ * sxs_getsockopt() function.
+ *
+ * @param sd The socket to set an associated socket option for.
+ * @param level The level at which the option resides.
+ * @param optname The name of the option to set.
+ * @param optval Pointer to buffer containing value to set option to.
+ * @param optlen The size of the value in the buffer pointed to by
+ * 'optval'.
+ * @return A a value representing an error or success.
+ * @retval SXS_SUCCESS Successfully obtained the socket option.
+ * @retval SXS_EBADF Argument 'sd' is not a valid descriptor.
+ * @retval SXS_EFAULT The 'optlen' parameter points to an address which
+ * is not in a valid part of the process address space.
+ * @retval SXS_ENOPROTOOPT The option is unknown at the level indicated.
+ * @retval SXS_ENOTSOCK The argument 'sd' is a file, not a socket.
+ * @retval SXS_EINVAL The 'optlen' parameter is invalid.
+ * @retval SXS_EDOM The argument value is out of bounds.
+ * @retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * @retval SXS_ENETDOWN The network subsystem has failed.
+ * @retval SXS_EINPROGRESS A blocking call is already in progress.
+ * @retval SXS_ENETRESET The connection has timedout when SO_KEEPALIVE
+ * is set.
+ * @retval SXS_ENOTCONN The connection has been reset when SO_KEEPALIVE
+ * is set.
+ * @retval SXS_UKNOWN_ERROR An unknown error has occurred.
+ */
+SXS_EXPORT sxs_error_t sxs_setsockopt(sxs_socket_t sd, int level,
+    int optname, const sxs_buf_t optval, socklen_t optlen);
 
 /**
  * Set a sockets I/O mode (blocking/non-blocking) state.

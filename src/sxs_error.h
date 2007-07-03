@@ -207,6 +207,11 @@ extern sxs_int32_t sxs_unix_herrmap[SXS_UNIX_HERRMAP_SIZE];
 #define SXS_ERRSENDFAIL 6007 /**< Failed to send data from socket descriptor */
 #define SXS_ERRRECVTIMEDOUT 6008 /**< Non-blocking recv timed out */
 #define SXS_ERRSENDTIMEDOUT 6009 /**< Non-blocking send timed out */
+#define SXS_ERRCONNTIMEDOUT 6010 /**< Non-blocking connect timed out */
+#define SXS_ERRGETSOCKOPTFAIL 6011 /**< Failed to get socket option */
+#define SXS_ERRSETSOCKOPTFAIL 6012 /**< Failed to set socket option */
+#define SXS_ERRCLOSEFAIL 6013 /**< Failed to close socket */
+#define SXS_ERRUNEXPECTED 6014 /**< An unexpected path was taken */
 
 
 #define SXS_UNIXMAC_ERR_START 6333
