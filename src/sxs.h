@@ -880,7 +880,7 @@ SXS_EXPORT sxs_error_t sxs_getsockopt(sxs_socket_t sd, int level,
  * @retval SXS_UKNOWN_ERROR An unknown error has occurred.
  */
 SXS_EXPORT sxs_error_t sxs_setsockopt(sxs_socket_t sd, int level,
-    int optname, const sxs_buf_t optval, socklen_t optlen);
+    int optname, const sxs_buf_t optval, sxs_socklen_t optlen);
 
 /**
  * Set a sockets I/O mode (blocking/non-blocking) state.

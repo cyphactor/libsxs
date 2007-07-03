@@ -1394,7 +1394,7 @@ sxs_error_t sxs_getsockopt(sxs_socket_t sd, int level, int optname,
 }
 
 sxs_error_t sxs_setsockopt(sxs_socket_t sd, int level, int optname,
-    const sxs_buf_t optval, socklen_t optlen) {
+    const sxs_buf_t optval, sxs_socklen_t optlen) {
 
     int retval;
     sxs_errno_t errsv;
