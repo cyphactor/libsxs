@@ -1628,6 +1628,108 @@ void sxs_perror(const char *s, sxs_error_t errnum) {
     sxs_errno_t errval;
     sxs_uint32_t err_index;
 
+#ifdef WIN32
+    int i;
+    struct { sxs_errno_t code; const char *msg; } windows_sock_errs[] = {
+        {WSA_INVALID_HANDLE, "Specified event object handle is invalid."},
+        {WSA_NOT_ENOUGH_MEMORY, "Insufficient memory available."},
+        {WSA_INVALID_PARAMETER, "One or more parameters ar invalid."},
+        {WSA_OPERATION_ABORTED, "Overlapped operation aborted."},
+        {WSA_IO_INCOMPLETE, "Overlapped I/O event object not in signaled state."},
+        {WSA_IO_PENDING, "Overlapped operation will complete later."},
+        {WSAEINTR, "Interrupted function call."},
+        {WSAEBADF, "File handle is not valid."},
+        {WSAEACCES, "Permission denied."},
+        {WSAEFAULT, "Bad address."},
+        {WSAEINVAL, "Invalid argument."},
+        {WSAEMFILE, "Too many open files."},
+        {WSAEWOULDBLOCK, "Resource temporarily unavailable."},
+        {WSAEINPROGRESS, "Operation now in progress."},
+        {WSAEALREADY, "Operation already in progress."},
+        {WSAENOTSOCK, "Sock operation on nonsocket."},
+        {WSAEDESTADDRREQ, "Destination address required."},
+        {WSAEMSGSIZE, "Message too long."},
+        {WSAEPROTOTYPE, "Protocol wrong type for socket."},
+        {WSAENOPROTOOPT, "Bad protocol option."},
+        {WSAEPROTONOSUPPORT, "Protocol not supported."},
+        {WSAESOCKTNOSUPPORT, "Socket type not supported."},
+        {WSAEOPNOTSUPP, "Operation not supported."},
+        {WSAEPFNOSUPPORT, "Protocol family not supported."},
+        {WSAEAFNOSUPPORT, "Address family not supported by protocol family."},
+        {WSAEADDRINUSE, "Address already in use."},
+        {WSAEADDRNOTAVAIL, "Cannot assign requested address."},
+        {WSAENETDOWN, "Network is down."},
+        {WSAENETUNREACH, "Network is unreachable."},
+        {WSAENETRESET, "Network dropped connection on reset."},
+        {WSAECONNABORTED, "Software caused connection abort."},
+        {WSAECONNRESET, "Connection reset by peer."},
+        {WSAENOBUFS, "No buffer space available."},
+        {WSAEISCONN, "Socket is already connected."},
+        {WSAENOTCONN, "Socket is not connected."},
+        {WSAESHUTDOWN, "Cannot send after socket shutdown."},
+        {WSAETOOMANYREFS, "Too many references."},
+        {WSAETIMEDOUT, "Connection timed out."},
+        {WSAECONNREFUSED, "Connection refused."},
+        {WSAELOOP, "Cannot translate name."},
+        {WSAENAMETOOLONG, "Name too long."},
+        {WSAEHOSTDOWN, "Host is down."},
+        {WSAEHOSTUNREACH, "No route to host."},
+        {WSAENOTEMPTY, "Directory not empty."},
+        {WSAEPROCLIM, "Too many processes."},
+        {WSAEUSERS, "User quota exceeded."},
+        {WSAEDQUOT, "Disk quota exceeded."},
+        {WSAESTALE, "Stale file handle reference."},
+        {WSAEREMOTE, "Item is remote."},
+        {WSASYSNOTREADY, "Network subsystem unavailable."},
+        {WSAVERNOTSUPPORTED, "Winsock.dll version out of range."},
+        {WSANOTINITIALISED, "Successful WSAStartup not yet performed."},
+        {WSAEDISCON, "Graceful shutdown in progress."},
+        {WSAENOMORE, "No more results."},
+        {WSAECANCELLED, "Call has been canceled."},
+        {WSAEINVALIDPROCTABLE, "Procedure call table is invalid."},
+        {WSAEINVALIDPROVIDER, "Service provider is invalide."},
+        {WSAEPROVIDERFAILEDINIT, "Service provider failed to initialize."},
+        {WSASYSCALLFAILURE, "System call failure."},
+        {WSASERVICE_NOT_FOUND, "Service not found."},
+        {WSATYPE_NOT_FOUND, "Class type not found."},
+        {WSA_E_NO_MORE, "No more results."},
+        {WSA_E_CANCELLED, "Call was cancelled."},
+        {WSAEREFUSED, "Database query was refused."},
+        {WSAHOST_NOT_FOUND, "Host not found."},
+        {WSATRY_AGAIN, "Nonauthoritative host not found."},
+        {WSANO_RECOVERY, "This is a nonrecoverable error."},
+        {WSANO_DATA, "Valid name, no data record of requested type."},
+        {WSA_QOS_RECEIVERS, "QOS receivers."},
+        {WSA_QOS_SENDERS, "QOS senders."},
+        {WSA_QOS_NO_SENDERS, "No QOS senders."},
+        {WSA_QOS_NO_RECEIVERS, "QOS no receivers."},
+        {WSA_QOS_REQUEST_CONFIRMED, "QOS request confirmed."},
+        {WSA_QOS_ADMISSION_FAILURE, "QOS admission error."},
+        {WSA_QOS_POLICY_FAILURE, "QOS policy failure."},
+        {WSA_QOS_BAD_STYLE, "QOS bad style."},
+        {WSA_QOS_BAD_OBJECT, "QOS bad object."},
+        {WSA_QOS_TRAFFIC_CTRL_ERROR, "QOS traffic control error."},
+        {WSA_QOS_GENERIC_ERROR, "QOS generic error."},
+        {WSA_QOS_ESERVICETYPE, "QOS service type error."},
+        {WSA_QOS_EFLOWSPEC, "QOS flowspec error."},
+        {WSA_QOS_EPROVSPECBUF, "Invalid QOS provider buffer."},
+        {WSA_QOS_EFILTERSTYLE, "Invalid QOS filter style."},
+        {WSA_QOS_EFILTERTYPE, "Invalid QOS filter type."},
+        {WSA_QOS_EFILTERCOUNT, "Incorrect QOS filter count."},
+        {WSA_QOS_EOBJLENGTH, "Invalid QOS object length."},
+        {WSA_QOS_EFLOWCOUNT, "Incorrect QOS flow count."},
+        {WSA_QOS_EUNKNOWNPSOBJ, "Unrecognized QOS object."},
+        {WSA_QOS_EPOLICYOBJ, "Invalid QOS policy object."},
+        {WSA_QOS_EFLOWDESC, "Invalid QOS flow description."},
+        {WSA_QOS_EPSFLOWSPEC, "Invalid QOS provider-specific flowspec."},
+        {WSA_QOS_EPSFILTERSPEC, "Invalid QOS provider-pecific filterspec."},
+        {WSA_QOS_ESDMODEOBJ, "Invalid QOS shape discard mode object."},
+        {WSA_QOS_ESHAPERATEOBJ, "Invalid QOS shaping rate object."},
+        {WSA_QOS_RESERVED_PETYPE, "Reserved policy QOS element type."},
+        { -1, NULL }
+    };
+#endif
+
     buf[0] = '\0';
     
     fprintf(stderr, "%s: sxs error num %d\n", s, (int)errnum); 
@@ -1701,6 +1803,13 @@ void sxs_perror(const char *s, sxs_error_t errnum) {
     strerror_r(errval, buf, 255);
     buf[255] = '\0';
     fprintf(stderr, "%s: %s\n", s, buf);
+#else
+    for (i = 0; windows_sock_errs[i].code >= 0; i++) {
+        if (errval == windows_sock_errs[i].code) {
+            fprintf(stderr, "%s: %s\n", s, windows_sock_errs[i].msg);
+            return;
+        }
+    }
 #endif
 
     return;

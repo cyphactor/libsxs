@@ -1,3 +1,18 @@
+-- 0.3.0 -- tagged as lib_sxs_0_3_0.
+
+2007-08-01 Andrew De Ponte <cyphactor@gmail.com>
+
+* Modified the sxs_perror() function so that on Windows machines it
+implements it's own mapping between Windows socket error codes and
+english strings describing the error so that error messages can be
+properly printed on Windows machines the way they already could on
+Unix/Mac OS X machines.
+
+* Updated the Doxygen files project version to 0.3.0 now that I
+completed the last task associated with version 0.3.0. I also modified
+the configure.ac files version information to 0.3.0 since I am ready to
+make the 0.3.0 commit and then tag.
+
 2007-07-31 Andrew De Ponte <cyphactor@gmail.com>
 
 * Modified the sxs_socket() function so that when it is used on a Mac
