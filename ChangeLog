@@ -1,3 +1,65 @@
+2007-07-31 Andrew De Ponte <cyphactor@gmail.com>
+
+* Modified the sxs_socket() function so that when it is used on a Mac
+OS X box it only checks for the error values documented in the socket()
+man page on the Mac OS X.
+
+* Modified the sxs_bind() function so that when it is used on a Mac OS X
+box it checks for all the error values documented in the bind() man page
+on the Mac OS X. Specifically, the EIO and EISDIR error values. I also
+updated the functions documentation to include descriptions of these
+errors.
+
+* Modified the sxs_listen() function so that when it is used on a Mac OS
+X box it only checks for the error values documented in the listen() man
+page on the Mac OS X.
+
+* Modified the sxs_accept() function so that when it is used on a Mac OS
+X box it only checks for the error values documented in the accept() man
+page on the Mac OS X.
+
+* Modified the sxs_connect() function so that when it is used on a Mac
+OS X box it checks for all the error values documented in the connect()
+man page on the Mac OS X and does not check for values that are only
+documented on the debian linux man pages for connect(). I also updated
+the documentation for the sxs_connect() function with descriptions of
+all the errors that are returned by Mac OS X connect().
+
+* Modified the sxs_send() function so that when it is used on a Mac OS X
+box it checks for all the error values documented in the send() man page
+on the Mac OS X and does not check for values that are only documented
+on the Debian linux man pages for send(). I also updated the
+documentation for the sxs_send() function with descriptions of all the
+errors that are returned by Mac OS X send().
+
+* Modified the sxs_recv() function so that when it is used on a Mac OS X
+box it checks for only the error values documented in the recv() man
+page on Mac OS X.
+
+* Modified the sxs_close() function so that when it is used on a Mac OS
+X box it checks for only the error values documented in the close() man
+page on Mac OS X.
+
+* Modified the sxs_gethostbyname() function so that when it is used on a
+Mac OS X box it checks only for the error values documented in the
+gethostbyname() man page on Mac OS X.
+
+* Modified the sxs_select() function so that when it is used on a Mac OS
+X box it checks only for the error values documented in the select() man
+page on Mac OS X.
+
+* Corrected some sxs_perror() call parameters in the
+sxs_send_nbytes_nb() function so that the label of the output error
+value was correct.
+
+* Correcetd some sxs_perror() call paramaters in the sxs_send_nb()
+function so that the label of the output error values was correct.
+
+* Modified the sxs_connect_nb() function so that when it is used on a
+Mac OS X box it checks for all the error values documented in the
+connect() man page on Mac OS X. I also updated the sxs_connect_nb()
+documentation to match the modifications.
+
 -- 0.2.1 -- tagged as lib_sxs_0_2_1.
 
 2007-07-02 Andrew De Ponte <cyphactor@gmail.com>

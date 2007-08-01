@@ -108,20 +108,22 @@ sxs_error_t sxs_socket(int domain, int type, int protocol,
         errsv = errno;
         if (errsv == EACCES) {
             return SXS_EACCES;
-        } else if (errsv == EAFNOSUPPORT) {
-            return SXS_EAFNOSUPPORT;
-        } else if (errsv == EINVAL) {
-            return SXS_EINVAL;
+        } else if (errsv == EPROTONOSUPPORT) {
+            return SXS_EPROTONOSUPPORT;
         } else if (errsv == EMFILE) {
             return SXS_EMFILE;
         } else if (errsv == ENFILE) {
             return SXS_ENFILE;
         } else if (errsv == ENOBUFS) {
             return SXS_ENOBUFS;
+    #ifndef __APPLE__
+        } else if (errsv == EAFNOSUPPORT) {
+            return SXS_EAFNOSUPPORT;
+        } else if (errsv == EINVAL) {
+            return SXS_EINVAL;
         } else if (errsv == ENOMEM) {
             return SXS_ENOMEM;
-        } else if (errsv == EPROTONOSUPPORT) {
-            return SXS_EPROTONOSUPPORT;
+    #endif
         } else {
             return SXS_UNKNOWN_ERROR;
         }
@@ -187,12 +189,19 @@ sxs_error_t sxs_bind(sxs_socket_t sd, const struct sockaddr *my_addr,
             return SXS_ENAMETOOLONG;
         } else if (errsv == ENOENT) {
             return SXS_ENOENT;
-        } else if (errsv == ENOMEM) {
-            return SXS_ENOMEM;
         } else if (errsv == ENOTDIR) {
             return SXS_ENOTDIR;
         } else if (errsv == EROFS) {
             return SXS_EROFS;
+    #ifdef __APPLE__
+        } else if (errsv == EIO) {
+            return SXS_EIO;
+        } else if (errsv == EISDIR) {
+            return SXS_EISDIR;
+    #else
+        } else if (errsv == ENOMEM) {
+            return SXS_ENOMEM;
+    #endif
         } else {
             return SXS_UNKNOWN_ERROR;
         }
@@ -235,14 +244,16 @@ sxs_error_t sxs_listen(sxs_socket_t sd, int backlog) {
         }
 #else
         errsv = errno;
-        if (errsv == EADDRINUSE) {
-            return SXS_EADDRINUSE;
-        } else if (errsv == EBADF) {
+        if (errsv == EBADF) {
             return SXS_EBADF;
         } else if (errsv == ENOTSOCK) {
             return SXS_ENOTSOCK;
         } else if (errsv == EOPNOTSUPP) {
             return SXS_EOPNOTSUPP;
+    #ifndef __APPLE__
+        } else if (errsv == EADDRINUSE) {
+            return SXS_EADDRINUSE;
+    #endif
         } else {
             return SXS_UNKNOWN_ERROR;
         }
@@ -291,16 +302,10 @@ sxs_error_t sxs_accept(sxs_socket_t sd, struct sockaddr *addr,
         }
 #else
         errsv = errno;
-        if ((errsv == EAGAIN) || (errsv == EWOULDBLOCK)) {
+        if (errsv == EWOULDBLOCK) {
             return SXS_EWOULDBLOCK;
         } else if (errsv == EBADF) {
             return SXS_EBADF;
-        } else if (errsv == ECONNABORTED) {
-            return SXS_ECONNABORTED;
-        } else if (errsv == EINTR) {
-            return SXS_EINTR;
-        } else if (errsv == EINVAL) {
-            return SXS_EINVAL;
         } else if (errsv == EMFILE) {
             return SXS_EMFILE;
         } else if (errsv == ENFILE) {
@@ -311,6 +316,15 @@ sxs_error_t sxs_accept(sxs_socket_t sd, struct sockaddr *addr,
             return SXS_EOPNOTSUPP;
         } else if (errsv == EFAULT) {
             return SXS_EFAULT;
+    #ifndef __APPLE__
+        } else if (errsv == EAGAIN) {
+            return SXS_EWOULDBLOCK;
+        } else if (errsv == ECONNABORTED) {
+            return SXS_ECONNABORTED;
+        } else if (errsv == EINTR) {
+            return SXS_EINTR;
+        } else if (errsv == EINVAL) {
+            return SXS_EINVAL;
         } else if (errsv == ENOBUFS) {
             return SXS_ENOBUFS;
         } else if (errsv == ENOMEM) {
@@ -319,6 +333,7 @@ sxs_error_t sxs_accept(sxs_socket_t sd, struct sockaddr *addr,
             return SXS_EPROTO;
         } else if (errsv == EPERM) {
             return SXS_EPERM;
+    #endif
         } else {
             return SXS_UNKNOWN_ERROR;
         }
@@ -385,34 +400,47 @@ sxs_error_t sxs_connect(sxs_socket_t sd, const struct sockaddr *serv_addr,
         errsv = errno;
         if (errsv == EACCES) {
             return SXS_EACCES;
-        } else if (errsv == EPERM) {
-            return SXS_EPERM;
-        } else if (errsv == EADDRINUSE) {
-            return SXS_EADDRINUSE;
-        } else if (errsv == EAFNOSUPPORT) {
-            return SXS_EAFNOSUPPORT;
-        } else if (errsv == EAGAIN) {
-            return SXS_EWOULDBLOCK;
-        } else if (errsv == EALREADY) {
-            return EALREADY;
         } else if (errsv == EBADF) {
             return SXS_EBADF;
+        } else if (errsv == ENOTSOCK) {
+            return SXS_ENOTSOCK;
+        } else if (errsv == EAFNOSUPPORT) {
+            return SXS_EAFNOSUPPORT;
+        } else if (errsv == EISCONN) {
+            return SXS_EISCONN;
+        } else if (errsv == ETIMEDOUT) {
+            return SXS_ETIMEDOUT;
         } else if (errsv == ECONNREFUSED) {
             return SXS_ECONNREFUSED;
+        } else if (errsv == ENETUNREACH) {
+            return SXS_ENETUNREACH;
+        } else if (errsv == EADDRINUSE) {
+            return SXS_EADDRINUSE;
         } else if (errsv == EFAULT) {
             return SXS_EFAULT;
         } else if (errsv == EINPROGRESS) {
             return SXS_EINPROGRESS;
+        } else if (errsv == EALREADY) {
+            return EALREADY;
+    #ifdef __APPLE__
+        } else if (errsv == EADDRNOTAVAIL) {
+            return SXS_EADDRNOTAVAIL;
+        } else if (errsv == ENOTDIR) {
+            return SXS_ENOTDIR;
+        } else if (errsv == ENAMETOOLONG) {
+            return SXS_ENAMETOOLONG;
+        } else if (errsv == ENOENT) {
+            return SXS_ENOENT;
+        } else if (errsv == ELOOP) {
+            return SXS_ELOOP;
+    #else
+        } else if (errsv == EPERM) {
+            return SXS_EPERM;
+        } else if (errsv == EAGAIN) {
+            return SXS_EWOULDBLOCK;
         } else if (errsv == EINTR) {
             return SXS_EINTR;
-        } else if (errsv == EISCONN) {
-            return SXS_EISCONN;
-        } else if (errsv == ENETUNREACH) {
-            return SXS_ENETUNREACH;
-        } else if (errsv == ENOTSOCK) {
-            return SXS_ENOTSOCK;
-        } else if (errsv == ETIMEDOUT) {
-            return SXS_ETIMEDOUT;
+    #endif
         } else {
             return SXS_UNKNOWN_ERROR;
         }
@@ -557,34 +585,47 @@ sxs_error_t sxs_connect_nb(sxs_socket_t sd, const struct sockaddr *serv_addr,
 #else
                     if (errsv == EACCES) {
                         return SXS_EACCES;
-                    } else if (errsv == EPERM) {
-                        return SXS_EPERM;
-                    } else if (errsv == EADDRINUSE) {
-                        return SXS_EADDRINUSE;
-                    } else if (errsv == EAFNOSUPPORT) {
-                        return SXS_EAFNOSUPPORT;
-                    } else if (errsv == EAGAIN) {
-                        return SXS_EWOULDBLOCK;
-                    } else if (errsv == EALREADY) {
-                        return EALREADY;
                     } else if (errsv == EBADF) {
                         return SXS_EBADF;
+                    } else if (errsv == ENOTSOCK) {
+                        return SXS_ENOTSOCK;
+                    } else if (errsv == EAFNOSUPPORT) {
+                        return SXS_EAFNOSUPPORT;
+                    } else if (errsv == EISCONN) {
+                        return SXS_EISCONN;
+                    } else if (errsv == ETIMEDOUT) {
+                        return SXS_ETIMEDOUT;
                     } else if (errsv == ECONNREFUSED) {
                         return SXS_ECONNREFUSED;
+                    } else if (errsv == ENETUNREACH) {
+                        return SXS_ENETUNREACH;
+                    } else if (errsv == EADDRINUSE) {
+                        return SXS_EADDRINUSE;
                     } else if (errsv == EFAULT) {
                         return SXS_EFAULT;
                     } else if (errsv == EINPROGRESS) {
                         return SXS_EINPROGRESS;
+                    } else if (errsv == EALREADY) {
+                        return EALREADY;
+        #ifdef __APPLE__
+                    } else if (errsv == EADDRNOTAVAIL) {
+                        return SXS_EADDRNOTAVAIL;
+                    } else if (errsv == ENOTDIR) {
+                        return SXS_ENOTDIR;
+                    } else if (errsv == ENAMETOOLONG) {
+                        return SXS_ENAMETOOLONG;
+                    } else if (errsv == ENOENT) {
+                        return SXS_ENOENT;
+                    } else if (errsv == ELOOP) {
+                        return SXS_ELOOP;
+        #else
+                    } else if (errsv == EPERM) {
+                        return SXS_EPERM;
+                    } else if (errsv == EAGAIN) {
+                        return SXS_EWOULDBLOCK;
                     } else if (errsv == EINTR) {
                         return SXS_EINTR;
-                    } else if (errsv == EISCONN) {
-                        return SXS_EISCONN;
-                    } else if (errsv == ENETUNREACH) {
-                        return SXS_ENETUNREACH;
-                    } else if (errsv == ENOTSOCK) {
-                        return SXS_ENOTSOCK;
-                    } else if (errsv == ETIMEDOUT) {
-                        return SXS_ETIMEDOUT;
+        #endif
                     } else {
                         return SXS_UNKNOWN_ERROR;
                     }
@@ -667,16 +708,26 @@ sxs_error_t sxs_send(sxs_socket_t sd, const sxs_buf_t buf, sxs_size_t len,
         errsv = errno;
         if (errsv == EACCES) {
             return SXS_EACCES;
-        } else if (errsv == EAGAIN) {
-            return SXS_EWOULDBLOCK;
-        } else if (errsv == EWOULDBLOCK) {
-            return SXS_EWOULDBLOCK;
         } else if (errsv == EBADF) {
             return SXS_EBADF;
-        } else if (errsv == ECONNREFUSED) {
-            return SXS_ECONNREFUSED;
+        } else if (errsv == ENOTSOCK) {
+            return SXS_ENOTSOCK;
         } else if (errsv == EFAULT) {
             return SXS_EFAULT;
+        } else if (errsv == EAGAIN) {
+            return SXS_EWOULDBLOCK;
+    #ifdef __APPLE__
+        } else if (errsv == EMSGSIZE) {
+            return SXS_EMSGSIZE;
+        } else if (errsv == ENOBUFS) {
+            return SXS_ENOBUFS;
+        } else if (errsv == EHOSTUNREACH) {
+            return SXS_EHOSTUNREACH;
+    #else
+        } else if (errsv == EWOULDBLOCK) {
+            return SXS_EWOULDBLOCK;
+        } else if (errsv == ECONNREFUSED) {
+            return SXS_ECONNREFUSED;
         } else if (errsv == EINTR) {
             return SXS_EINTR;
         } else if (errsv == EINVAL) {
@@ -685,12 +736,11 @@ sxs_error_t sxs_send(sxs_socket_t sd, const sxs_buf_t buf, sxs_size_t len,
             return SXS_ENOMEM;
         } else if (errsv == ENOTCONN) {
             return SXS_ENOTCONN;
-        } else if (errsv == ENOTSOCK) {
-            return SXS_ENOTSOCK;
         } else if (errsv == EOPNOTSUPP) {
             return SXS_EOPNOTSUPP;
         } else if (errsv == EPIPE) {
             return SXS_EPIPE;
+    #endif
         } else {
             return SXS_UNKNOWN_ERROR;
         }
@@ -726,7 +776,7 @@ sxs_error_t sxs_send_nb(sxs_socket_t sd, const sxs_buf_t buf,
             sxs_perror("sxs_send_nb: sxs_select:", reterr);
             reterr = sxs_set_nonblock(sd, 0);
             if (reterr != SXS_SUCCESS) {
-                sxs_perror("sxs_recv_nb: sxs_set_nonblock:", reterr);
+                sxs_perror("sxs_send_nb: sxs_set_nonblock:", reterr);
                 return SXS_ERRSETNONBLOCK;
             }
             return SXS_ERRSELECTFAIL;
@@ -742,10 +792,10 @@ sxs_error_t sxs_send_nb(sxs_socket_t sd, const sxs_buf_t buf,
     } else {    /* data is available and ready on the socket */
         reterr = sxs_send(sd, buf, len, 0, p_sent);
         if (reterr != SXS_SUCCESS) {
-            sxs_perror("sxs_recv_nb: sxs_recv:", reterr);
+            sxs_perror("sxs_send_nb: sxs_recv:", reterr);
             reterr = sxs_set_nonblock(sd, 0);
             if (reterr != SXS_SUCCESS) {
-                sxs_perror("sxs_recv_nb: sxs_set_nonblock:", reterr);
+                sxs_perror("sxs_send_nb: sxs_set_nonblock:", reterr);
                 return SXS_ERRSETNONBLOCK;
             }
             return SXS_ERRSENDFAIL;
@@ -754,7 +804,7 @@ sxs_error_t sxs_send_nb(sxs_socket_t sd, const sxs_buf_t buf,
     
     reterr = sxs_set_nonblock(sd, 0);
     if (reterr != SXS_SUCCESS) {
-        sxs_perror("sxs_recv_nb: sxs_set_nonblock:", reterr);
+        sxs_perror("sxs_send_nb: sxs_set_nonblock:", reterr);
         return SXS_ERRSETNONBLOCK;
     }
 
@@ -798,7 +848,7 @@ sxs_error_t sxs_send_nbytes_nb(sxs_socket_t sd, const sxs_buf_t buf,
 
     reterr = sxs_set_nonblock(sd, 1);
     if (reterr != SXS_SUCCESS) {
-        sxs_perror("sxs_recv_nbytes_nb: sxs_set_nonblock:", reterr);
+        sxs_perror("sxs_send_nbytes_nb: sxs_set_nonblock:", reterr);
         return SXS_ERRSETNONBLOCK;
     }
 
@@ -822,7 +872,7 @@ sxs_error_t sxs_send_nbytes_nb(sxs_socket_t sd, const sxs_buf_t buf,
         if (num_ready == 0) {   /* reach the specified timeout */
             reterr = sxs_set_nonblock(sd, 0);
             if (reterr != SXS_SUCCESS) {
-                sxs_perror("sxs_sent_nbytes_nb: sxs_set_nonblock:", reterr);
+                sxs_perror("sxs_send_nbytes_nb: sxs_set_nonblock:", reterr);
                 return SXS_ERRSETNONBLOCK;
             }
             return SXS_ERRSENDTIMEDOUT;
@@ -846,7 +896,7 @@ sxs_error_t sxs_send_nbytes_nb(sxs_socket_t sd, const sxs_buf_t buf,
 
     reterr = sxs_set_nonblock(sd, 0);
     if (reterr != SXS_SUCCESS) {
-        sxs_perror("sxs_recv_nbytes_nb: sxs_set_nonblock:", reterr);
+        sxs_perror("sxs_send_nbytes_nb: sxs_set_nonblock:", reterr);
         return SXS_ERRSETNONBLOCK;
     }
 
@@ -902,20 +952,22 @@ sxs_error_t sxs_recv(sxs_socket_t sd, sxs_buf_t buf, sxs_size_t len,
             return SXS_EWOULDBLOCK;
         } else if (errsv == EBADF) {
             return SXS_EBADF;
-        } else if (errsv == ECONNREFUSED) {
-            return SXS_ECONNREFUSED;
-        } else if (errsv == EFAULT) {
-            return SXS_EFAULT;
-        } else if (errsv == EINTR) {
-            return SXS_EINTR;
-        } else if (errsv == EINVAL) {
-            return SXS_EINVAL;
-        } else if (errsv == ENOMEM) {
-            return SXS_ENOMEM;
         } else if (errsv == ENOTCONN) {
             return SXS_ENOTCONN;
         } else if (errsv == ENOTSOCK) {
             return SXS_ENOTSOCK;
+        } else if (errsv == EFAULT) {
+            return SXS_EFAULT;
+        } else if (errsv == EINTR) {
+            return SXS_EINTR;
+    #ifndef __APPLE__
+        } else if (errsv == ECONNREFUSED) {
+            return SXS_ECONNREFUSED;
+        } else if (errsv == EINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == ENOMEM) {
+            return SXS_ENOMEM;
+    #endif
         } else {
             return SXS_UNKNOWN_ERROR;
         }
@@ -1140,8 +1192,10 @@ sxs_error_t sxs_close(sxs_socket_t sd) {
             return SXS_EBADF;
         } else if (errsv == EINTR) {
             return SXS_EINTR;
+    #ifndef __APPLE__
         } else if (errsv == EIO) {
             return SXS_EIO;
+    #endif
         } else {
             return SXS_UNKNOWN_ERROR;
         }
@@ -1259,12 +1313,16 @@ sxs_error_t sxs_gethostbyname(const char *name, struct hostent **ret) {
         errsv = h_errno;
         if (errsv == HOST_NOT_FOUND) {
             return SXS_HOST_NOT_FOUND;
-        } else if ((errsv == NO_DATA) || (errsv == NO_ADDRESS)) {
+        } else if (errsv == NO_DATA) {
             return SXS_NO_DATA;
         } else if (errsv == NO_RECOVERY) {
             return SXS_NO_RECOVERY;
         } else if (errsv == TRY_AGAIN) {
             return SXS_TRY_AGAIN;
+    #ifndef __APPLE__
+        } else if (errsv == NO_ADDRESS) {
+            return SXS_NO_DATA;
+    #endif
         } else {
             return SXS_UNKNOWN_ERROR;
         }
@@ -1327,8 +1385,10 @@ sxs_error_t sxs_select(int nfds, fd_set *readfds, fd_set *writefds,
             return SXS_EINTR;
         } else if (errsv == EINVAL) {
             return SXS_EINVAL;
+    #ifndef __APPLE__
         } else if (errsv == ENOMEM) {
             return SXS_ENOMEM;
+    #endif
         } else {
             return SXS_UNKNOWN_ERROR;
         }

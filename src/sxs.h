@@ -132,6 +132,9 @@ SXS_EXPORT sxs_error_t sxs_socket(int domain, int type, int protocol,
  * @retval SXS_ENETDOWN The network subsystem has failed.
  * @retval SXS_EINPROGRESS A blocking call is in progress.
  * @retval SXS_ENOBUFS Not enough buffers available, too many connections.
+ * @retval SXS_EIO An I/O error occurred while making the directory
+ * entry or allocating the inode.
+ * @retval SXS_EISDIR An empty path name was specified.
  * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
 SXS_EXPORT sxs_error_t sxs_bind(sxs_socket_t sd,
@@ -241,6 +244,15 @@ SXS_EXPORT sxs_error_t sxs_accept(sxs_socket_t sd, struct sockaddr *addr,
  * @retval SXS_ENOBUFS No buffer space available, sock cannot connect.
  * @retval SXS_EWOULDBLOCK Socket is non-blocking and cannot be
  * completed immediately.
+ * @retval SXS_EADDRNOTAVAIL The specified address is not available on
+ * this machine.
+ * @retval SXS_ENOTDIR A component of the path prefix is not a
+ * directory.
+ * @retval SXS_ENAMETOOLONG A component of the pathname exceeded
+ * NAME_MAX characters, or an entire path exceeded PATH_MAX characters.
+ * @retval SXS_ENOENT The named socket does not exist.
+ * @retval SXS_ELOOP Too many symbolic links were encountered in
+ * translating the pathname.
  * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
 SXS_EXPORT sxs_error_t sxs_connect(sxs_socket_t sd,
@@ -292,6 +304,15 @@ SXS_EXPORT sxs_error_t sxs_connect(sxs_socket_t sd,
  * @retval SXS_ENOBUFS No buffer space available, sock cannot connect.
  * @retval SXS_EWOULDBLOCK Socket is non-blocking and cannot be
  * completed immediately.
+ * @retval SXS_EADDRNOTAVAIL The specified address is not available on
+ * this machine.
+ * @retval SXS_ENOTDIR A component of the path prefix is not a
+ * directory.
+ * @retval SXS_ENAMETOOLONG A component of the pathname exceeded
+ * NAME_MAX characters, or an entire path exceeded PATH_MAX characters.
+ * @retval SXS_ENOENT The named socket does not exist.
+ * @retval SXS_ELOOP Too many symbolic links were encountered in
+ * translating the pathname.
  * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
 SXS_EXPORT sxs_error_t sxs_connect_nb(sxs_socket_t sd,
@@ -343,6 +364,14 @@ SXS_EXPORT sxs_error_t sxs_connect_nb(sxs_socket_t sd,
  * @retval SXS_EHOSTUNREACH Remote host cannot be reached.
  * @retval SXS_ECONNABORTED Terminated due to timout or failure.
  * @retval SXS_ETIMEDOUT Connection dropped because of network failure.
+ * @retval SXS_EMSGSIZE The socket requires that message be sent
+ * atomically, and the size of the message to be sent made this
+ * impossible.
+ * @retval SXS_ENOBUFS The output queue for the network interface was
+ * full. This generally indicates that the interface has stopped
+ * sending, but may be caused by transient congestion.
+ * @retval SXS_EHOSTUNREACH The destination address specified an
+ * unreachable host.
  * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
 SXS_EXPORT sxs_error_t sxs_send(sxs_socket_t sd, const sxs_buf_t buf,
