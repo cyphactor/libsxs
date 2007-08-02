@@ -57,7 +57,7 @@ SXS_EXPORT sxs_error_t sxs_init(void);
  * @return A a value representing an error or success.
  * @retval SXS_SUCCESS Successfully initialized the library.
  * @retval SXS_WSANOTINITIALISED The library was not initialised.
- * @rteval SXS_ENETDOWN The network subsystem has failed.
+ * @retval SXS_ENETDOWN The network subsystem has failed.
  * @retval SXS_EINPROGRESS A blocking call is in progress.
  * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
@@ -449,7 +449,7 @@ SXS_EXPORT sxs_error_t sxs_send_nbytes(sxs_socket_t sd, const sxs_buf_t buf,
  * block until the socket is ready for sending. Before returning the
  * function returns it attempts to set the sockets I/O mode back to the
  * default state of blocking.
- * @param sd The socket descripto of the socket to send bytes on.
+ * @param sd The socket descriptor of the socket to send bytes on.
  * @param buf The pointer to the buffer containing the data to send.
  * @param len The number of bytes to receive over the socket.
  * @param p_timeout Pointer to timeval struct containing the upper bound
@@ -468,6 +468,79 @@ SXS_EXPORT sxs_error_t sxs_send_nbytes_nb(sxs_socket_t sd,
     const sxs_buf_t buf, sxs_size_t len, const struct timeval *p_timeout);
 
 /**
+ * Transmit a message to another socket.
+ *
+ * The sxs_sendto() function is used to transmit a message to another
+ * socket. Unlike the sxs_send() family of functions the sxs_sendto()
+ * function can be used on connection based sockets or non-connection
+ * based sockets. The address of the target is given by 'to' with
+ * 'tolen' specifying its size. The length of the message is given by
+ * 'len'.
+ * @param sd The socke tdescriptor of the socket to send message on.
+ * @param msg The pointer to the message to send.
+ * @param len The size of the message to send in bytes.
+ * @param flags A parameter which may include one or more of the
+ * following: MSG_OOB (used to send 'out of band' data on sockets which
+ * support such) and MSG_DONTROUTE (used to bypass routing).
+ * @param to The address to send message to using the socket 'sd'.
+ * @param tolen The size of address structure to send message to.
+ * @param p_sent Pointer to var to store resulting num of bytes sent.
+ * @return A value represting an error or success.
+ * @retval SXS_SUCCESS Successfully sent message to destination.
+ * @retval SXS_EACCESS The SO_BROADCAST option is not set on the socket,
+ * and a broadcast address was given as the destination.
+ * @retval SXS_EBADF An invalid descriptor was specified.
+ * @retval SXS_ENOTSOCK The argument 'sd' is not a socket.
+ * @retval SXS_EFAULT An invalid user space address was specified for a
+ * parameter.
+ * @retval SXS_EMSGSIZE The socket requires that message be sent
+ * atomically, and the size of the message to be sent made this
+ * impossible.
+ * @retval SXS_EWOULDBLOCK The socket is marked non-blocking and the
+ * requested operation would block.
+ * @retval SXS_ENOBUFS The output queue for a network interface was
+ * full. This generally indicates that the interface has stopped
+ * sending, but may be caused by transient congestion.
+ * @retval SXS_EHOSTUNREACH The destination address specified an
+ * unreachable host.
+ * @retval SXS_ECONNRESET Connection reset by peer.
+ * @retval SXS_EDESTADDRREQ The socket is not in connection-mode, and no
+ * peer address is set.
+ * @retval SXS_EINTR A signal occured before any data was transmitted.
+ * @retval SXS_EINVAL Invalid argument passed.
+ * @retval SXS_EISCONN The connection-mode socket was connected already.
+ * @retval SXS_ENOMEM No memory available.
+ * @retval SXS_ENOTCONN The socket is not connocted and no target has
+ * been given.
+ * @retval SXS_EOPNOTSUPP Some bit in the 'flags' argument is
+ * inappropriate for the socket type.
+ * @retval SXS_EPIPE The local end has been shut down on a connection
+ * oriented socket. In this case the process will also receive a SIGPIPE
+ * unless MSG_NOSIGNAL is set.
+ * @retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * @retval SXS_ENETDOWN The network subsystem has failed.
+ * @retval SXS_EINPROGRESS A blocking call is in progress.
+ * @retval SXS_ENETRESET The connection has been broken due to
+ * keep-alive activity detecting a failure while the operation was in
+ * progress.
+ * @retval SXS_ESHUTDOWN The socket has been shutdown.
+ * @retval SXS_ECONNABORTED The virtual circuit was terminated due to a
+ * timeout or failure.
+ * @retval SXS_EADDRNOTAVAIL The remote address is not a valid address.
+ * @retval SXS_EAFNOSUPPORT Addresses in the specified family cannot be
+ * used with this socket.
+ * @retval SXS_ENETUNREACH The network cannot be reached from this host
+ * at this time.
+ * @retval SXS_ETIMEDOUT The connection has been dropped, because of
+ * network failure or because the system on the other end went down
+ * without notice.
+ * @retval SXS_UNKNOWN_ERROR An unknown error has occured.
+ */
+SXS_EXPORT sxs_error_t sxs_sendto(sxs_socket_t sd, const sxs_buf_t msg,
+    sxs_size_t len, int flags, const struct sockaddr *to,
+    sxs_socklen_t tolen, sxs_ssize_t *p_sent);
+
+/**
  * Receive up to the specified number of bytes from the socket.
  *
  * The sxs_recv() function receives up to the specified number of bytes
@@ -480,7 +553,7 @@ SXS_EXPORT sxs_error_t sxs_send_nbytes_nb(sxs_socket_t sd,
  * @param flags One or more OR'd message flags controlling behavior,
  * generally 0.
  * @param p_recvd Pointer to var to store resulting num of bytes recv'd.
- * @return A a value representing an error or success.
+ * @return A value representing an error or success.
  * @retval SXS_SUCCESS Successfully received data on the socket.
  * @retval SXS_EWOULDBLOCK Socket is non-blocking but would block.
  * @retval SXS_EBADF 'sd' is an invalid socket descriptor.
@@ -595,6 +668,65 @@ SXS_EXPORT sxs_error_t sxs_recv_nbytes(sxs_socket_t sd, sxs_buf_t buf,
  */
 SXS_EXPORT sxs_error_t sxs_recv_nbytes_nb(sxs_socket_t sd, sxs_buf_t buf,
     sxs_size_t len, const struct timeval *p_timeout);
+
+/**
+ * Receive a message from a socket.
+ *
+ * The sxs_recvfrom() function attempts to receive a message from a
+ * socket and store the senders address. It may be used on
+ * connection-oriented or non-connection-oriented sockets. The MSG_PEEK
+ * flag causes the receive operation to return data from the beginning
+ * of the receive queue without removing that data from the queue.
+ * @param sd The socket descriptor of the socket to receive message on.
+ * @param buf The pointer to buffer to store received message in.
+ * @param len The size of the buffer to store the message in, in bytes.
+ * @param flags A parameter to specify one or more of the low level
+ * options, MSG_OOB (allows processing of 'out of band' data), MSG_PEEK
+ * (peeks at incoming data).
+ * @param from Pointer to address struct to store senders address in.
+ * @param fromlen A value-result parameter, initialized to the size of
+ * the buffer associated with 'from', and modified on return to indicate
+ * the actual size of the address stored there.
+ * @param p_recvd Pointer to var to store resulting num of bytes
+ * received.
+ * @return A value represting an error or success.
+ * @retval SXS_SUCCESS Successfully sent message to destination.
+ * @retval SXS_EBADF The argument 'sd' is an invalid descriptor.
+ * @retval SXS_ENOTSOCK The argument 'sd' does not refer to a socket.
+ * @retval SXS_ENOTCONN The socket is associated with a
+ * connection-oriented protocol and has not been connected (see
+ * sxs_connect() and sxs_accept()).
+ * @retval SXS_EWOULDBLOCK The socket is marked non-blocking, and the
+ * receive operation would block, or a receive timeout had been set, and
+ * the timeout expired before data were received.
+ * @retval SXS_EINTR The receive was interrupted by delivery of a signal
+ * before any data were available.
+ * @retval SXS_EFAULT The receive buffer pointer(s) point outside the
+ * process's address space.
+ * @retval SXS_ECONNREFUSED A remote host refused to allow the network
+ * connection.
+ * @retval SXS_EINVAL Invalid argument passed.
+ * @retval SXS_ENOMEM Could not allocate memory.
+ * @retval SXS_WSANOTINITIALIZED The library was not initialized.
+ * @retval SXS_ENETDOWN The network subsystem has failed.
+ * @retval SXS_EINPROGRESS A blocking call is in progress.
+ * @retval SXS_ENETRESET The connection has been broken due to
+ * keep-alive activity detecting a failure while the operation was in
+ * progress.
+ * @retval SXS_EOPNOTSUPP An inappropriate bit was set in 'flag' for the
+ * given protocol or socket type.
+ * @retval SXS_ESHUTDOWN The socket has been shutdown.
+ * @retval SXS_EMSGSIZE The message was too large to fit in the buffer.
+ * @retval SXS_ETIMEDOUT The connection has been dropped, because of
+ * network failure or because the system on the other end went down
+ * without notice.
+ * @retval SXS_ECONNRESET The virtual circuit was reset by the remote
+ * side executing a hard or abortive close.
+ * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
+ */
+SXS_EXPORT sxs_error_t sxs_recvfrom(sxs_socket_t sd, sxs_buf_t buf,
+    sxs_size_t len, int flags, struct sockaddr *from,
+    sxs_socklen_t *fromlen, sxs_ssize_t *p_recvd);
 
 /**
  * Close the socket associated with the given socket descriptor.

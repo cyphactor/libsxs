@@ -1,3 +1,13 @@
+2007-08-02 Andrew De Ponte <cyphactor@gmail.com>
+
+* Implemented and Documented the sxs_sendto() function so that there
+existed a basic function for sending data on connectionless sockets.
+
+* Implemented and Documented the sxs_recvfrom() function so that there
+existed a basic function for receiving data on connectionless sockets.
+
+* Fixed a documentation typo for the sxs_uninit() function.
+
 -- 0.3.0 -- tagged as lib_sxs_0_3_0.
 
 2007-08-01 Andrew De Ponte <cyphactor@gmail.com>

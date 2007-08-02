@@ -903,6 +903,118 @@ sxs_error_t sxs_send_nbytes_nb(sxs_socket_t sd, const sxs_buf_t buf,
     return SXS_SUCCESS;
 }
 
+sxs_error_t sxs_sendto(sxs_socket_t sd, const sxs_buf_t msg, sxs_size_t len,
+    int flags, const struct sockaddr *to, sxs_socklen_t tolen,
+    sxs_ssize_t *p_sent) {
+    
+    sxs_ssize_t r;
+    sxs_errno_t errsv;
+    
+    r = sendto(sd, msg, len, flags, to, tolen);
+    if (r == SXS_SOCKET_ERROR) {
+#ifdef WIN32
+        errsv = WSAGetLastError();
+        if (errsv == WSANOTINITIALISED) {
+            return SXS_WSANOTINITIALISED;
+        } else if (errsv == WSAENETDOWN) {
+            return SXS_ENETDOWN;
+        } else if (errsv == WSAEACCES) {
+            return SXS_EACCES;
+        } else if (errsv == WSAEINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == WSAEINTR) {
+            return SXS_EINTR;
+        } else if (errsv == WSAEINPROGRESS) {
+            return SXS_EINPROGRESS;
+        } else if (errsv == WSAEFAULT) {
+            return SXS_EFAULT;
+        } else if (errsv == WSAENETRESET) {
+            return SXS_ENETRESET;
+        } else if (errsv == WSAENOBUFS) {
+            return SXS_ENOBUFS;
+        } else if (errsv == WSAENOTCONN) {
+            return SXS_ENOTCONN;
+        } else if (errsv == WSAENOTSOCK) {
+            return SXS_ENOTSOCK;
+        } else if (errsv == WSAEOPNOTSUPP) {
+            return SXS_EOPNOTSUPP;
+        } else if (errsv == WSAESHUTDOWN) {
+            return SXS_ESHUTDOWN;
+        } else if (errsv == WSAEWOULDBLOCK) {
+            return SXS_EWOULDBLOCK;
+        } else if (errsv == WSAEMSGSIZE) {
+            return SXS_EMSGSIZE;
+        } else if (errsv == WSAEHOSTUNREACH) {
+            return SXS_EHOSTUNREACH;
+        } else if (errsv == WSAECONNABORTED) {
+            return SXS_ECONNABORTED;
+        } else if (errsv == WSAECONNRESET) {
+            return SXS_ECONNRESET;
+        } else if (errsv == WSAEADDRNOTAVAIL) {
+            return SXS_EADDRNOTAVAIL;
+        } else if (errsv == WSAEAFNOSUPPORT) {
+            return SXS_EAFNOSUPPORT;
+        } else if (errsv == WSAEDESTADDRREQ) {
+            return SXS_EDESTADDRREQ;
+        } else if (errsv == WSAENETUNREACH) {
+            return SXS_ENETUNREACH;
+        } else if (errsv == WSAETIMEDOUT) {
+            return SXS_ETIMEDOUT;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+#else
+        errsv = errno;
+        if (errsv == EACCES) {
+            return SXS_EACCES;
+        } else if (errsv == EBADF) {
+            return SXS_EBADF;
+        } else if (errsv == ENOTSOCK) {
+            return SXS_ENOTSOCK;
+        } else if (errsv == EFAULT) {
+            return SXS_EFAULT;
+        } else if (errsv == EMSGSIZE) {
+            return SXS_EMSGSIZE;
+        } else if (errsv == EAGAIN) {
+            return SXS_EWOULDBLOCK;
+        } else if (errsv == ENOBUFS) {
+            return SXS_ENOBUFS;
+    #ifdef __APPLE__
+        } else if (errsv == EHOSTUNREACH) {
+            return SXS_EHOSTUNREACH;
+    #else
+        } else if (errsv == EWOULDBLOCK) {
+            return SXS_EWOULDBLOCK;
+        } else if (errsv == ECONNRESET) {
+            return SXS_ECONNRESET;
+        } else if (errsv == EDESTADDRREQ) {
+            return SXS_EDESTADDRREQ;
+        } else if (errsv == EINTR) {
+            return SXS_EINTR;
+        } else if (errsv == EINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == EISCONN) {
+            return SXS_EISCONN;
+        } else if (errsv == ENOMEM) {
+            return SXS_ENOMEM;
+        } else if (errsv == ENOTCONN) {
+            return SXS_ENOTCONN;
+        } else if (errsv == EOPNOTSUPP) {
+            return SXS_EOPNOTSUPP;
+        } else if (errsv == EPIPE) {
+            return SXS_EPIPE;
+    #endif
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+#endif
+    }
+
+    (*p_sent) = r;
+
+    return SXS_SUCCESS;
+}
+
 sxs_error_t sxs_recv(sxs_socket_t sd, sxs_buf_t buf, sxs_size_t len,
     int flags, sxs_ssize_t *p_recvd) {
     
@@ -1155,6 +1267,83 @@ sxs_error_t sxs_recv_nbytes_nb(sxs_socket_t sd, sxs_buf_t buf,
         sxs_perror("sxs_recv_nbytes_nb: sxs_set_nonblock:", reterr);
         return SXS_ERRSETNONBLOCK;
     }
+
+    return SXS_SUCCESS;
+}
+
+sxs_error_t sxs_recvfrom(sxs_socket_t sd, sxs_buf_t buf, sxs_size_t len,
+    int flags, struct sockaddr *from, sxs_socklen_t *fromlen,
+    sxs_ssize_t *p_recvd) {
+    
+    sxs_ssize_t r;
+    sxs_errno_t errsv;
+    
+    r = recvfrom(sd, buf, len, flags, from, fromlen);
+    if (r == SXS_SOCKET_ERROR) {
+#ifdef WIN32
+        errsv = WSAGetLastError();
+        if (errsv == WSANOTINITIALISED) {
+            return SXS_WSANOTINITIALISED;
+        } else if (errsv == WSAENETDOWN) {
+            return SXS_ENETDOWN;
+        } else if (errsv == WSAEFAULT) {
+            return SXS_EFAULT;
+        } else if (errsv == WSAEINTR) {
+            return SXS_EINTR;
+        } else if (errsv == WSAEINPROGRESS) {
+            return SXS_EINPROGRESS;
+        } else if (errsv == WSAEINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == WSAEISCONN) {
+            return SXS_EISCONN;
+        } else if (errsv == WSAENETRESET) {
+            return SXS_ENETRESET;
+        } else if (errsv == WSAENOTSOCK) {
+            return SXS_ENOTSOCK;
+        } else if (errsv == WSAEOPNOTSUPP) {
+            return SXS_EOPNOTSUPP;
+        } else if (errsv == WSAESHUTDOWN) {
+            return SXS_ESHUTDOWN;
+        } else if (errsv == WSAEWOULDBLOCK) {
+            return SXS_EWOULDBLOCK;
+        } else if (errsv == WSAEMSGSIZE) {
+            return SXS_EMSGSIZE;
+        } else if (errsv == WSAETIMEDOUT) {
+            return SXS_ETIMEDOUT;
+        } else if (errsv == WSAECONNRESET) {
+            return SXS_ECONNRESET;
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+#else
+        errsv = errno;
+        if (errsv == EBADF) {
+            return SXS_EBADF;
+        } else if (errsv == ENOTCONN) {
+            return SXS_ENOTCONN;
+        } else if (errsv == ENOTSOCK) {
+            return SXS_ENOTSOCK;
+        } else if (errsv == EAGAIN) {
+            return SXS_EWOULDBLOCK;
+        } else if (errsv == EINTR) {
+            return SXS_EINTR;
+        } else if (errsv == EFAULT) {
+            return SXS_EFAULT;
+    #ifndef __APPLE__
+        } else if (errsv == ECONNREFUSED) {
+            return SXS_ECONNREFUSED;
+        } else if (errsv == EINVAL) {
+            return SXS_EINVAL;
+        } else if (errsv == ENOMEM) {
+            return SXS_ENOMEM;
+    #endif
+        } else {
+            return SXS_UNKNOWN_ERROR;
+        }
+#endif
+    }
+
+    (*p_recvd) = r;
 
     return SXS_SUCCESS;
 }
