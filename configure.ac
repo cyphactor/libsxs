@@ -55,7 +55,7 @@ case $host in
     # of address space mapping.
     #*-apple-darwin*) SXS_SYSTEM='-Wl,-prebind,-seg1addr,0xC0000000' ;;
 	*darwin8*) CFLAGS="$CFALGS -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
-	LDFLAGS="$LDFLAGS -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc" ;;
+	SXS_SYSTEM="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc" ;;
 	*darwin9*) CFLAGS="$CFLAGS -arch i386 -arch ppc" ;;
 
     #

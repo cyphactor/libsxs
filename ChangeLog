@@ -1,5 +1,9 @@
 2007-12-27 Andrew De Ponte <cyphactor@gmail.com>
 
+* configure.ac (): Modified the configure.ac script to instead of setting the LDFLAGS environment variable which was not getting exporting to instead set the SXS_SYSTEM variable which is getting exported properly and used properly within the Makefile.am files.
+
+2007-12-27 Andrew De Ponte <cyphactor@gmail.com>
+
 * configure.ac (): Commented out the prebinding for Mac OS X because it is no longer needed. I also added apple specific build options to build universal binary version for both ppc and intel as the default option.
 
 * src/Makefile.am (): Added the disable dependency tracking option to the file so that the multiple -arch options can be passed in the configure.ac properly.
