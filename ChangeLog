@@ -1,3 +1,7 @@
+2007-12-28 Andrew De Ponte <cyphactor@gmail.com>
+
+* configure.ac (): Fixed a typo of CFLAGS in the configure.ac within the ppc build.
+
 2007-12-27 Andrew De Ponte <cyphactor@gmail.com>
 
 * configure.ac (): Modified the configure.ac script to instead of setting the LDFLAGS environment variable which was not getting exporting to instead set the SXS_SYSTEM variable which is getting exported properly and used properly within the Makefile.am files.
