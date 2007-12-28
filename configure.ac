@@ -53,7 +53,10 @@ case $host in
     # specifies to the linker (ld) that the starting address at which it
     # should start binding is 0xC0000000. This is done to avoid overlap
     # of address space mapping.
-    *-apple-darwin*) SXS_SYSTEM='-Wl,-prebind,-seg1addr,0xC0000000' ;;
+    #*-apple-darwin*) SXS_SYSTEM='-Wl,-prebind,-seg1addr,0xC0000000' ;;
+	*darwin8*) CFLAGS="$CFALGS -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
+	LDFLAGS="$LDFLAGS -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc" ;;
+	*darwin9*) CFLAGS="$CFLAGS -arch i386 -arch ppc" ;;
 
     #
     # FIX-ME:
@@ -91,7 +94,7 @@ esac
 # the library is the release version.
 #CFLAGS='-O2'
 
-#AC_SUBST([CFLAGS])
+AC_SUBST([CFLAGS])
 AC_SUBST([SXS_SYSTEM])
 #AC_SUBST([PMF_CFLAGS])
 

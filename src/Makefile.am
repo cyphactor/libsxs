@@ -1,4 +1,5 @@
 AM_CFLAGS = -Wall -Werror
+AUTOMAKE_OPTIONS = no-dependencies
 sxsincdir = $(includedir)/sxs
 lib_LTLIBRARIES = libsxs.la
 libsxs_la_LDFLAGS = -no-undefined -version-info 0:0:0 @SXS_SYSTEM@
