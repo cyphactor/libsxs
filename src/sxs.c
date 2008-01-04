@@ -134,7 +134,7 @@ sxs_error_t sxs_socket(int domain, int type, int protocol,
     return SXS_SUCCESS;
 }
 
-sxs_error_t sxs_bind(sxs_socket_t sd, const struct sockaddr *my_addr,
+sxs_error_t sxs_bind(sxs_socket_t sd, const sxs_sockaddr_t *my_addr,
     sxs_socklen_t addrlen) {
 
     int r;
@@ -263,7 +263,7 @@ sxs_error_t sxs_listen(sxs_socket_t sd, int backlog) {
     return SXS_SUCCESS;
 }
 
-sxs_error_t sxs_accept(sxs_socket_t sd, struct sockaddr *addr,
+sxs_error_t sxs_accept(sxs_socket_t sd, sxs_sockaddr_t *addr,
     sxs_socklen_t *addrlen, sxs_socket_t *p_sd) {
 
     sxs_socket_t connsd;
@@ -345,7 +345,7 @@ sxs_error_t sxs_accept(sxs_socket_t sd, struct sockaddr *addr,
     return SXS_SUCCESS;
 }
 
-sxs_error_t sxs_connect(sxs_socket_t sd, const struct sockaddr *serv_addr,
+sxs_error_t sxs_connect(sxs_socket_t sd, const sxs_sockaddr_t *serv_addr,
     sxs_socklen_t addrlen) {
 
     int r;
@@ -450,7 +450,7 @@ sxs_error_t sxs_connect(sxs_socket_t sd, const struct sockaddr *serv_addr,
     return SXS_SUCCESS;
 }
 
-sxs_error_t sxs_connect_nb(sxs_socket_t sd, const struct sockaddr *serv_addr,
+sxs_error_t sxs_connect_nb(sxs_socket_t sd, const sxs_sockaddr_t *serv_addr,
     sxs_socklen_t addrlen, const struct timeval *p_timeout) {
 
     sxs_error_t reterr;
@@ -904,7 +904,7 @@ sxs_error_t sxs_send_nbytes_nb(sxs_socket_t sd, const sxs_buf_t buf,
 }
 
 sxs_error_t sxs_sendto(sxs_socket_t sd, const sxs_buf_t msg, sxs_size_t len,
-    int flags, const struct sockaddr *to, sxs_socklen_t tolen,
+    int flags, const sxs_sockaddr_t *to, sxs_socklen_t tolen,
     sxs_ssize_t *p_sent) {
     
     sxs_ssize_t r;
@@ -1272,7 +1272,7 @@ sxs_error_t sxs_recv_nbytes_nb(sxs_socket_t sd, sxs_buf_t buf,
 }
 
 sxs_error_t sxs_recvfrom(sxs_socket_t sd, sxs_buf_t buf, sxs_size_t len,
-    int flags, struct sockaddr *from, sxs_socklen_t *fromlen,
+    int flags, sxs_sockaddr_t *from, sxs_socklen_t *fromlen,
     sxs_ssize_t *p_recvd) {
     
     sxs_ssize_t r;

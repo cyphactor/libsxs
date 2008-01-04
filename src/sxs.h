@@ -71,9 +71,9 @@ SXS_EXPORT sxs_error_t sxs_uninit(void);
  * the 'p_socket' parameter. The 'domain' parameter specifies a
  * communication domain which selects the protocol family (a.k.a.
  * address family). Acceptable values for the 'domain' are the
- * following, AF_INET,  and AF_INET6. The 'type' parameter specifies the
+ * following, SXS_AF_INET, and SXS_AF_UNIX. The 'type' parameter specifies the
  * communication semantics to use given one of the following types,
- * SOCK_STREAM, SOCK_DGRAM, SOCK_SEQPACKET, SOCK_RAW, and SOCK_RDM. The
+ * SXS_SOCK_STREAM, SXS_SOCK_DGRAM, SXS_SOCK_SEQPACKET, SXS_SOCK_RAW, and SXS_SOCK_RDM. The
  * 'protocol' parameter specifies a particular protocol to be used with
  * the socket. Normally only a single protocol exists to support a
  * particular socket type within a given protocol family, in which case
@@ -138,7 +138,7 @@ SXS_EXPORT sxs_error_t sxs_socket(int domain, int type, int protocol,
  * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
 SXS_EXPORT sxs_error_t sxs_bind(sxs_socket_t sd,
-    const struct sockaddr *my_addr, sxs_socklen_t addrlen);
+    const sxs_sockaddr_t *my_addr, sxs_socklen_t addrlen);
 
 /**
  * Place the specified socket into a listening state.
@@ -173,7 +173,7 @@ SXS_EXPORT sxs_error_t sxs_listen(sxs_socket_t sd, int backlog);
  * socket, and pass the new socket descriptor via the 'p_sd' parameter.
  * Note: The original socket 'sd' is unaffected by this call.
  * @param sd Listening socket to accept the first queued connection from.
- * @param addr Pointer to sockaddr structure to store peer socket addr.
+ * @param addr Pointer to socket address type to store peer socket addr.
  * @param addrlen Initially contain size of sockaddr struct in bytes, on
  * return it will contain the actual length of the address returned in
  * bytes. When 'addr' is NULL nothing is filled in.
@@ -202,7 +202,7 @@ SXS_EXPORT sxs_error_t sxs_listen(sxs_socket_t sd, int backlog);
  * @retval SXS_ENETDOWN The network subsystem has failed.
  * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
-SXS_EXPORT sxs_error_t sxs_accept(sxs_socket_t sd, struct sockaddr *addr,
+SXS_EXPORT sxs_error_t sxs_accept(sxs_socket_t sd, sxs_sockaddr_t *addr,
     sxs_socklen_t *addrlen, sxs_socket_t *p_sd);
 
 /**
@@ -212,7 +212,7 @@ SXS_EXPORT sxs_error_t sxs_accept(sxs_socket_t sd, struct sockaddr *addr,
  * to the specified address. The format of the specified address depends
  * on the type of socket 'sd' is.
  * @param sd Socket descriptor representing a socket.
- * @param serv_addr Address struct representing remote server to conn to.
+ * @param serv_addr Address representing remote server to conn to.
  * @param addrlen The len in bytes of the address structure.
  * @return A a value representing an error or success.
  * @retval SXS_SUCCESS Successfully connected the socket.
@@ -256,7 +256,7 @@ SXS_EXPORT sxs_error_t sxs_accept(sxs_socket_t sd, struct sockaddr *addr,
  * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
 SXS_EXPORT sxs_error_t sxs_connect(sxs_socket_t sd,
-    const struct sockaddr *serv_addr, sxs_socklen_t addrlen);
+    const sxs_sockaddr_t *serv_addr, sxs_socklen_t addrlen);
 
 /**
  * Connect the socket to the specified address in a non-blocking fashion.
@@ -265,7 +265,7 @@ SXS_EXPORT sxs_error_t sxs_connect(sxs_socket_t sd,
  * socket to the specified address within the given timeout. The format
  * of the specified address depends on the type of socket 'sd' is.
  * @param sd Socket descriptor representing a socket.
- * @param serv_addr Address struct representing remote server to conn to.
+ * @param serv_addr Address representing remote server to conn to.
  * @param addrlen The len in bytes of the address structure.
  * @param p_timeout Pointer to timeval struct containing timeout values.
  * @return A a value representing an error or success.
@@ -316,7 +316,7 @@ SXS_EXPORT sxs_error_t sxs_connect(sxs_socket_t sd,
  * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
 SXS_EXPORT sxs_error_t sxs_connect_nb(sxs_socket_t sd,
-    const struct sockaddr *serv_addr, sxs_socklen_t addrlen,
+    const sxs_sockaddr_t *serv_addr, sxs_socklen_t addrlen,
     const struct timeval *p_timeout);
 
 /**
@@ -476,7 +476,7 @@ SXS_EXPORT sxs_error_t sxs_send_nbytes_nb(sxs_socket_t sd,
  * based sockets. The address of the target is given by 'to' with
  * 'tolen' specifying its size. The length of the message is given by
  * 'len'.
- * @param sd The socke tdescriptor of the socket to send message on.
+ * @param sd The socket descriptor of the socket to send message on.
  * @param msg The pointer to the message to send.
  * @param len The size of the message to send in bytes.
  * @param flags A parameter which may include one or more of the
@@ -537,7 +537,7 @@ SXS_EXPORT sxs_error_t sxs_send_nbytes_nb(sxs_socket_t sd,
  * @retval SXS_UNKNOWN_ERROR An unknown error has occured.
  */
 SXS_EXPORT sxs_error_t sxs_sendto(sxs_socket_t sd, const sxs_buf_t msg,
-    sxs_size_t len, int flags, const struct sockaddr *to,
+    sxs_size_t len, int flags, const sxs_sockaddr_t *to,
     sxs_socklen_t tolen, sxs_ssize_t *p_sent);
 
 /**
@@ -683,7 +683,7 @@ SXS_EXPORT sxs_error_t sxs_recv_nbytes_nb(sxs_socket_t sd, sxs_buf_t buf,
  * @param flags A parameter to specify one or more of the low level
  * options, MSG_OOB (allows processing of 'out of band' data), MSG_PEEK
  * (peeks at incoming data).
- * @param from Pointer to address struct to store senders address in.
+ * @param from Pointer to address variable to store senders address in.
  * @param fromlen A value-result parameter, initialized to the size of
  * the buffer associated with 'from', and modified on return to indicate
  * the actual size of the address stored there.
@@ -725,7 +725,7 @@ SXS_EXPORT sxs_error_t sxs_recv_nbytes_nb(sxs_socket_t sd, sxs_buf_t buf,
  * @retval SXS_UNKNOWN_ERROR An unkwon error has occured.
  */
 SXS_EXPORT sxs_error_t sxs_recvfrom(sxs_socket_t sd, sxs_buf_t buf,
-    sxs_size_t len, int flags, struct sockaddr *from,
+    sxs_size_t len, int flags, sxs_sockaddr_t *from,
     sxs_socklen_t *fromlen, sxs_ssize_t *p_recvd);
 
 /**

@@ -154,6 +154,35 @@
 #endif
 
 /**
+ * @typedef sxs_sockaddr_in_t
+ * @brief A type representing an internet socket address.
+ * 
+ * The sxs_sockaddr_in_t is a cross-platform type which represents an
+ * internet socket address. Behind the scenes this type is simply a structure
+ * of the following format:
+ * @code
+ * typedef struct sockaddr_in {
+ *      short           sin_family;     // e.g. SXS_AF_INET
+ *      unsigned short  sin_port;       // e.g. sxs_htons(4213)
+ *      struct in_addr  sin_addr;       // see struct in_addr, below
+ *      char            sin_zero[8];    // zero this
+ * } sxs_sockaddr_in_t;
+ *
+ * struct in_addr {
+ *      sxs_in_addr_t s_addr;   // load with sxs_inet_addr()  
+ * };
+ * @endcode
+ */
+ 
+/**
+ * @typedef sxs_sockaddr_t
+ * @brief A type representing an general socket address.
+ *
+ * The sxs_sockaddr_t is a cross-platform type which represents a general
+ * socket address.
+ */
+
+/**
  * @typedef sxs_errno_t
  * @brief An error code.
  * 
@@ -168,9 +197,83 @@
  * The sxs_error_t is a cross-platform type which represents an error
  * code.
  */
+ 
+/**
+ * @def SXS_AF_UNIX
+ * @brief A macro used to identify the Unix sockets family/domain.
+ *
+ * The SXS_AF_UNIX macro is designed to be use to identify the Unix sockets
+ * family/domain.
+ */
+
+/**
+ * @def SXS_AF_INET
+ * @brief A macro used to indentify the IPv4 sockets family/domain.
+ *
+ * The SXS_AF_INET macro is designed to be used to identify the IPv4 sockets
+ * family/domain.
+ */
+ 
+/**
+ * @def SXS_SOCK_STREAM
+ * @brief A macro used to identify the stream socket type.
+ *
+ * Stream sockets provide sequenced, reliable, two-way connection based byte
+ * streams. This socket type is used for TCP based connections.
+ */
+ 
+/**
+ * @def SXS_SOCK_DGRAM
+ * @brief A macro used to identify the datagrame socket type.
+ *
+ * Datagram sockets provide connectionless, unreliable messages of a fixed
+ * (generally small) maximum length. This socket type is usef for UDP based
+ * connections.
+ */
+ 
+/**
+ * @def SXS_SOCK_RAW
+ * @brief A macro used to identify the raw socket type.
+ *
+ * Raw sockets provide access to the internal network protocols and
+ * interfaces and is not generally used.
+ */
+ 
+/**
+ * @def SXS_SOCK_SEQPACKET
+ * @brief A macro used to identify the sequenced packet socket type.
+ *
+ * Sequenced packet sockets provide a sequenced, reliable, two-way connection
+ * based transmission path for datagrams of a fixed maximum length. This
+ * socket type is not generally used.
+ */
+ 
+/**
+ * @def SXS_SOCK_RDM
+ * @brief A macro used to identify the reliable datagram socket type.
+ *
+ * Reliable datagram sockets provide a reliable datagram layer that does not
+ * gaurantee ordering. This socket type is not generally used and is currently
+ * not implemented on Mac OS X systems.
+ */
+
+typedef struct sockaddr_in sxs_sockaddr_in_t;
+typedef struct sockaddr sxs_sockaddr_t;
 
 typedef sxs_int32_t sxs_error_t;
 typedef int sxs_errno_t;
 #define SXS_INADDR_NONE INADDR_NONE
+#define SXS_INADDR_ANY INADDR_ANY
+
+/* socket families/domains */
+#define SXS_AF_UNIX AF_UNIX
+#define SXS_AF_INET AF_INET
+
+/* socket types */
+#define SXS_SOCK_STREAM SOCK_STREAM
+#define SXS_SOCK_DGRAM SOCK_DGRAM
+#define SXS_SOCK_RAW SOCK_RAW
+#define SXS_SOCK_SEQPACKET SOCK_SEQPACKET
+#define SXS_SOCK_RDM SOCK_RDM
 
 #endif /* SXS_TYPES_H */

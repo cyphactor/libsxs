@@ -1,3 +1,17 @@
+2008-01-03 Andrew De Ponte <cyphactor@gmail.com>
+
+* source:trunk/src/sxs_types.h (): Created a new macro that defines the new SXS_INADDR_ANY macro to be equal to INADDR_ANY so that from the client applications perspective the API is consistent. This completes ticket #67.
+
+* source:trunk/src/sxs_types.h (): Created new macros that define the available address families (SXS_AF_INET and SXS_AF_UNIX) and documented them using doxygen formatting as well as updated the socket() functions doxygen documentation to match. This completes ticket #64.
+
+* source:trunk/src/sxs_types.h (): Created new macros that define the available socket types (SXS_SOCKT_STREAM, SXS_SOCK_DGRAM, SXS_SOCK_RAW, SXS_SOCK_SEQPACKET, and SXS_SOCK_RDM) and documented them using the doxygen formatting as well as updated the socket() functions doxygen documentation to match. This completes ticket #65.
+
+* source:trunk/src/sxs_types.h (): Created new types (sxs_sockaddr_t and sxs_sockaddr_in) to represent a general socket address and an internet socket address. Beyond that I documented the types using doxygen style commenting. This moves towards completion of tickets #63 and #62.
+
+* source:trunk/src/sxs.h (): Updated all functions which had 'struct sockaddr' as a parameter to use the new sxs_sockaddr_t type instead and updated their respective doxygen commenting to match this modification so that the library is more consistent. This moves towards completion of tickets #63 and #62.
+
+* source:trunk/src/sxs.c (): Updated all functions which had 'struct sockaddr' as a parameter to use the new sxs_sockaddr_t type instead so that the library is more consistent. This completes tickets #63 and #62.
+
 2007-12-28 Andrew De Ponte <cyphactor@gmail.com>
 
 * configure.ac (): Fixed a typo of CFLAGS in the configure.ac within the ppc build.
