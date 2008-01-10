@@ -54,9 +54,14 @@ case $host in
     # should start binding is 0xC0000000. This is done to avoid overlap
     # of address space mapping.
     #*-apple-darwin*) SXS_SYSTEM='-Wl,-prebind,-seg1addr,0xC0000000' ;;
-	*darwin8*) CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
-	SXS_SYSTEM="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc" ;;
-	*darwin9*) CFLAGS="$CFLAGS -arch i386 -arch ppc" ;;
+	#*darwin8*) CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
+	#SXS_SYSTEM="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc" ;;
+	#*darwin9*) CFLAGS="$CFLAGS -arch i386 -arch ppc" ;;
+	
+	*darwin*)
+	    CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
+	    SXS_SYSTEM="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
+	    ;;
 
     #
     # FIX-ME:

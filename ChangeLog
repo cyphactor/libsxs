@@ -1,3 +1,7 @@
+2008-01-09 Andrew De Ponte <cyphactor@gmail.com>
+
+* source:trunk/configure.ac (): Modified the configure.ac file so that lib_sxs could be built as a Mac OS X 10.4 universal library on either a Mac OS X 10.4 machine or a Mac OS X 10.5 machine.
+
 2008-01-03 Andrew De Ponte <cyphactor@gmail.com>
 
 * source:trunk/src/sxs_types.h (): Created a new macro that defines the new SXS_INADDR_ANY macro to be equal to INADDR_ANY so that from the client applications perspective the API is consistent. This completes ticket #67.
