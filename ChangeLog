@@ -1,3 +1,7 @@
+2008-01-12 Andrew De Ponte <cyphactor@gmail.com>
+
+* source:trunk/ChangeLog (): Unwrapped all the descriptions that were hard-wrapped. 
+
 2008-01-09 Andrew De Ponte <cyphactor@gmail.com>
 
 * source:trunk/configure.ac (): Modified the configure.ac file so that lib_sxs could be built as a Mac OS X 10.4 universal library on either a Mac OS X 10.4 machine or a Mac OS X 10.5 machine.
@@ -32,11 +36,9 @@
 
 2007-08-02 Andrew De Ponte <cyphactor@gmail.com>
 
-* Implemented and Documented the sxs_sendto() function so that there
-existed a basic function for sending data on connectionless sockets.
+* Implemented and Documented the sxs_sendto() function so that there existed a basic function for sending data on connectionless sockets.
 
-* Implemented and Documented the sxs_recvfrom() function so that there
-existed a basic function for receiving data on connectionless sockets.
+* Implemented and Documented the sxs_recvfrom() function so that there existed a basic function for receiving data on connectionless sockets.
 
 * Fixed a documentation typo for the sxs_uninit() function.
 
@@ -44,381 +46,189 @@ existed a basic function for receiving data on connectionless sockets.
 
 2007-08-01 Andrew De Ponte <cyphactor@gmail.com>
 
-* Modified the sxs_perror() function so that on Windows machines it
-implements it's own mapping between Windows socket error codes and
-english strings describing the error so that error messages can be
-properly printed on Windows machines the way they already could on
-Unix/Mac OS X machines.
+* Modified the sxs_perror() function so that on Windows machines it implements it's own mapping between Windows socket error codes and english strings describing the error so that error messages can be properly printed on Windows machines the way they already could on Unix/Mac OS X machines.
 
-* Updated the Doxygen files project version to 0.3.0 now that I
-completed the last task associated with version 0.3.0. I also modified
-the configure.ac files version information to 0.3.0 since I am ready to
-make the 0.3.0 commit and then tag.
+* Updated the Doxygen files project version to 0.3.0 now that I completed the last task associated with version 0.3.0. I also modified the configure.ac files version information to 0.3.0 since I am ready to make the 0.3.0 commit and then tag.
 
 2007-07-31 Andrew De Ponte <cyphactor@gmail.com>
 
-* Modified the sxs_socket() function so that when it is used on a Mac
-OS X box it only checks for the error values documented in the socket()
-man page on the Mac OS X.
+* Modified the sxs_socket() function so that when it is used on a Mac OS X box it only checks for the error values documented in the socket() man page on the Mac OS X.
 
-* Modified the sxs_bind() function so that when it is used on a Mac OS X
-box it checks for all the error values documented in the bind() man page
-on the Mac OS X. Specifically, the EIO and EISDIR error values. I also
-updated the functions documentation to include descriptions of these
-errors.
+* Modified the sxs_bind() function so that when it is used on a Mac OS X box it checks for all the error values documented in the bind() man page on the Mac OS X. Specifically, the EIO and EISDIR error values. I also updated the functions documentation to include descriptions of these errors.
 
-* Modified the sxs_listen() function so that when it is used on a Mac OS
-X box it only checks for the error values documented in the listen() man
-page on the Mac OS X.
+* Modified the sxs_listen() function so that when it is used on a Mac OS X box it only checks for the error values documented in the listen() man page on the Mac OS X.
 
-* Modified the sxs_accept() function so that when it is used on a Mac OS
-X box it only checks for the error values documented in the accept() man
-page on the Mac OS X.
+* Modified the sxs_accept() function so that when it is used on a Mac OS X box it only checks for the error values documented in the accept() man page on the Mac OS X.
 
-* Modified the sxs_connect() function so that when it is used on a Mac
-OS X box it checks for all the error values documented in the connect()
-man page on the Mac OS X and does not check for values that are only
-documented on the debian linux man pages for connect(). I also updated
-the documentation for the sxs_connect() function with descriptions of
-all the errors that are returned by Mac OS X connect().
+* Modified the sxs_connect() function so that when it is used on a Mac OS X box it checks for all the error values documented in the connect() man page on the Mac OS X and does not check for values that are only documented on the debian linux man pages for connect(). I also updated the documentation for the sxs_connect() function with descriptions of all the errors that are returned by Mac OS X connect().
 
-* Modified the sxs_send() function so that when it is used on a Mac OS X
-box it checks for all the error values documented in the send() man page
-on the Mac OS X and does not check for values that are only documented
-on the Debian linux man pages for send(). I also updated the
-documentation for the sxs_send() function with descriptions of all the
-errors that are returned by Mac OS X send().
+* Modified the sxs_send() function so that when it is used on a Mac OS X box it checks for all the error values documented in the send() man page on the Mac OS X and does not check for values that are only documented on the Debian linux man pages for send(). I also updated the documentation for the sxs_send() function with descriptions of all the errors that are returned by Mac OS X send().
 
-* Modified the sxs_recv() function so that when it is used on a Mac OS X
-box it checks for only the error values documented in the recv() man
-page on Mac OS X.
+* Modified the sxs_recv() function so that when it is used on a Mac OS X box it checks for only the error values documented in the recv() man page on Mac OS X.
 
-* Modified the sxs_close() function so that when it is used on a Mac OS
-X box it checks for only the error values documented in the close() man
-page on Mac OS X.
+* Modified the sxs_close() function so that when it is used on a Mac OS X box it checks for only the error values documented in the close() man page on Mac OS X.
 
-* Modified the sxs_gethostbyname() function so that when it is used on a
-Mac OS X box it checks only for the error values documented in the
-gethostbyname() man page on Mac OS X.
+* Modified the sxs_gethostbyname() function so that when it is used on a Mac OS X box it checks only for the error values documented in the gethostbyname() man page on Mac OS X.
 
-* Modified the sxs_select() function so that when it is used on a Mac OS
-X box it checks only for the error values documented in the select() man
-page on Mac OS X.
+* Modified the sxs_select() function so that when it is used on a Mac OS X box it checks only for the error values documented in the select() man page on Mac OS X.
 
-* Corrected some sxs_perror() call parameters in the
-sxs_send_nbytes_nb() function so that the label of the output error
-value was correct.
+* Corrected some sxs_perror() call parameters in the sxs_send_nbytes_nb() function so that the label of the output error value was correct.
 
-* Correcetd some sxs_perror() call paramaters in the sxs_send_nb()
-function so that the label of the output error values was correct.
+* Correcetd some sxs_perror() call paramaters in the sxs_send_nb() function so that the label of the output error values was correct.
 
-* Modified the sxs_connect_nb() function so that when it is used on a
-Mac OS X box it checks for all the error values documented in the
-connect() man page on Mac OS X. I also updated the sxs_connect_nb()
-documentation to match the modifications.
+* Modified the sxs_connect_nb() function so that when it is used on a Mac OS X box it checks for all the error values documented in the connect() man page on Mac OS X. I also updated the sxs_connect_nb() documentation to match the modifications.
 
 -- 0.2.1 -- tagged as lib_sxs_0_2_1.
 
 2007-07-02 Andrew De Ponte <cyphactor@gmail.com>
 
-* Fixed a silly typo in the sxs_setsockopt() function where I was using
-socklen_t instead of sxs_socklen_t. This caused a problem for compiling
-the library for windows. This required both modification of the function
-prototype in src/sxs.h and as well as src/sxs.c.
+* Fixed a silly typo in the sxs_setsockopt() function where I was using socklen_t instead of sxs_socklen_t. This caused a problem for compiling the library for windows. This required both modification of the function prototype in src/sxs.h and as well as src/sxs.c.
 
 -- 0.2.0 -- tagged as lib_sxs_0_2_0.
 
 2007-07-02 Andrew De Ponte <cyphactor@gmail.com>
 
-* Updated the version to 0.2.0 in both Doxyfile and configure.ac since
-all tasks defined for version 0.2.0 have now been completed.
+* Updated the version to 0.2.0 in both Doxyfile and configure.ac since all tasks defined for version 0.2.0 have now been completed.
 
-* Implemented and Documented the sxs_active_close() function. I also
-updated the sxs_close() documentation to explane the difference between
-sxs_close() and sxs_active_close() to eliminate confusion as well as
-provided a reference to the sxs_active_close() function. This completes
-ticket #27.
+* Implemented and Documented the sxs_active_close() function. I also updated the sxs_close() documentation to explane the difference between sxs_close() and sxs_active_close() to eliminate confusion as well as provided a reference to the sxs_active_close() function. This completes ticket #27.
 
-* Added the ERRSETSOCKOPTFAIL error to the scripts/sxs_err.in file so
-that I had an appropriate error to return from the sxs_active_close()
-function when it failed to set the SO_LINGER socket option. I also
-produced new src/sxs_error.h and sxs/sxs_error.c files now containing
-the ERRSETSOCKOPTFAIL error.
+* Added the ERRSETSOCKOPTFAIL error to the scripts/sxs_err.in file so that I had an appropriate error to return from the sxs_active_close() function when it failed to set the SO_LINGER socket option. I also produced new src/sxs_error.h and sxs/sxs_error.c files now containing the ERRSETSOCKOPTFAIL error.
 
-* Implemented and Documented the sxs_connect_nb() function to provide a
-timeout based non-blocking method for attempting to connect. This
-completes ticket #60.
+* Implemented and Documented the sxs_connect_nb() function to provide a timeout based non-blocking method for attempting to connect. This completes ticket #60.
 
-* Added the ERRUNEXPECTED error to the scripts/sxs_err.in file so that I
-had an appropriate error to return from the sxs_connect_nb() function
-when an unexpected path was taken. I also produced new src/sxs_error.h
-and src/sxs_error.c files now containing the ERRUNEXPECTED error.
+* Added the ERRUNEXPECTED error to the scripts/sxs_err.in file so that I had an appropriate error to return from the sxs_connect_nb() function when an unexpected path was taken. I also produced new src/sxs_error.h and src/sxs_error.c files now containing the ERRUNEXPECTED error.
 
-* Added the ERRCLOSEFAIL error to the scripts/sxs_err.in file so that I
-had an appropriate error to return from the sxs_connect_nb() function
-when it failed in a call to sxs_close(). I also produced new
-src/sxs_error.h and src/sxs_error.c files now containing the
-ERRCLOSEFAIL error.
+* Added the ERRCLOSEFAIL error to the scripts/sxs_err.in file so that I had an appropriate error to return from the sxs_connect_nb() function when it failed in a call to sxs_close(). I also produced new src/sxs_error.h and src/sxs_error.c files now containing the ERRCLOSEFAIL error.
 
-* Added the ERRGETSOCKOPTFAIL error to the scripts/sxs_err.in file so
-that I had an appropriate error to return from the sxs_connect_nb()
-function when it failed in a call to sxs_getsockopt(). I also produced
-new src/sxs_error.h and src/sxs_error.c files now containing the
-ERRGETSOCKOPTFAIL error.
+* Added the ERRGETSOCKOPTFAIL error to the scripts/sxs_err.in file so that I had an appropriate error to return from the sxs_connect_nb() function when it failed in a call to sxs_getsockopt(). I also produced new src/sxs_error.h and src/sxs_error.c files now containing the ERRGETSOCKOPTFAIL error.
 
-* Added the ERRCONNTIMEDOUT error to the scripts/sxs_err.in file so that
-I had an appropriate error to return from the sxs_connect_nb() function
-when it timedout. I also produced new src/sxs_error.h and
-src/sxs_error.c files containing the ERRCONNTIMEDOUT error.
+* Added the ERRCONNTIMEDOUT error to the scripts/sxs_err.in file so that I had an appropriate error to return from the sxs_connect_nb() function when it timedout. I also produced new src/sxs_error.h and src/sxs_error.c files containing the ERRCONNTIMEDOUT error.
 
-* Implemented and Documented the sxs_setsockopt() function. This
-completes ticket #39.
+* Implemented and Documented the sxs_setsockopt() function. This completes ticket #39.
 
-* Correlated the available socket options on Windows, Mac OS-X, and
-Linux to create a list of commonly shared socket options. I documented
-these options in the sxs_getsockopt() function's documentation. This
-completes ticket #38.
+* Correlated the available socket options on Windows, Mac OS-X, and Linux to create a list of commonly shared socket options. I documented these options in the sxs_getsockopt() function's documentation. This completes ticket #38.
 
-* Implemented the sxs_getsockopt() function and documented it,
-neglecting any documentation of valid socket options and their
-associated levels.
+* Implemented the sxs_getsockopt() function and documented it, neglecting any documentation of valid socket options and their associated levels.
 
 2007-07-01 Andrew De Ponte <cyphactor@gmail.com>
 
-* Implemented and Documented the sxs_send_nbytes_nb() function. This
-completes ticket #25.
+* Implemented and Documented the sxs_send_nbytes_nb() function. This completes ticket #25.
 
-* Implemented and Documented the sxs_send_nb() function. This completes
-ticket #23.
+* Implemented and Documented the sxs_send_nb() function. This completes ticket #23.
 
-* Added the ERRSENDTIMEDOUT and ERRSENDFAIL errors to the
-scripts/sxs_err.in file and produced new src/sxs_error.h and
-src/sxs_error.c files to use in the sxs_send_nb() function.
+* Added the ERRSENDTIMEDOUT and ERRSENDFAIL errors to the scripts/sxs_err.in file and produced new src/sxs_error.h and src/sxs_error.c files to use in the sxs_send_nb() function.
 
-* Fixed a problem in sxs_recv_nb() where p_recvd was not getting updated
-properly.
+* Fixed a problem in sxs_recv_nb() where p_recvd was not getting updated properly.
 
-* Implemented and Documented the sxs_recv_nb() function to provide a
-mechanims to receive data using non-blocking sockets which would allow
-for nice handling of received based timeouts without the requirement of
-reading an exact number of bytes. This completes ticket #24.
+* Implemented and Documented the sxs_recv_nb() function to provide a mechanims to receive data using non-blocking sockets which would allow for nice handling of received based timeouts without the requirement of reading an exact number of bytes. This completes ticket #24.
 
-* Implemented and Documented the sxs_recv_nbytes_nb() function to
-provide a mechanism to receive data using non-blocking sockets which
-would allow for nice handeling of receive based timeouts. This completes
-ticket #26.
+* Implemented and Documented the sxs_recv_nbytes_nb() function to provide a mechanism to receive data using non-blocking sockets which would allow for nice handeling of receive based timeouts. This completes ticket #26.
 
-* Added the ERRRECVFAIL error and the ERRRECVTIMEDOUT error to the
-scripts/sxs_err.in file and produced a new src/sxs_error.h and
-src/sxs_error.c.
+* Added the ERRRECVFAIL error and the ERRRECVTIMEDOUT error to the scripts/sxs_err.in file and produced a new src/sxs_error.h and src/sxs_error.c.
 
-* Added the ERRSELECTFAIL error to the scripts/sxs_err.in file so that I
-could use it in the sxs_recv_nbytes_nb() function. I also produced new
-version of src/sxs_error.h and src/sxs_error.c with the new
-ERRSELECTFAIL addition.
+* Added the ERRSELECTFAIL error to the scripts/sxs_err.in file so that I could use it in the sxs_recv_nbytes_nb() function. I also produced new version of src/sxs_error.h and src/sxs_error.c with the new ERRSELECTFAIL addition.
 
-* Added the ERRSETNONBLOCK error to the scripts/sxs_err.in so that I
-could use it as a return value in sxs_recv_nbytes_nb() to represent a
-failure to set the non-blocking/blocking state of the socket. I also
-replaced src/sxs_error.h and src/sxs_error.c with the newly produced
-versions.
+* Added the ERRSETNONBLOCK error to the scripts/sxs_err.in so that I could use it as a return value in sxs_recv_nbytes_nb() to represent a failure to set the non-blocking/blocking state of the socket. I also replaced src/sxs_error.h and src/sxs_error.c with the newly produced versions.
 
-* Removed the EOWNERDEAD and EENOTRECOVERABLE errors from the
-scripts/unix_err.in file since they are NOT errors that are supported by
-all Unix distributions. The reason I have deamed a simple removal as an
-acceptable solution is mainly because I have not seen them used by any
-of the socket library functions. This fixes ticket #59. I used the
-modified version of scripts/unix_err.in to produce a new version of
-src/sxs_error.h and src/sxs_error.c.
+* Removed the EOWNERDEAD and EENOTRECOVERABLE errors from the scripts/unix_err.in file since they are NOT errors that are supported by all Unix distributions. The reason I have deamed a simple removal as an acceptable solution is mainly because I have not seen them used by any of the socket library functions. This fixes ticket #59. I used the modified version of scripts/unix_err.in to produce a new version of src/sxs_error.h and src/sxs_error.c.
 
 2007-06-30 Andrew De Ponte <cyphactor@gmail.com>
 
-* Fixed a typo in the error handling in the new set_nonblock() function
-with windows specific error values.
+* Fixed a typo in the error handling in the new set_nonblock() function with windows specific error values.
 
 2007-06-26 Andrew De Ponte <cyphactor@gmail.com>
 
-* Implemented and Documented the sxs_set_nonblock() function in
-src/sxs.h and src/sxs.c respectively.
+* Implemented and Documented the sxs_set_nonblock() function in src/sxs.h and src/sxs.c respectively.
 
-* Modified sxs_types.h to #include <fcntl.h> so that the fcntl()
-function could be used and all it's associated macros.
+* Modified sxs_types.h to #include <fcntl.h> so that the fcntl() function could be used and all it's associated macros.
 
-* Rebuilt the sxs_error.h and sxs_error.c files using the
-scripts/build_sxs_error_files.py script. I also replaced the
-src/sxs_error.c and src/sxs_error.h files with the newly created ones.
+* Rebuilt the sxs_error.h and sxs_error.c files using the scripts/build_sxs_error_files.py script. I also replaced the src/sxs_error.c and src/sxs_error.h files with the newly created ones.
 
-* Modified the scripts/mac_errs.in file so that it contained doxygen
-comments for all the different types of errors that would get included
-into the produced sxs_error.h and sxs_error.c files.
+* Modified the scripts/mac_errs.in file so that it contained doxygen comments for all the different types of errors that would get included into the produced sxs_error.h and sxs_error.c files.
 
-* Added the SXS errors, ERRALREADYBLOCK and ERRALREADYNONBLOCK to the
-scripts/sxs_errs.in file so that I could use them in the
-sxs_set_nonblock() function.
+* Added the SXS errors, ERRALREADYBLOCK and ERRALREADYNONBLOCK to the scripts/sxs_errs.in file so that I could use them in the sxs_set_nonblock() function.
 
 2007-06-24 Andrew De Ponte <cyphactor@gmail.com>
 
 * Fixed the macro logic statements in sxs_perror().
 
-* Created the unixmac_errs.in file to hold errors that are only shared
-between Windows and Mac. I also created the mac_errs.in file to hold
-errors which are unique to Mac. I also modified the unix_errs.in file to
-move errors which belonged in the unixmac_errs.in file.
+* Created the unixmac_errs.in file to hold errors that are only shared between Windows and Mac. I also created the mac_errs.in file to hold errors which are unique to Mac. I also modified the unix_errs.in file to move errors which belonged in the unixmac_errs.in file.
 
-* Modified the build_sxs_error_files.py script to use the
-unixmac_errs.in file, the mac_errs.in file, and to hopefully properly
-use the unix_errs.in file.
+* Modified the build_sxs_error_files.py script to use the unixmac_errs.in file, the mac_errs.in file, and to hopefully properly use the unix_errs.in file.
 
 2007-06-20 Andrew De Ponte <cyphactor@gmail.com>
 
-* Moved the #include "sxs_config.h" from the sxs_types.h file to it's
-proper location the sxs.c file. The reason this is necessary is because
-there is no built in macro testing for redefinition of the autogenerated
-files content. It is also just name space cluttering to include things
-in header files like that when it is not needed.
+* Moved the #include "sxs_config.h" from the sxs_types.h file to it's proper location the sxs.c file. The reason this is necessary is because there is no built in macro testing for redefinition of the autogenerated files content. It is also just name space cluttering to include things in header files like that when it is not needed.
 
-* Implemented and Documented the sxs_select() function in the sxs.h and
-sxs.c files respectively.
+* Implemented and Documented the sxs_select() function in the sxs.h and sxs.c files respectively.
 
 -- 0.1.0 -- tagged as lib_sxs_0_1_0.
 
 2007-06-08 Andrew De Ponte <cyphactor@gmail.com>
 
-* Modified the configure.ac and the src/Makefile.am so that when
-built for windows using mingw it would link to the ws2_32 (a.k.a.
-Winsock 2 32-bit library).
+* Modified the configure.ac and the src/Makefile.am so that when built for windows using mingw it would link to the ws2_32 (a.k.a. Winsock 2 32-bit library).
 
-* Modified the scripts/build_sxs_error_files.py script to include
-warnings in both the sxs_error.h and sxs_error.c files reminding
-developers not to edit them by hand since they are autogenerated and
-their modifications will be lost.
+* Modified the scripts/build_sxs_error_files.py script to include warnings in both the sxs_error.h and sxs_error.c files reminding developers not to edit them by hand since they are autogenerated and their modifications will be lost.
 
-* Modified the unix_errs.in by placing the ECANCELED error in it.
-Modified the win_errs.in by placing the WSAECANCELLED error in it. This
-was necessary because in windows they use the double L spelling of the
-word canceled while on Unix systems they use the single L version. It
-seems that it was a typo on Windows part because in the Windows
-documentation they describe the error using the single L spelling of the
-word yet the double LL spelling for the macro. Anyways, I also removed
-the ECANCELED error from the both_errs.in because it wouldn't compile
-when building for windows due to it not being defined because of the
-spelling miss-match.
+* Modified the unix_errs.in by placing the ECANCELED error in it. Modified the win_errs.in by placing the WSAECANCELLED error in it. This was necessary because in windows they use the double L spelling of the word canceled while on Unix systems they use the single L version. It seems that it was a typo on Windows part because in the Windows documentation they describe the error using the single L spelling of the word yet the double LL spelling for the macro. Anyways, I also removed the ECANCELED error from the both_errs.in because it wouldn't compile when building for windows due to it not being defined because of the spelling miss-match.
 
-* Modified the README file by cleaning it up and adding a section
-covering Producing a MSVC Compatible Build, Using MSVC to Link to MSVC
-Compatible Build, and I extended the Building section to clear up
-things. I also corrected the Directory Contents sections.
+* Modified the README file by cleaning it up and adding a section covering Producing a MSVC Compatible Build, Using MSVC to Link to MSVC Compatible Build, and I extended the Building section to clear up things. I also corrected the Directory Contents sections.
 
 2007-06-07 Andrew De Ponte <cyphactor@gmail.com>
 
-* Updated the README from it's original template form so that it was all
-applicable to this project.
+* Updated the README from it's original template form so that it was all applicable to this project.
 
-* Implemented and Documented the sxs_inet_ntoa() function so there
-exists a function to convert addresses in network byte order to
-c-strings in dotted-quad format.
+* Implemented and Documented the sxs_inet_ntoa() function so there exists a function to convert addresses in network byte order to c-strings in dotted-quad format.
 
-* Modified the sxs_recv_nbytes() function so that instead of return
-SXS_UNKNOWN_ERROR when a peer cleanly closes the connection before
-finished reading the requested number of bytes it now returns
-SXS_ERRCONNCLOSED. I also modified the associated doxygen documentation
-to list SXS_ERRCONNCLOSED as a possible error value and give a
-description of it's meaning.
+* Modified the sxs_recv_nbytes() function so that instead of return SXS_UNKNOWN_ERROR when a peer cleanly closes the connection before finished reading the requested number of bytes it now returns SXS_ERRCONNCLOSED. I also modified the associated doxygen documentation to list SXS_ERRCONNCLOSED as a possible error value and give a description of it's meaning.
 
-* Added the scripts/unix_herrs.in file and the scripts/sxs_errs.in files
-so that there are inputs for two new grouping types of error messages.
+* Added the scripts/unix_herrs.in file and the scripts/sxs_errs.in files so that there are inputs for two new grouping types of error messages.
 
-* Modified the scripts/build_sxs_error_files.py script so that it also
-generated a mapping between the unix h_errno values and unique SXS_
-prepended values so that errors reported via h_errno could be reported
-properly within functions that use h_errno rather than errno.
+* Modified the scripts/build_sxs_error_files.py script so that it also generated a mapping between the unix h_errno values and unique SXS_ prepended values so that errors reported via h_errno could be reported properly within functions that use h_errno rather than errno.
 
-* Modified the scripts/build_sxs_error_files.py script so that it
-defines all the errors from the scripts/sxs_errs.in file so that the sxs
-library can have a mechanism for defining it's own unqique erros which
-do not map to any of the standard ones. This is mainly done so that
-extension functions added to the library can returne appropriate values.
+* Modified the scripts/build_sxs_error_files.py script so that it defines all the errors from the scripts/sxs_errs.in file so that the sxs library can have a mechanism for defining it's own unqique erros which do not map to any of the standard ones. This is mainly done so that extension functions added to the library can returne appropriate values.
 
-* Modified the scripts/build_sxs_error_files.py script so that it
-creates a macro for each mapping that defines the size of the mapping
-array and uses it both in the header decleration and in the source files
-assignment. It may also become useful in implementing the library as
-doing such things as bounds checking in the sxs_perror() function and
-similar functions that access the mapping.
+* Modified the scripts/build_sxs_error_files.py script so that it creates a macro for each mapping that defines the size of the mapping array and uses it both in the header decleration and in the source files assignment. It may also become useful in implementing the library as doing such things as bounds checking in the sxs_perror() function and similar functions that access the mapping.
 
-* Modified the sxs_init() function to do proper error checking for the
-WSAStartup() call and return the appropriate mapped error values. I also
-updated the doxygen documentation for sxs_init() to list all the
-possible error values and their associated meanings.
+* Modified the sxs_init() function to do proper error checking for the WSAStartup() call and return the appropriate mapped error values. I also updated the doxygen documentation for sxs_init() to list all the possible error values and their associated meanings.
 
-* Modified the sxs_uninit() function to do proper error checking for the
-WSACleanup() call and return the appropriate mapped error values. I also
-updated the doxygen documentation for sxs_uninit() to list all the
-possible error values and their associated meanings.
+* Modified the sxs_uninit() function to do proper error checking for the WSACleanup() call and return the appropriate mapped error values. I also updated the doxygen documentation for sxs_uninit() to list all the possible error values and their associated meanings.
 
-* Modified the sxs_gethostbyname() function to do proper error checking
-for the gethostbyname() function on the Unix side and return the
-appropriate mapped error values. I also updated the doxygen
-documentation for the sxs_gethostbyname() function to list all the
-possible error values and their associated meanings.
+* Modified the sxs_gethostbyname() function to do proper error checking for the gethostbyname() function on the Unix side and return the appropriate mapped error values. I also updated the doxygen documentation for the sxs_gethostbyname() function to list all the possible error values and their associated meanings.
 
-* Modified the sxs_perror() function to take advantage of the new
-unix_herr mapping as well as handle all the error type classes in a
-better fashion and check for sxs error code range breaking.
+* Modified the sxs_perror() function to take advantage of the new unix_herr mapping as well as handle all the error type classes in a better fashion and check for sxs error code range breaking.
 
 2007-06-06 Andrew De Ponte <cyphactor@gmail.com>
 
-* Modified the scripts/build_sxs_error_files.py to add documentation to
-the SXS_SUCCESS and SXS_UNKOWN_ERROR values.
+* Modified the scripts/build_sxs_error_files.py to add documentation to the SXS_SUCCESS and SXS_UNKOWN_ERROR values.
 
-* Modified the sxs_perror() function to properly handle errnum values of
-SXS_SUCCESS and SXS_UNKNOWN_ERROR, which I previously forgot to handle.
+* Modified the sxs_perror() function to properly handle errnum values of SXS_SUCCESS and SXS_UNKNOWN_ERROR, which I previously forgot to handle.
 
-* Added doxygen documentation to the sxs_init() and sxs_uninit()
-functions.
+* Added doxygen documentation to the sxs_init() and sxs_uninit() functions.
 
-* Modified the scripts/both_errs.in, scripts/unix_errs.in, and
-scripts/win_errs.in files so that they use doxygen style documentation
-for describing the meanings of all the defines which actually represent
-errors.
+* Modified the scripts/both_errs.in, scripts/unix_errs.in, and scripts/win_errs.in files so that they use doxygen style documentation for describing the meanings of all the defines which actually represent errors.
 
-* Moved the sxs_error_t declaration to the sxs_types.h file from the
-sxs_error.h file.
+* Moved the sxs_error_t declaration to the sxs_types.h file from the sxs_error.h file.
 
-* Added some more doxygen comments to the src/sxs_types.h file to
-clarify the available types as well for general completeness.
+* Added some more doxygen comments to the src/sxs_types.h file to clarify the available types as well for general completeness.
 
-* Added some doxygen comments to the src/sxs_types.h file to clarify the
-available types as well os for completeness.
+* Added some doxygen comments to the src/sxs_types.h file to clarify the available types as well os for completeness.
 
-* Correted the @retval SXS_SUCCESS doxygen documentation lines for a
-number of functions that had improper documentation due to copy and
-paste errors.
+* Correted the @retval SXS_SUCCESS doxygen documentation lines for a number of functions that had improper documentation due to copy and paste errors.
 
-* Modified the Doxyfile to fix the destination location of the
-documents. It was originally specified as doc/doxs which was incorrect.
-It was corrected to doc/dox.
+* Modified the Doxyfile to fix the destination location of the documents. It was originally specified as doc/doxs which was incorrect. It was corrected to doc/dox.
 
-* Modifide all the files in src/ so that the documentation used the @
-preceding keywords rather than a \. I did this for consistancy reasons
-and so that it matched the doxygen documentation styles appropriately.
+* Modifide all the files in src/ so that the documentation used the @ preceding keywords rather than a \. I did this for consistancy reasons and so that it matched the doxygen documentation styles appropriately.
 
-* Modified the scripts/build_sxs_error_files.py to output code with the
-proper doxygen documentation style in it.
+* Modified the scripts/build_sxs_error_files.py to output code with the proper doxygen documentation style in it.
 
-* Modified the clean_bootstrap.sh file so that it properly removes the
-automatically generated src/sxs_config.h and src/sxs_config.h.in files.
+* Modified the clean_bootstrap.sh file so that it properly removes the automatically generated src/sxs_config.h and src/sxs_config.h.in files.
 
-* Created the doc/ directory so that there is a location in the project
-tree for keeping documentation.
+* Created the doc/ directory so that there is a location in the project tree for keeping documentation.
 
-* Created the doc/dox/ directory so that there is a location to have the
-doxygen generated documenation placed when doxygen is run from the
-trunk.
+* Created the doc/dox/ directory so that there is a location to have the doxygen generated documenation placed when doxygen is run from the trunk.
 
-* Created the Doxyfile in the main trunk so that doxygen can be run from
-the trunk and the documentation will be generated and placed into the
-doc/dox/ directory.
+* Created the Doxyfile in the main trunk so that doxygen can be run from the trunk and the documentation will be generated and placed into the doc/dox/ directory.
 
 2007-06-04 Andrew De Ponte <cyphactor@gmail.com>
 
@@ -428,9 +238,7 @@ doc/dox/ directory.
 
 2007-06-03 Andrew De Ponte <cyphactor@gmail.com>
 
-* Implemented and Documentd the sxs_inet_addr() function. This includes
-adding the macro definition for SXS_INADDR_NONE to the sxs_types.h file
-for API consistancy.
+* Implemented and Documentd the sxs_inet_addr() function. This includes adding the macro definition for SXS_INADDR_NONE to the sxs_types.h file for API consistancy.
 
 * Implemented and Documented the sxs_gethostbyname() function.
 
@@ -476,35 +284,24 @@ for API consistancy.
 
 2007-05-16 Andrew De Ponte <cyphactor@gmail.com>
 
-* Created the ChangeLog file so that there is a place to track changes
-to the lib_sxs source tree.
+* Created the ChangeLog file so that there is a place to track changes to the lib_sxs source tree.
 
 * Created the initial COPYING file to provide the license information.
 
-* Created the initial NEWS file so there exists a place to put project
-news.
+* Created the initial NEWS file so there exists a place to put project news.
 
-* Created the initial INSTALL file to describe the standard INSTALL
-process with the build system.
+* Created the initial INSTALL file to describe the standard INSTALL process with the build system.
 
 * Created the initial AUTHORS file to list the authors of lib_sxs.
 
-* Created the initial TODO file so there is a place to put a list of
-items which need to be taken care of. Mainly, as a quick reminder
-location for something I could forget.
+* Created the initial TODO file so there is a place to put a list of items which need to be taken care of. Mainly, as a quick reminder location for something I could forget.
 
-* Created the src/ directory as the main location for having the source
-code for lib_sxs.
+* Created the src/ directory as the main location for having the source code for lib_sxs.
 
-* Created the bootstrap.sh script to automate the generation of the
-configure script.
+* Created the bootstrap.sh script to automate the generation of the configure script.
 
-* Created the initial configure.ac as a basic template to build off of
-for the build environment.
+* Created the initial configure.ac as a basic template to build off of for the build environment.
 
-* Created the lib_sxs root Makefile so that it would build the source in
-the src/ directory.
+* Created the lib_sxs root Makefile so that it would build the source in the src/ directory.
 
-* Created the clean_bootstrap.sh script to cleanup all the extra files
-produced by the autoconf, automake, autoreconf, and libtool
-applications.
+* Created the clean_bootstrap.sh script to cleanup all the extra files produced by the autoconf, automake, autoreconf, and libtool applications.
