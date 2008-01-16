@@ -1,6 +1,10 @@
+2008-01-16 Andrew De Ponte <cyphactor@gmail.com>
+
+* source:trunk/configure.ac (): Modified the AC_C_BIGENDIAN macro to properly handle the creation of universal binaries on Mac OS X.
+
 2008-01-12 Andrew De Ponte <cyphactor@gmail.com>
 
-* source:trunk/ChangeLog (): Unwrapped all the descriptions that were hard-wrapped. 
+* source:trunk/ChangeLog (): Unwrapped all the descriptions that were hard-wrapped.
 
 2008-01-09 Andrew De Ponte <cyphactor@gmail.com>
 

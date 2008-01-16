@@ -112,7 +112,31 @@ AC_CHECK_HEADERS([arpa/inet.h netinet/in.h string.h sys/socket.h stdint.h])
 # checks for structures
 
 # checks for compiler characteristics
-AC_C_BIGENDIAN
+AC_C_BIGENDIAN(
+[AH_VERBATIM([WORD_BIGENDIAN],
+[
+/* This a custom Verbatim macro template created to handle proper compiler based big-endian detection on apple machines when building universal binaries. This is needed because autoconf normally will only check the endianness of the system it is running on, not the system that the other systems that are cross-compiled for when building universal binaries. */
+#ifdef __APPLE__
+#ifdef __BIG_ENDIAN__
+#define WORD_BIGENDIAN 1
+#endif
+#else
+#define WORD_BIGENDIAN 1
+#endif])],
+[AH_VERBATIM([WORD_BIGENDIAN],[
+/* This a custom Verbatim macro template created to handle proper compiler based big-endian detection on apple machines when building universal binaries. This is needed because autoconf normally will only check the endianness of the system it is running on, not the system that the other systems that are cross-compiled for when building universal binaries. */
+#ifdef __APPLE__
+#ifdef __BIG_ENDIAN__
+#define WORD_BIGENDIAN 1
+#endif
+#endif])],
+[AH_VERBATIM([WORD_BIGENDIAN],[
+/* This a custom Verbatim macro template created to handle proper compiler based big-endian detection on apple machines when building universal binaries. This is needed because autoconf normally will only check the endianness of the system it is running on, not the system that the other systems that are cross-compiled for when building universal binaries. */
+#ifdef __APPLE__
+#ifdef __BIG_ENDIAN__
+#define WORD_BIGENDIAN 1
+#endif
+#endif])])
 
 # checks for library functions
 AC_CHECK_FUNCS([memset socket])
