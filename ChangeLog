@@ -1,3 +1,7 @@
+2008-03-11 Andrew De Ponte <cyphactor@gmail.com>
+
+* source:trunk/src/sxs_types.h (): Added the 64 bit integer sxs_uint64_t and the sxs_int64_t to the library for both unix and Windows platforms.
+
 2008-01-16 Andrew De Ponte <cyphactor@gmail.com>
 
 * source:trunk/configure.ac (): Modified the AC_C_BIGENDIAN macro to properly handle the creation of universal binaries on Mac OS X.

@@ -128,9 +128,11 @@
     typedef uint8_t sxs_uint8_t;
     typedef uint16_t sxs_uint16_t;
     typedef uint32_t sxs_uint32_t;
+    typedef uint64_t sxs_uint64_t;
     typedef int8_t sxs_int8_t;
     typedef int16_t sxs_int16_t;
     typedef int32_t sxs_int32_t;
+    typedef int64_t sxs_int64_t;
     typedef socklen_t sxs_socklen_t;
     typedef in_addr_t sxs_in_addr_t;
 #else
@@ -146,9 +148,11 @@
     typedef unsigned __int8 sxs_uint8_t;
     typedef unsigned __int16 sxs_uint16_t;
     typedef unsigned __int32 sxs_uint32_t;
+    typedef unsigned __int64 sxs_uint64_t;
     typedef __int8 sxs_int8_t;
     typedef __int16 sxs_int16_t;
     typedef __int32 sxs_int32_t;
+    typedef __int64 sxs_int64_t;
     typedef int sxs_socklen_t;
     typedef sxs_uint32_t sxs_in_addr_t;
 #endif
