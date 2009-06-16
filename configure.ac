@@ -59,17 +59,19 @@ case $host in
 	#*darwin9*) CFLAGS="$CFLAGS -arch i386 -arch ppc" ;;
 	
 	*darwin*)
-	    CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
-	    SXS_SYSTEM="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
-	    ;;
+#	    CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
+#	    SXS_SYSTEM="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
+	    CFLAGS="$CFLAGS"
+	    SXS_SYSTEM=
+	    ;;	
 
     #
     # FIX-ME:
     #
     # Currently in order for applications that link to libpmf have to
-    # have it in the same directory as the exectubale or in the system
+    # have it in the same directory as the executable or in the system
     # directories. This goes against Mac's standard for application
-    # packagesing which requires that all the libraries are put inside
+    # packaging which requires that all the libraries are put inside
     # the application package. However, when in the application package
     # the applications cannot find libpmf because the library is built
     # for a system path such as /usr/lib/ rather than the appropriate
