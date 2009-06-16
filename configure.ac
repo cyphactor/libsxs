@@ -59,10 +59,17 @@ case $host in
 	#*darwin9*) CFLAGS="$CFLAGS -arch i386 -arch ppc" ;;
 	
 	*darwin*)
-#	    CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
-#	    SXS_SYSTEM="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
-	    CFLAGS="$CFLAGS"
-	    SXS_SYSTEM=
+	    AC_ARG_ENABLE([universal-binary],
+	        [AS_HELP_STRING([--enable-universal-binary enable universal binary creation (default disabled)])],
+	        [enable_univ_bin=$enableval],
+	        [enable_univ_bin=no])
+	    
+	    [if [ "$enable_univ_bin" = "yes" ]
+	    then
+	        CFLAGS="$CFLAGS -mmacosx-version-min=10.4 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
+	        SXS_SYSTEM="-mmacosx-version-min=10.4 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
+	    fi]	        
+
 	    ;;	
 
     #
