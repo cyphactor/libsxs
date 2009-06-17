@@ -68,6 +68,9 @@ case $host in
 	    then
 	        CFLAGS="$CFLAGS -mmacosx-version-min=10.4 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
 	        SXS_SYSTEM="-mmacosx-version-min=10.4 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc"
+		else
+			CFLAGS="$CFLAGS"
+			SXS_SYSTEM=""
 	    fi]	        
 
 	    ;;	
